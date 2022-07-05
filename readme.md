@@ -11,7 +11,7 @@ Detailed instructions on interacting with the hardware and on installing require
 - `libopencm3`: commit `b1d8a4c546531d6a79f9a7be156205c6a40f215c` from [GitHub](https://github.com/libopencm3/libopencm3/tree/b1d8a4c546531d6a79f9a7be156205c6a40f215c)
 - `st-link` for flashing the binaries
 - `python3` with the packages `pyserial` and `numpy` (only required for the evaluation scripts)
-- Hardware: `STM32F4DISCOVERY`
+- Hardware: `STM32F407G-DISC1`
 
 ## Files in this archive
 

@@ -1,5 +1,7 @@
-# Faster Kyber and Dilithium on the Cortex-M4
-This repository provides code for our implementations of Kyber and Dilithium on the Arm Cortex-M4.
+# Improved Plantard Arithmetic for Lattice-based Cryptography
+This repository provides code for our implementations of Kyber and NTTRU using the improved Plantard arithmetic on the Arm Cortex-M4.
+
+The current branch mostly contains code from [Faster Kyber and Dilithium on the Cortex-M4](https://github.com/FasterKyberDilithiumM4/FasterKyberDilithiumM4) and the reference code from [NTTRU: Truly Fast NTRU Using NTT](https://github.com/gregorseiler/NTTRU). The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``plantard`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.
 
 The setup for testing and evaluating of our code is based on the framework provided in the [pqm4](https://github.com/mupq/pqm4) project.
 Detailed instructions on interacting with the hardware and on installing required software can be found in pqm4's readme.
@@ -28,25 +30,12 @@ Detailed instructions on interacting with the hardware and on installing require
         - `old`: Code from the implementation in pqm4
         - `new`: Code containing all of our proposals
         - `newstack`: Code containing only optimizations that do not require additional stack usage
+    - `nttru`
+        - reference code for Cortex-M4 based on [NTTRU: Truly Fast NTRU Using NTT](https://github.com/gregorseiler/NTTRU)
     - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
     - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts. Can be used by using `benchmarks.py`.
     - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
     - `test.c`: From pqm4; Firmware for self-testing the schemes. Can be used by using `test.py`.
-    - `testvectors.c`: From pqm4; Firmware for computing testvectors.
-- `crypto_sign`: contains the implementations for dilithium2, dilithium3, dilithium5
-    - `dilithium2`
-        - `old`: Code from the implementation in pqm4 reshuffled to save stack
-        - `new`: Code containing all of our proposals
-    - `dilithium3`
-        - `old`: Code from the implementation in pqm4 reshuffled to save stack
-        - `new`: Code containing all of our proposals
-    - `dilithium5`
-        - `old`: Code from the implementation in pqm4 reshuffled to save stack
-        - `new`: Code containing all of our proposals
-    - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
-    - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts.
-    - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage.
-    - `test.c`: From pqm4; Firmware for self-testing the schemes.
     - `testvectors.c`: From pqm4; Firmware for computing testvectors.
 - `gen_table`: contains code to generate the twiddle factors for our implementations.
 - `Makefile`: Makefile to build the code
@@ -64,13 +53,13 @@ Detailed instructions on interacting with the hardware and on installing require
 The scripts `benchmarks.py`, `f_benchmarks.py`, `stack.py` and `test.py` cover most of the frequent use cases.
 In case separate, manual testing is required, the binaries for a scheme can be build using
 ```
-make IMPLEMENTATION_PATH=crypto_{kem,sign}/{scheme}/{variant} bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin
+make IMPLEMENTATION_PATH=crypto_kem/{scheme}/{variant} bin/crypto_kem_{scheme}_{variant}_{firmware}.bin
 ```
 , where `firmware` is one of `{test, testvectors, speed, f_speed, stack}` and `variant` is one of `old, new, newstack` (`newstack` only available for Kyber).
 
 It can then be flashed using: 
 ```
-st-flash --reset write bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin 0x8000000
+st-flash --reset write bin/crypto_kem_{scheme}_{variant}_{firmware}.bin 0x8000000
 ```
 ### Example
 For building the `test` firmware for our speed-optimized version of `kyber768` the following command can be used:

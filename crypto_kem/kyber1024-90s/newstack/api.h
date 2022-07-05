@@ -1,1 +1,0 @@
-../../kyber1024/old/api.h

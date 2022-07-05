@@ -42,7 +42,7 @@ int crypto_kem_enc(unsigned char *c, unsigned char *k, const unsigned char *pk) 
   aes256_prf(buf + 32, COINBYTES, buf + 32, n);
 
   poly_unpack_uniform(&hhat, pk);
-  ntru_encrypt(&chat, &hhat, &m, buf + 32);
+  ntru_encrypt(&chat, &m, &hhat, buf + 32);
   poly_pack_uniform(c, &chat);
 
   for (i = 0; i < SHAREDKEYBYTES; ++i)
@@ -70,7 +70,7 @@ int crypto_kem_dec(unsigned char *k,
   aes256_prf(buf + 32, COINBYTES, buf + 32, n);
 
   poly_unpack_uniform(&hhat, sk + POLY_PACKED_UNIFORM_BYTES);
-  ntru_encrypt(&fhat, &hhat, &m, buf + 32);
+  ntru_encrypt(&fhat, &m, &hhat, buf + 32);
 
   t = 0;
   for(i = 0; i < N; ++i)

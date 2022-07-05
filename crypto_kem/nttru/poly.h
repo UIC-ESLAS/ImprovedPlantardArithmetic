@@ -17,8 +17,8 @@ void poly_freeze(poly *a);
 void poly_add(poly *c, const poly *a, const poly *b);
 void poly_triple(poly *b, const poly *a);
 
-void poly_ntt(poly *b, const poly *a);
-void poly_invntt(poly *b, const poly *a);
+void poly_ntt(poly *r);
+void poly_invntt(poly *r);
 void poly_basemul(poly *c, const poly *a, const poly *b);
 int poly_baseinv(poly *b, const poly *a);
 

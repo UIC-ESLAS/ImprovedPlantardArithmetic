@@ -135,7 +135,7 @@ def bench(scheme_path, scheme_name, scheme_type, iterations, outfile, nohash, ig
 
 with open(f"f_benchmarks.txt", "a") as outfile:
     iterations = 100  # defines the number of measurements to perform
-    nohash = False  # defines if hashing should be disabled
+    nohash = True  # defines if hashing should be disabled
     now = datetime.datetime.now(datetime.timezone.utc)
     print(f"% Benchmarking measurements written on {now}; iterations={iterations}, nohash={nohash}\n", file=outfile)
 
@@ -144,13 +144,10 @@ with open(f"f_benchmarks.txt", "a") as outfile:
     # uncomment the scheme variants that should be build and evaluated
     for scheme_path in [
         "crypto_kem/kyber512/old",
-        "crypto_kem/kyber512/new",
         "crypto_kem/kyber512/newstack",
         "crypto_kem/kyber768/old",
-        "crypto_kem/kyber768/new",
         "crypto_kem/kyber768/newstack",
         "crypto_kem/kyber1024/old",
-        "crypto_kem/kyber1024/new",
         "crypto_kem/kyber1024/newstack",
         "crypto_kem/nttru"
     ]:

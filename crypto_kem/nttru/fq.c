@@ -14,6 +14,16 @@ int16_t fqmontred(int32_t a) {
   return t;
 }
 
+int16_t fqplantred(int32_t a){
+  int32_t t;
+  t=(int32_t)a*QINV_PLANT;
+  t>>=16;
+  t=(t+4)*Q;//4=2^\alpha; \alpha=2 for NTTRU
+  t>>=16;
+  return t;
+}
+
+
 int16_t fqred16(int16_t a) {
   int16_t t;
 
@@ -34,14 +44,46 @@ int16_t fqmul(int16_t a, int16_t b) {
   return fqmontred((int32_t)a*b);
 }
 
-int16_t fqinv(int16_t a) {
+int16_t fqmul_plant(int16_t a, int16_t b){
+  return fqplantred((int32_t)a * b);
+}
+
+int16_t fqmul_plant_const(int16_t a, int32_t b)
+{
+  int32_t t;
+  t = (int32_t)a * b;
+  t >>= 16;
+  t = (t + 4) * Q; // 4=2^\alpha; \alpha=2 for NTTRU
+  t >>= 16;
+  return t;
+}
+
+// a^{q-2}=a^7679=a^1110111111111b
+int16_t fqinv(int16_t a)
+{
   unsigned int i;
   int16_t t;
 
   t = a;
   for(i = 1; i <= 12; ++i) {
-    a = fqmul(a, a);
-    if(i != 9) t = fqmul(t, a);
+    a = fqmul(a, a);//a=a^2 a^4
+    if(i != 9) t = fqmul(t, a);//t=a^3 a^7
+  }
+
+  return t;
+}
+
+int16_t fqinv_plant(int16_t a)
+{
+  unsigned int i;
+  int16_t t;
+
+  t = a;
+  for (i = 1; i <= 12; ++i)
+  {
+    a = fqmul_plant(a, a); // a=a^2 a^4
+    if (i != 9)
+      t = fqmul_plant(t, a); // t=a^3 a^7
   }
 
   return t;

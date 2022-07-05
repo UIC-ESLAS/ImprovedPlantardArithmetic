@@ -1,1 +1,0 @@
-../../kyber768/old/params.h

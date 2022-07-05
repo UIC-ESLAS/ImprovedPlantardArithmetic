@@ -1,1 +1,1 @@
-../new/symmetric.h
+../../kyber768/newstack/symmetric.h

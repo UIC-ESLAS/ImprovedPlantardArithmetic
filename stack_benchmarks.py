@@ -123,13 +123,10 @@ with open(f"stack_benchmarks.txt", "a") as outfile:
 
     for scheme_path in [
         "crypto_kem/kyber512/old",
-        "crypto_kem/kyber512/new",
         "crypto_kem/kyber512/newstack",
         "crypto_kem/kyber768/old",
-        "crypto_kem/kyber768/new",
         "crypto_kem/kyber768/newstack",
         "crypto_kem/kyber1024/old",
-        "crypto_kem/kyber1024/new",
         "crypto_kem/kyber1024/newstack",
         "crypto_kem/nttru"
     ]:

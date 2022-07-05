@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2022-02-14 01:59:48
+ * @LastEditTime: 2022-02-14 02:00:32
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /WordSizeMod-pqm4/crypto_kem/speed.c
+ */
 #include "api.h"
 #include "hal.h"
 #include "randombytes.h"
@@ -29,7 +37,8 @@ int main(void){
     for(i = 0; i < 60; i++){
         hal_send_str("==========================");
     }
-
+    // printcycles("secret key addr:", sk);
+    // printcycles("public key addr:", pk);
     for(crypto_i = 0; crypto_i < CRYPTO_ITERATIONS; crypto_i++){
 
         // Key-pair generation

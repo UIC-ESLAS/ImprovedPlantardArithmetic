@@ -1,1 +1,0 @@
-../../kyber768/new/symmetric-fips202.c

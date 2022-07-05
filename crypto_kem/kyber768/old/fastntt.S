@@ -1,163 +1,215 @@
+/*
+ * @Author: Junhao Huang
+ * @Date: 2021-09-09 19:09:30
+ * @LastEditTime: 2021-10-08 20:41:51
+ * @LastEditors: Please set LastEditors
+ * @Description: Integrate Plantard Modular reduction
+ * @FilePath: \Kyber_M4\kyber\fastntt.S
+ */
+
 #include "macros.i"
+#include "macros_ntt.i"
 
 .syntax unified
 .cpu cortex-m4
 .thumb
 
-.macro doublebutterfly tb, a0, a1, twiddle, tmp, tmp2, q, qinv
-  smulb\tb \tmp, \a1, \twiddle
-  smult\tb \a1, \a1, \twiddle
-  montgomery \q, \qinv, \tmp, \tmp2
-  montgomery \q, \qinv, \a1, \tmp
-  pkhtb \tmp2, \tmp, \tmp2, asr#16
-  usub16 \a1, \a0, \tmp2
-  uadd16 \a0, \a0, \tmp2
-.endm
-
-.macro two_doublebutterfly tb1, tb2, a0, a1, a2, a3, twiddle, tmp, tmp2, q, qinv
-  doublebutterfly \tb1, \a0, \a1, \twiddle, \tmp, \tmp2, \q, \qinv
-  doublebutterfly \tb2, \a2, \a3, \twiddle, \tmp, \tmp2, \q, \qinv
-.endm
-
 .global ntt_fast
 .type ntt_fast, %function
 .align 2
 ntt_fast:
-  push {r4-r11, r14}
+	push {r4-r11, r14}
 
-  poly        .req r0
-  twiddle_ptr .req r1
-  poly0       .req r2
-  poly1       .req r3
-  poly2       .req r4
-  poly3       .req r5
-  poly4       .req r6
-  poly5       .req r7
-  poly6       .req r8
-  poly7       .req r9
-  twiddle     .req r10
-  barrettconst .req r10
-  qinv        .req r11
-  q           .req r11
-  tmp         .req r12
-  tmp2        .req r14
+	poly        .req r0
+	twiddle_ptr .req r1
+	poly0       .req r2
+	poly1       .req r3
+	poly2       .req r4
+	poly3       .req r5
+	poly4       .req r6
+	poly5       .req r7
+	poly6       .req r8
+	poly7       .req r9
+	twiddle1    .req r10
+	twiddle2    .req r11
+	###  qinv        .req r11 ### q^-1 mod 2^2n; n=16
+	q           .req r12 
+	### at the top of r12
+	qa          .req r0
+	### qa=2^a q;a=3; at the bottom of r12
+	tmp         .req r14
 
-  movw q, #3329
-  movt qinv, #3327
+	// movw qa, #26632
+	// Why movt? Because we initially placed qa at the bottom of the same register as q;
+	movt q, #3329
+	
+	.equ distance, 256
 
-  .equ barrett_constant, 20159
-  .equ distance, 256
+	### LAYER 7+6+5
+#ifdef USE_REPT
+	.rept 16
+#else
+	movw tmp, #16
+	1:
+		push {tmp}
+#endif
 
-  ### LAYER 7+6+5
-  movw tmp, #16
-  1:
-    push {tmp}
+	vmov.w s0, poly
+	### increase 3cc for ldrd while reduce 24cc for each loop
+	load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
+	load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
+	
+	// push {poly}
+	
+	movw qa, #26632
 
-    load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
-    load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
+	ldr.w twiddle1, [twiddle_ptr] 
+	### do not increase cc while reduce 8cc
+	two_doublebutterfly_plant poly0, poly4, poly1, poly5, twiddle1, twiddle1, tmp, q, qa
+	two_doublebutterfly_plant poly2, poly6, poly3, poly7, twiddle1, twiddle1, tmp, q, qa
 
-    ldrh twiddle, [twiddle_ptr]
-    two_doublebutterfly b, b, poly0, poly4, poly1, poly5, twiddle, tmp, tmp2, q, qinv
-    two_doublebutterfly b, b, poly2, poly6, poly3, poly7, twiddle, tmp, tmp2, q, qinv
+	ldrd twiddle1, twiddle2, [twiddle_ptr, #4] 
+	### increase 1cc while reduce 8cc
+	two_doublebutterfly_plant poly0, poly2, poly1, poly3, twiddle1, twiddle1, tmp, q, qa
+	two_doublebutterfly_plant poly4, poly6, poly5, poly7, twiddle2, twiddle2, tmp, q, qa
 
-    ldr.w twiddle, [twiddle_ptr, #2]
-    two_doublebutterfly b, b, poly0, poly2, poly1, poly3, twiddle, tmp, tmp2, q, qinv
-    two_doublebutterfly t, t, poly4, poly6, poly5, poly7, twiddle, tmp, tmp2, q, qinv
+	ldrd twiddle1, twiddle2, [twiddle_ptr, #12] 
+	### increase 1cc while reduce 4cc
+	two_doublebutterfly_plant poly0, poly1, poly2, poly3, twiddle1, twiddle2, tmp, q, qa
 
-    ldr.w twiddle, [twiddle_ptr, #6]
-    two_doublebutterfly b, t, poly0, poly1, poly2, poly3, twiddle, tmp, tmp2, q, qinv
+	ldrd twiddle1, twiddle2, [twiddle_ptr, #20] 
+	### increase 1cc while reduce 4cc
+	two_doublebutterfly_plant poly4, poly5, poly6, poly7, twiddle1, twiddle2, tmp, q, qa
 
-    ldr.w twiddle, [twiddle_ptr, #10]
-    two_doublebutterfly b, t, poly4, poly5, poly6, poly7, twiddle, tmp, tmp2, q, qinv
+	// pop {poly}
+	vmov.w poly, s0
 
-    store poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
-    str.w poly1, [poly, #distance/4]
-    str.w poly2, [poly, #2*distance/4]
-    str.w poly3, [poly, #3*distance/4]
-    str.w poly0, [poly], #4
+	store poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
+	str.w poly1, [poly, #distance/4]
+	str.w poly2, [poly, #2*distance/4]
+	str.w poly3, [poly, #3*distance/4]
+	str.w poly0, [poly], #4
 
-    pop {tmp}
-    subs.w tmp, #1
-  bne.w 1b
+#ifdef USE_REPT
+	.endr
+#else
+	pop {tmp}
+	subs.w tmp, #1
+	bne.w 1b
+#endif
 
-  sub.w poly, #64
-  add.w twiddle_ptr, #14
+	sub.w poly, #64
+	add.w twiddle_ptr, #28
 
-  .equ distance, distance/8
+	.equ distance, distance/8
 
-  ### LAYER 4+3+2
-  movw tmp, #8
-  2:
-    push {tmp}
+	### LAYER 4+3+2
+#ifdef USE_REPT
+	.rept 8
+#else
+	movw tmp, #8
+	2:
+		push {tmp}
+#endif
 
-    movw tmp, #2
-    3:
-      push {tmp}
+#ifdef USE_REPT
+	.rept 2
+#else
+	movw tmp, #2
+	3:
+		push {tmp}
+#endif
+	vmov.w s0, poly
+	### increase 3cc for ldrd while reduce 24cc for each loop
+	load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
+	load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
 
-      load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
-      load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
+	// push {poly}
+	
+	movw qa, #26632
+	
+	ldr twiddle1, [twiddle_ptr] 
+	### do not increase cc while reduce 8cc
+	two_doublebutterfly_plant poly0, poly4, poly1, poly5, twiddle1, twiddle1, tmp, q, qa
+	two_doublebutterfly_plant poly2, poly6, poly3, poly7, twiddle1, twiddle1, tmp, q, qa
+	
+	ldrd twiddle1, twiddle2, [twiddle_ptr, #4] 
+	### increase 1cc while reduce 8cc
+	two_doublebutterfly_plant poly0, poly2, poly1, poly3, twiddle1, twiddle1, tmp, q, qa
+	two_doublebutterfly_plant poly4, poly6, poly5, poly7, twiddle2, twiddle2, tmp, q, qa
 
 
-      ldrh twiddle, [twiddle_ptr]
-      two_doublebutterfly b, b, poly0, poly4, poly1, poly5, twiddle, tmp, tmp2, q, qinv
-      two_doublebutterfly b, b, poly2, poly6, poly3, poly7, twiddle, tmp, tmp2, q, qinv
+	ldrd twiddle1, twiddle2, [twiddle_ptr, #12] 
+	### increase 1cc while reduce 4cc
+	two_doublebutterfly_plant poly0, poly1, poly2, poly3, twiddle1, twiddle2, tmp, q, qa
 
-      ldr.w twiddle, [twiddle_ptr, #2]
-      two_doublebutterfly b, b, poly0, poly2, poly1, poly3, twiddle, tmp, tmp2, q, qinv
-      two_doublebutterfly t, t, poly4, poly6, poly5, poly7, twiddle, tmp, tmp2, q, qinv
+	ldrd twiddle1, twiddle2, [twiddle_ptr, #20] 
+	### increase 1cc while reduce 4cc
+	two_doublebutterfly_plant poly4, poly5, poly6, poly7, twiddle1, twiddle2, tmp, q, qa
 
-      ldr.w twiddle, [twiddle_ptr, #6]
-      two_doublebutterfly b, t, poly0, poly1, poly2, poly3, twiddle, tmp, tmp2, q, qinv
+	// pop {poly}
+	vmov.w poly, s0
+	store poly, poly4, poly5, poly6, poly7, #distance,#5*distance/4, #6*distance/4, #7*distance/4
+	str.w poly1, [poly, #distance/4]
+	str.w poly2, [poly, #2*distance/4]
+	str.w poly3, [poly, #3*distance/4]
+	str.w poly0, [poly], #4
 
-      ldr.w twiddle, [twiddle_ptr, #10]
-      two_doublebutterfly b, t, poly4, poly5, poly6, poly7, twiddle, tmp, tmp2, q, qinv
+#ifdef USE_REPT
+	.endr
+#else
+	pop {tmp}
+	subs.w tmp, #1
+	bne.w 3b
+#endif
 
-      store poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
-      str.w poly1, [poly, #distance/4]
-      str.w poly2, [poly, #2*distance/4]
-      str.w poly3, [poly, #3*distance/4]
-      str.w poly0, [poly], #4
+	add.w poly, #56
+	add.w twiddle_ptr, #28
 
-      pop {tmp}
-      subs.w tmp, #1
-    bne.w 3b
+#ifdef USE_REPT
+	.endr
+#else
+	pop {tmp}
+	subs.w tmp, #1
+	bne.w 2b
+#endif
 
-    add.w poly, #56
-    add.w twiddle_ptr, #14
+	sub poly, #512
 
-    pop {tmp}
-    subs.w tmp, #1
-  bne.w 2b
+	### LAYER 1 (skip layer 0)
+#ifdef USE_REPT
+	.rept 16
+#else
+	movw tmp, #16
+	4:
+		push {tmp}
+#endif
 
-  sub poly, #512
+	vmov.w s0, poly
+	ldm poly, {poly0-poly7}
 
-  ### LAYER 1 (skip layer 0)
-  movw tmp, #16
-  4:
-    push {tmp}
+	// push {poly}
+	
+	movw qa, #26632
 
-    ldm poly, {poly0-poly7}
+	ldrd twiddle1, twiddle2, [twiddle_ptr], #8
+	### ldr.w twiddle, [twiddle_ptr], #4
+	two_doublebutterfly_plant poly0, poly1, poly2, poly3, twiddle1, twiddle2, tmp, q, qa
 
-    ldr.w twiddle, [twiddle_ptr], #4
-    two_doublebutterfly b, t, poly0, poly1, poly2, poly3, twiddle, tmp, tmp2, q, qinv
+	ldrd twiddle1, twiddle2, [twiddle_ptr], #8
+	### ldr.w twiddle, [twiddle_ptr], #4
+	two_doublebutterfly_plant poly4, poly5, poly6, poly7, twiddle1, twiddle2, tmp, q, qa
+	
+	// pop {poly}
+	vmov.w poly, s0
+	stm poly!, {poly0-poly7}
 
-    ldr.w twiddle, [twiddle_ptr], #4
-    two_doublebutterfly b, t, poly4, poly5, poly6, poly7, twiddle, tmp, tmp2, q, qinv
+#ifdef USE_REPT
+	.endr
+#else
+	pop {tmp}
+	subs.w tmp, #1
+	bne.w 4b
+#endif
 
-    movw barrettconst, #barrett_constant
-    doublebarrett poly0, tmp, tmp2, q, barrettconst
-    doublebarrett poly1, tmp, tmp2, q, barrettconst
-    doublebarrett poly2, tmp, tmp2, q, barrettconst
-    doublebarrett poly3, tmp, tmp2, q, barrettconst
-    doublebarrett poly4, tmp, tmp2, q, barrettconst
-    doublebarrett poly5, tmp, tmp2, q, barrettconst
-    doublebarrett poly6, tmp, tmp2, q, barrettconst
-    doublebarrett poly7, tmp, tmp2, q, barrettconst
-
-    stm poly!, {poly0-poly7}
-
-    pop {tmp}
-    subs.w tmp, #1
-  bne.w 4b
-
-  pop {r4-r11, pc}
+	pop {r4-r11, pc}

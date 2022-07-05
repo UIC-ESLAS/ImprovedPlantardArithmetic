@@ -1,1 +1,1 @@
-../new/verify.c
+../../kyber768/newstack/verify.c

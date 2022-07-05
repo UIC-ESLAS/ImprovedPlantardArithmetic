@@ -1,1 +1,1 @@
-../new/ntt.h
+../../kyber768/newstack/ntt.h

@@ -4,8 +4,6 @@ OPENCM3FILE = $(OPENCM3DIR)/lib/lib$(OPENCM3NAME).a
 
 
 LDSCRIPT    = stm32f405x6.ld
-elf/crypto_sign_dilithium5_old_%.elf: LDSCRIPT=stm32f405x6_full.ld
-elf/crypto_sign_dilithium5_new_%.elf: LDSCRIPT=stm32f405x6_full.ld
 
 
 PREFIX     ?= arm-none-eabi

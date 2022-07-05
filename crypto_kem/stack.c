@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2022-02-14 01:02:44
+ * @LastEditTime: 2022-02-14 02:00:41
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /WordSizeMod-pqm4/crypto_kem/stack.c
+ */
 #include "api.h"
 #include "randombytes.h"
 #include "hal.h"
@@ -69,10 +77,10 @@ static int test_keys(void) {
 }
 
 int main(void) {
-  hal_setup(CLOCK_BENCHMARK);
+  hal_setup(CLOCK_BENCHMARK); // using CLOCK_FAST would lead to error characters and output failure
 
   // marker for automated benchmarks
-  for(int i = 0; i < 60; i++){
+  for(int i = 0; i < 2; i++){
         hal_send_str("==========================");
     }
   canary_size = 0x1000;

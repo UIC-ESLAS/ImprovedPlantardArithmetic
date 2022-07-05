@@ -9,15 +9,13 @@
 #include "ntt.h"
 #include "implvariant.h"
 
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+
 #ifndef nttru
 #include "symmetric.h"
 #include "indcpa.h"
 #include "polyvec.h"
 #endif
-
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-
-extern void doublebasemul_asm(int16_t *r, const int16_t *a, const int16_t *b, int16_t zeta);
 
 #ifdef opt
 #include "matacc.h"
@@ -35,7 +33,8 @@ extern void doublebasemul_asm_acc_opt_32_16_wrapper(int16_t *);
 extern void doublebasemul_asm_wrapper(int16_t *);
 extern void doublebasemul_asm_acc_wrapper(int16_t *);
 #else
-extern void doublebasemul_asm_acc(int16_t *r, const int16_t *a, const int16_t *b, int16_t zeta);
+extern void doublebasemul_asm(int16_t *r, const int16_t *a, const int16_t *b, int32_t zeta);
+extern void doublebasemul_asm_acc(int16_t *r, const int16_t *a, const int16_t *b, int32_t zeta);
 #endif
 
 #define printcycles(S, U) send_unsignedll((S), (U))
@@ -53,6 +52,7 @@ static inline __attribute__((always_inline)) void absorb_squeeze(int transposed,
 #endif
 }
 #endif
+
 
 int main(void)
 {
@@ -89,7 +89,7 @@ int main(void)
     randombytes(buf, 2 * KYBER_SYMBYTES);
     xof_absorb(&state, buf, i, j);
     xof_squeezeblocks(buf_matacc, 1, &state);
-    
+
     // ### matrix-vector product ###
     t0 = hal_get_time();
     // ### matrix-vector product (matacc style) ###
@@ -246,11 +246,12 @@ int main(void)
     poly_invntt(&dummypoly_a);
 #elif defined(optstack)
     poly_ntt(&dummypoly_a);
-    
+
     poly_frombytes_mul(dummy16_a, dummy16_a, dummy16_b);
-    for(i = 1; i < KYBER_K; i++) {
-        poly_ntt(&dummypoly_a);
-        poly_frombytes_mul_acc(&dummypoly_a, &dummypoly_b, dummy16_b);
+    for (i = 1; i < KYBER_K; i++)
+    {
+      poly_ntt(&dummypoly_a);
+      poly_frombytes_mul_acc(&dummypoly_a, &dummypoly_b, dummy16_b);
     }
 
     poly_invntt(&dummypoly_a);
@@ -378,20 +379,22 @@ int main(void)
 
     hal_send_str("#");
   }
+
 #else
   for (crypto_i = 0; crypto_i < CRYPTO_ITERATIONS; crypto_i++)
   {
 
     t0 = hal_get_time();
-    poly_ntt(&dummypoly_a, &dummypoly_b);
+    poly_ntt(&dummypoly_a);
     t1 = hal_get_time();
     printcycles("NTT cycles:", t1 - t0);
 
     // ### iNTT ###
     t0 = hal_get_time();
-    poly_invntt(&dummypoly_a, &dummypoly_b);
+    poly_invntt(&dummypoly_a);
     t1 = hal_get_time();
     printcycles("iNTT cycles:", t1 - t0);
+
 
     t0 = hal_get_time();
     poly_basemul(&dummypoly_a, &dummypoly_b, &dummypoly_c);

@@ -356,7 +356,7 @@ void poly_frombytes(poly *r, const unsigned char *a) {
 }
 
 
-extern void doublebasemul_asm(int16_t *r, const int16_t *a, const int16_t *b, int16_t zeta);
+extern void doublebasemul_asm(int16_t *r, const int16_t *a, const int16_t *b, int32_t zeta);
 /*************************************************
 * Name:        poly_frombytes_mul
 *
@@ -443,7 +443,7 @@ void poly_invntt(poly *r) {
     invntt(r->coeffs);
 }
 
-extern void basemul_asm(int16_t *, const int16_t *, const int16_t *, const int16_t *);
+extern void basemul_asm(int16_t *, const int16_t *, const int16_t *, const int32_t *);
 /*************************************************
 * Name:        poly_basemul
 *
@@ -457,7 +457,7 @@ void poly_basemul(poly *r, const poly *a, const poly *b) {
     basemul_asm(r->coeffs, a->coeffs, b->coeffs, zetas);
 }
 
-extern void basemul_asm_acc(int16_t *, const int16_t *, const int16_t *, const int16_t *);
+extern void basemul_asm_acc(int16_t *, const int16_t *, const int16_t *, const int32_t *);
 /*************************************************
 * Name:        poly_basemul_acc
 *
@@ -471,7 +471,7 @@ void poly_basemul_acc(poly *r, const poly *a, const poly *b) {
     basemul_asm_acc(r->coeffs, a->coeffs, b->coeffs, zetas);
 }
 
-extern void asm_frommont(int16_t *r);
+extern void asm_fromplant(int16_t *r);
 /*************************************************
 * Name:        poly_frommont
 *
@@ -481,7 +481,7 @@ extern void asm_frommont(int16_t *r);
 * Arguments:   - poly *r:       pointer to input/output polynomial
 **************************************************/
 void poly_frommont(poly *r) {
-  asm_frommont(r->coeffs);
+  asm_fromplant(r->coeffs);
 }
 
 extern void asm_barrett_reduce(int16_t *r);

@@ -1,19 +1,12 @@
-.macro montgomery q, qinv, a, tmp
-  smulbt \tmp, \a, \qinv
-  smlabb \tmp, \q, \tmp, \a
-.endm
-
-.macro load_vals val0, val1, bufptr, tmp
-  ldrh \val0, [\bufptr], #2
-  ldrb \val1, [\bufptr], #1
-  ubfx \tmp, \val0, #12, #4
-  orr \val1, \tmp, \val1, lsl #4
-  ubfx \val0, \val0, #0, #12
-  ubfx \val1, \val1, #0, #12
+.macro plant_red q, qa, qinv, tmp
+	mul \tmp, \tmp, \qinv     
+	//tmp*qinv mod 2^2n/ 2^n; in high half
+	smlatt \tmp, \tmp, \q, \qa
+	// result in high half
 .endm
 
 // Checks if val0 is suitable and multiplies with values from bptr using func 
-.macro first_if func, tmp, tmp2, tmp3, val0, val1, rptr, bptr, cptr, bufptr, zetaptr, k, q, qqinv, ctr
+.macro first_if func, tmp, tmp2, val0, val1, rptr, bptr, cptr, bufptr, zetaptr, k, q, qa, qinv, ctr
 // if (val0 < KYBER_Q)
     cmp.w \val0, \q
     bhs.w 2f
@@ -23,12 +16,10 @@
         bne.w 2f
             sub \cptr, #4*2
             vmov s2, \bufptr
-            vmov s3, \q
             vmov s4, \ctr
             vmov s5, \val1
-            \func \rptr, \bptr, \cptr, \zetaptr, \bufptr, \k, \q, \val0, \qqinv, \qqinv, \tmp, \tmp2, \tmp3, \val1, \ctr
+            \func \rptr, \bptr, \cptr, \zetaptr, \bufptr, \k, \val0, \val1, \q, \qa, \qinv, \tmp, \tmp2, \ctr
             vmov \bufptr, s2
-            vmov \q, s3
             vmov \ctr, s4
             vmov \val1, s5
 
@@ -39,7 +30,7 @@
 .endm
 
 // Checks if val1 is suitable and multiplies with values from bptr using func 
-.macro second_if func, tmp, tmp2, tmp3, val0, val1, rptr, bptr, cptr, bufptr, zetaptr, k, q, qqinv, ctr
+.macro second_if func, tmp, tmp2, val0, val1, rptr, bptr, cptr, bufptr, zetaptr, k, q, qa, qinv, ctr
 // if (val1 < KYBER_Q && ctr < KYBER_N/4)
     cmp.w \val1, \q
     bhs.w 2f
@@ -51,11 +42,9 @@
             bne.w 2f
                 sub \cptr, #4*2
                 vmov s2, \bufptr
-                vmov s3, \q
                 vmov s4, \ctr
-                \func \rptr, \bptr, \cptr, \zetaptr, \bufptr, \k, \q, \val0, \qqinv, \qqinv, \tmp, \tmp2, \tmp3, \val1, \ctr
+                \func \rptr, \bptr, \cptr, \zetaptr, \bufptr, \k, \val0, \val1, \q, \qa, \qinv, \tmp, \tmp2, \ctr
                 vmov \bufptr, s2
-                vmov \q, s3
                 vmov \ctr, s4
 
                 add \ctr, #1
@@ -95,75 +84,88 @@
     2:
 .endm
 
-.macro doublebasemul_asm rptr, aptr, bptr, zetaptr, poly0, poly1, poly2, poly3, q, qinv, tmp, tmp2, tmp3, res, zeta
+.macro doublebasemul_asm rptr, aptr, bptr, zetaptr, poly0, poly1, poly2, poly3, q, qa, qinv, tmp, tmp2, zeta
     ldr \poly0, [\aptr], #4
     ldr \poly1, [\bptr]
     ldr \poly2, [\aptr], #4
     ldr.w \poly3, [\bptr, #4]
-    ldrh \zeta, [\zetaptr], #2
+    ldr \zeta, [\zetaptr], #4
 
-    smultt \tmp, \poly0, \poly1
-    montgomery \q, \qinv, \tmp, \tmp2
-    smultb \tmp2, \tmp2, \zeta
-    smlabb \tmp2, \poly0, \poly1, \tmp2
-    montgomery \q, \qinv, \tmp2, \tmp
-
-    smuadx \tmp2, \poly0, \poly1
-    montgomery \q, \qinv, \tmp2, \tmp3
-
-    pkhtb \tmp, \tmp3, \tmp, asr#16
+    //basemul(r->coeffs + 4 * i, a->coeffs + 4 * i, b->coeffs + 4 * i, zetas[64 + i]);
+    smulwt \tmp, \zeta, \poly1 
+    // b_1*zeta*qinv*plant_const; in low half
+    smlabt \tmp, \tmp, \q, \qa  
+    // b_1*zeta
+    smultt \tmp, \poly0, \tmp  
+    //a_1*b_1*zeta <2^32
+    smlabb \tmp, \poly0, \poly1, \tmp 
+    // a1*b1*zeta+a0*b0
+    plant_red \q, \qa, \qinv, \tmp
+    // r[0] in upper half of tmp
+    smuadx \tmp2, \poly0, \poly1 
+    plant_red \q, \qa, \qinv, \tmp2
+    // r[1] in upper half of tmp2
+    pkhtb \tmp, \tmp2, \tmp, asr#16
     str \tmp, [\rptr], #4
 
     neg \zeta, \zeta
 
-    smultt \tmp, \poly2, \poly3
-    montgomery \q, \qinv, \tmp, \tmp2
-    smultb \tmp2, \tmp2, \zeta
-    smlabb \tmp2, \poly2, \poly3, \tmp2
-    montgomery \q, \qinv, \tmp2, \tmp
-
-    smuadx \tmp2, \poly2, \poly3
-    montgomery \q, \qinv, \tmp2, \tmp3
-
-    pkhtb \tmp, \tmp3, \tmp, asr#16
+    //basemul(r->coeffs + 4 * i + 2, a->coeffs + 4 * i + 2, b->coeffs + 4 * i + 2, - zetas[64 + i]);
+    smulwt \tmp, \zeta, \poly3 
+    smlabt \tmp, \tmp, \q, \qa  
+    smultt \tmp, \poly2, \tmp  
+    smlabb \tmp, \poly2, \poly3, \tmp 
+    plant_red \q, \qa, \qinv, \tmp
+    // r[0] in upper half of tmp
+    
+    smuadx \tmp2, \poly2, \poly3 
+    plant_red \q, \qa, \qinv, \tmp2
+    // r[1] in upper half of tmp2
+    pkhtb \tmp, \tmp2, \tmp, asr#16
     str \tmp, [\rptr], #4
 .endm
-
-.macro doublebasemul_asm_acc rptr, aptr, bptr, zetaptr, poly0, poly1, poly2, poly3, q, qinv, tmp, tmp2, tmp3, res, zeta
+// res replace poly2
+.macro doublebasemul_asm_acc rptr, aptr, bptr, zetaptr, poly0, poly1, res, poly3, q, qa, qinv, tmp, tmp2, zeta
     ldr \poly0, [\aptr], #4
     ldr \poly1, [\bptr]
-    ldr \poly2, [\aptr], #4
     ldr.w \poly3, [\bptr, #4]
     ldr.w \res, [\rptr]
     ldrh \zeta, [\zetaptr], #2
 
-    smultt \tmp, \poly0, \poly1
-    montgomery \q, \qinv, \tmp, \tmp2
-    smultb \tmp2, \tmp2, \zeta
-    smlabb \tmp2, \poly0, \poly1, \tmp2
-    montgomery \q, \qinv, \tmp2, \tmp
-
-    smuadx \tmp2, \poly0, \poly1
-    montgomery \q, \qinv, \tmp2, \tmp3
-
-    pkhtb \tmp, \tmp3, \tmp, asr#16
+    //basemul(r->coeffs + 4 * i, a->coeffs + 4 * i, b->coeffs + 4 * i, zetas[64 + i]);
+    smulwt \tmp, \zeta, \poly1 
+    // b_1*zeta*qinv*plant_const; in low half
+    smlabt \tmp, \tmp, \q, \qa  
+    // b_1*zeta
+    smultt \tmp, \poly0, \tmp  
+    //a_1*b_1*zeta <2^32
+    smlabb \tmp, \poly0, \poly1, \tmp 
+    // a1*b1*zeta+a0*b0
+    plant_red \q, \qa, \qinv, \tmp
+    // r[0] in upper half of tmp
+    smuadx \tmp2, \poly0, \poly1 
+    plant_red \q, \qa, \qinv, \tmp2
+    // r[1] in upper half of tmp2
+    pkhtb \tmp, \tmp2, \tmp, asr#16
     uadd16 \res, \res, \tmp
     str \res, [\rptr], #4
 
     neg \zeta, \zeta
 
     ldr.w \res, [\rptr]
-
-    smultt \tmp, \poly2, \poly3
-    montgomery \q, \qinv, \tmp, \tmp2
-    smultb \tmp2, \tmp2, \zeta
-    smlabb \tmp2, \poly2, \poly3, \tmp2
-    montgomery \q, \qinv, \tmp2, \tmp
-
-    smuadx \tmp2, \poly2, \poly3
-    montgomery \q, \qinv, \tmp2, \tmp3
-
-    pkhtb \tmp, \tmp3, \tmp, asr#16
+    ldr \poly0, [\aptr], #4
+    //basemul(r->coeffs + 4 * i + 2, a->coeffs + 4 * i + 2, b->coeffs + 4 * i + 2, - zetas[64 + i]);
+    smulwt \tmp, \zeta, \poly3 
+    smlabt \tmp, \tmp, \q, \qa  
+    smultt \tmp, \poly0, \tmp  
+    smlabb \tmp, \poly0, \poly3, \tmp 
+    plant_red \q, \qa, \qinv, \tmp
+    // r[0] in upper half of tmp
+    
+    smuadx \tmp2, \poly0, \poly3 
+    plant_red \q, \qa, \qinv, \tmp2
+    // r[1] in upper half of tmp2
+    pkhtb \tmp, \tmp2, \tmp, asr#16
     uadd16 \res, \res, \tmp
     str \res, [\rptr], #4
 .endm

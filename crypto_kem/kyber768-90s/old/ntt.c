@@ -1,1 +1,0 @@
-../../kyber768/old/ntt.c

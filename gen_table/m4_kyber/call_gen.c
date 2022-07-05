@@ -62,11 +62,9 @@ int main()
     }
     
     printf("\n\n");
-    scale_int16 = RmodQ1;
-    scale2_int16 = invNQ1;
-    omega_int16 = omegaQ1;
-    mod_int16 = Q1;
-    twist_omega_int16 = invomegaQ1;
+    scale_int16 = RmodQ1; //mont 
+    omega_int16 = omegaQ1;//w
+    mod_int16 = Q1;//q
 
     gen_streamlined_CT_negacyclic_table_generic(
         twiddle_int16,

@@ -8,7 +8,7 @@
 #include <string.h>
 #include <stdint.h>
 
-extern void doublebasemul_asm_acc(int16_t *r, const int16_t *a, const int16_t *b, int16_t zeta);
+extern void doublebasemul_asm_acc(int16_t *r, const int16_t *a, const int16_t *b, int32_t zeta);
 /*************************************************
 * Name:        matacc
 *

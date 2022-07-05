@@ -1,1 +1,1 @@
-../new/symmetric-fips202.c
+../../kyber768/newstack/symmetric-fips202.c

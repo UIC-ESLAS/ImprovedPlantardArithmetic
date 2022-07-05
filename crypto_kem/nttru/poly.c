@@ -3,7 +3,10 @@
 #include "fq.h"
 #include "ntt.h"
 #include "poly.h"
+#include "hal.h"
+#include "sendfn.h"
 
+#define printcycles(S, U) send_unsignedll((S), (U))
 void poly_reduce(poly *a) {
   unsigned int i;
 
@@ -37,37 +40,33 @@ void poly_triple(poly *b, const poly *a) {
 
 }
 
-void poly_ntt(poly *b, const poly *a) {
-  ntt(b->coeffs, a->coeffs);
+void poly_ntt(poly *r) {
+  ntt(r->coeffs);
 }
 
-void poly_invntt(poly *b, const poly *a) {
-  invntt(b->coeffs, a->coeffs);
+
+void poly_invntt(poly *r) {
+  invntt(r->coeffs);
 }
 
+
+extern void poly_basemul_asm(poly *r, const poly *a, const poly *b, const int32_t *zeta);
 void poly_basemul(poly *c, const poly *a, const poly *b) {
-  unsigned int i;
-  for(i = 0; i < N/6; ++i) {
-    basemul(c->coeffs + 6*i, a->coeffs + 6*i, b->coeffs + 6*i,
-            zetas[128 + i]);
-    basemul(c->coeffs + 6*i + 3, a->coeffs + 6*i + 3, b->coeffs + 6*i + 3,
-            -zetas[128 + i]);
-  }
-
+  poly_basemul_asm(c,a,b,zetas);
 }
 
-int poly_baseinv(poly *b, const poly *a) {
-  unsigned int i;
+extern int poly_baseinv_asm(poly *r, const poly *a, const int32_t *zeta);
+int poly_baseinv(poly *b, const poly *a)
+{
   int r = 0;
-
-  for(i = 0; i < N/6; ++i) {
-    r += baseinv(b->coeffs + 6*i, a->coeffs + 6*i, zetas[128 + i]);
-    r += baseinv(b->coeffs + 6*i + 3, a->coeffs + 6*i + 3, -zetas[128 + i]);
-  }
-
+  // printcycles("poly_baseinv:",r);
+  r = poly_baseinv_asm(b, a, zetas);
+  // printcycles("poly_baseinv:", r);
   return r;
 }
 
+
+// The output range: 2-bits
 void poly_short(poly *a, const unsigned char buf[N/2]) {
   unsigned int i;
   unsigned char t;
@@ -234,7 +233,7 @@ void poly_pack_short(unsigned char *buf, const poly *a) {
 void poly_unpack_short(poly *a, const unsigned char *buf) {
   unsigned int i, j;
   unsigned char c;
-  DBENCH_START();
+  // DBENCH_START();
 
   for(i = 0; i < N/128; ++i) {
     for(j = 0; j < 16; ++j) {
@@ -258,7 +257,7 @@ void poly_pack_short_base3(unsigned char *buf, const poly *a) {
   unsigned int i;
   int j;
   unsigned char c;
-  DBENCH_START();
+  // DBENCH_START();
 
   for(i = 0; i < N/5; i++) {
     c =       a->coeffs[5*i + 4] + 1;
@@ -290,7 +289,7 @@ static int16_t mod3(int16_t a) {
 void poly_unpack_short_base3(poly *a, const unsigned char *buf) {
   unsigned int i, j;
   unsigned char c;
-  DBENCH_START();
+  // DBENCH_START();
 
   for(i = 0; i < N/5; i++) {
     c = buf[i];

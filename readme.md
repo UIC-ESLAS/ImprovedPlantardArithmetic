@@ -50,7 +50,7 @@ In case separate, manual testing is required, the binaries for a scheme can be b
 ```
 make IMPLEMENTATION_PATH=crypto_{kem,sign}/{scheme}/{variant} bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin
 ```
-, where `firmware` is one of `{test, testvectors, speed, f_speed, stack}` and `variant` is one of `old, new, newstack` (`newstack` only available for Kyber).
+, where `firmware` is one of `{test, testvectors, speed, f_speed, stack}` and `variant` is one of `old, newstack` (`testvectors` only available for Kyber).
 
 It can then be flashed using: 
 ```

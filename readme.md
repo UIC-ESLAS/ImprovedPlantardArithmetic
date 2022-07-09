@@ -57,13 +57,13 @@ It can then be flashed using:
 st-flash --reset write bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin 0x8000000
 ```
 ### Example
-For building the `test` firmware for our speed-optimized version of `kyber768` the following command can be used:
+For building the `test` firmware for our newstack version of `kyber768` the following command can be used:
 ```
-make IMPLEMENTATION_PATH=crypto_kem/kyber768/new bin/crypto_kem_kyber768_new_test.bin
+make IMPLEMENTATION_PATH=crypto_kem/kyber768/new bin/crypto_kem_kyber768_newstack_test.bin
 ```
 It can the be flashed using:
 ```
-st-flash --reset write bin/crypto_kem_kyber768_new_test.bin 0x8000000
+st-flash --reset write bin/crypto_kem_kyber768_newstack_test.bin 0x8000000
 ```
 
 ### reference

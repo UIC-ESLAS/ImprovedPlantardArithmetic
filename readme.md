@@ -59,7 +59,7 @@ st-flash --reset write bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin 0
 ### Example
 For building the `test` firmware for our newstack version of `kyber768` the following command can be used:
 ```
-make IMPLEMENTATION_PATH=crypto_kem/kyber768/new bin/crypto_kem_kyber768_newstack_test.bin
+make IMPLEMENTATION_PATH=crypto_kem/kyber768/newstack bin/crypto_kem_kyber768_newstack_test.bin
 ```
 It can the be flashed using:
 ```

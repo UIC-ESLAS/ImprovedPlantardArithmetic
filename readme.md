@@ -1,5 +1,5 @@
 # Improved Plantard Arithmetic for Lattice-based Cryptography
-This repository provides code for our implementations of Kyber and NTTRU using the the improved Plantard arithmetic on the Arm Cortex-M4.
+This repository provides code for our implementations of Kyber and NTTRU using the improved Plantard arithmetic on the Arm Cortex-M4.
 Authors: 
  - [Junhao Huang](https://github.com/JunhaoHuang) `<huangjunhao@uic.edu.cn>`
  - [Jipeng Zhang](https://github.com/Ji-Peng) `<jp-zhang@outlook.com>`

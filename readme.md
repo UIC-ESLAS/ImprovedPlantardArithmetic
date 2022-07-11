@@ -1,7 +1,15 @@
 # Improved Plantard Arithmetic for Lattice-based Cryptography
 This repository provides code for our implementations of Kyber and NTTRU using the improved Plantard arithmetic on the Arm Cortex-M4.
+Authors: 
+ - [Junhao Huang](https://github.com/JunhaoHuang) `<huangjunhao@uic.edu.cn>`
+ - [Jipeng Zhang](https://github.com/Ji-Peng) `<jp-zhang@outlook.com>`
+ - Haosong Zhao `<zhaohaosonguic@gmail.com>`
+ - Zhe Liu `<zhe.liu@nuaa.edu.cn>` 
+ - Ray C. C. Cheung `<r.cheung@cityu.edu.hk>`
+ - Çetin Kaya Koç `<cetinkoc@ucsb.edu>`
+ - Donglong Chen `<donglongchen@uic.edu.cn>` (Corresponding Author)
 
-The current branch mostly contains code from [Faster Kyber and Dilithium on the Cortex-M4](https://github.com/FasterKyberDilithiumM4/FasterKyberDilithiumM4) and the reference code from [NTTRU: Truly Fast NTRU Using NTT](https://github.com/gregorseiler/NTTRU). The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``plantard`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.
+The current branch mostly contains code from [1] and the reference code from [2]. The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``plantard`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.
 
 The setup for testing and evaluating of our code is based on the framework provided in the [pqm4](https://github.com/mupq/pqm4) project.
 Detailed instructions on interacting with the hardware and on installing required software can be found in pqm4's readme.
@@ -17,21 +25,21 @@ Detailed instructions on interacting with the hardware and on installing require
 
 - `common`: contains code that is shared between different schemes
 - `config.py`: Saves platform configuration
-- `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024
+- `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024, nttru
     - `kyber512(-90s)`
         - `old`: Code from the implementation in pqm4
-        - `new`: Code containing all of our proposals
-        - `newstack`: Code containing only optimizations that do not require additional stack usage
+        - `new`: Code containing proposals in [1]
+        - `newstack`: Code containing only optimizations that do not require additional stack usage in [1]
     - `kyber768(-90s)`
         - `old`: Code from the implementation in pqm4
-        - `new`: Code containing all of our proposals
-        - `newstack`: Code containing only optimizations that do not require additional stack usage
+        - `new`: Code containing proposals in [1]
+        - `newstack`: Code containing only optimizations that do not require additional stack usage in [1]
     - `kyber1024(-90s)`
         - `old`: Code from the implementation in pqm4
-        - `new`: Code containing all of our proposals
-        - `newstack`: Code containing only optimizations that do not require additional stack usage
+        - `new`: Code containing proposals in [1]
+        - `newstack`: Code containing only optimizations that do not require additional stack usage in [1]
     - `nttru`
-        - reference code for Cortex-M4 based on [NTTRU: Truly Fast NTRU Using NTT](https://github.com/gregorseiler/NTTRU)
+        - reference code for Cortex-M4 based on [2]; modified version to suit on Cortex-M4.
     - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
     - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts. Can be used by using `benchmarks.py`.
     - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
@@ -70,3 +78,7 @@ It can the be flashed using:
 ```
 st-flash --reset write bin/crypto_kem_kyber768_new_test.bin 0x8000000
 ```
+
+### references:
+[1] Abdulrahman A, Hwang V, Kannwischer M J, et al. Faster Kyber and Dilithium on the Cortex-M4[J]. Cryptology ePrint Archive, 2022.
+[2] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.

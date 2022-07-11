@@ -1,5 +1,5 @@
 # Improved Plantard Arithmetic for Lattice-based Cryptography
-This repository provides code for our implementations of Kyber and NTTRU using the improved Plantard arithmetic on the Arm Cortex-M4.
+This repository provides code for our implementations of Kyber and NTTRU using the the improved Plantard arithmetic on the Arm Cortex-M4.
 Authors: 
  - [Junhao Huang](https://github.com/JunhaoHuang) `<huangjunhao@uic.edu.cn>`
  - [Jipeng Zhang](https://github.com/Ji-Peng) `<jp-zhang@outlook.com>`
@@ -24,24 +24,25 @@ Detailed instructions on interacting with the hardware and on installing require
 
 - `common`: contains code that is shared between different schemes
 - `config.py`: Saves platform configuration
-- `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024
+- `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024, nttru
     - `kyber512`
-        - `old`: Our code with improved Plantard arithmetic based on the implementation in pqm4
-        - `newstack`: Our code with improved Plantard arithmetic based on the stack-version implementation in [1]
+        - `old`: Our code with the improved Plantard arithmetic based on the implementation in pqm4
+        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [1]
     - `kyber768`
-        - `old`: Our code with improved Plantard arithmetic based on the implementation in pqm4
-        - `newstack`: Our code with improved Plantard arithmetic based on the stack-version implementation in [1]
+        - `old`: Our code with the improved Plantard arithmetic based on the implementation in pqm4
+        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [1]
     - `kyber1024`
-        - `old`: Our code with improved Plantard arithmetic based on the implementation in pqm4
-        - `newstack`: Our code with improved Plantard arithmetic based on the stack-version implementation in [1]
+        - `old`: Our code with the improved Plantard arithmetic based on the implementation in pqm4
+        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [1]
     - `nttru`
-        - Our code with improved Plantard arithmetic based on [NTTRU: Truly Fast NTRU Using NTT](https://github.com/gregorseiler/NTTRU)
+        - Our code with the improved Plantard arithmetic based on [2]
     - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
     - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts. Can be used by using `benchmarks.py`.
     - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
     - `test.c`: From pqm4; Firmware for self-testing the schemes. Can be used by using `test.py`.
     - `testvectors.c`: From pqm4; Firmware for computing testvectors for Kyber only.
 - `gen_table`: contains code to generate the twiddle factors for our implementations.
+  - `help`: contains code to generate the twiddle factors in Plantard domain.
 - `Makefile`: Makefile to build the code
 - `benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
 - `f_benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `f_speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
@@ -77,3 +78,4 @@ st-flash --reset write bin/crypto_kem_kyber768_newstack_test.bin 0x8000000
 
 ### reference
 [1] Amin Abdulrahman, Vincent Hwang, Matthias J Kannwischer, and Daan Sprenkels. Faster Kyber and Dilithium on the Cortex-M4. Cryptology ePrint Archive, 2022.
+[2] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.

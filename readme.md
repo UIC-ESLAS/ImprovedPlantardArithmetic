@@ -42,7 +42,7 @@ Detailed instructions on interacting with the hardware and on installing require
     - `test.c`: From pqm4; Firmware for self-testing the schemes. Can be used by using `test.py`.
     - `testvectors.c`: From pqm4; Firmware for computing testvectors for Kyber only.
 - `gen_table`: contains code to generate the twiddle factors for our implementations.
-  - `help`: contains code to generate the twiddle factors in Plantard domain.
+- `help`: contains code to generate the twiddle factors in Plantard domain.
 - `Makefile`: Makefile to build the code
 - `benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
 - `f_benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `f_speed.c`. The desired algorithms as well as the number of iterations can be set in the code.

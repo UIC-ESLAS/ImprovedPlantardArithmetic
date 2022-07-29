@@ -8,6 +8,7 @@ Authors:
  - Ray C. C. Cheung `<r.cheung@cityu.edu.hk>`
  - Çetin Kaya Koç `<cetinkoc@ucsb.edu>`
  - Donglong Chen `<donglongchen@uic.edu.cn>` (Corresponding Author)
+
 Our paper is available at https://eprint.iacr.org/2022/956.
 
 The current branch mostly contains code from [1] and the reference code from [2]. The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``plantard`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.

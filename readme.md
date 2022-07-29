@@ -8,6 +8,7 @@ Authors:
  - Ray C. C. Cheung `<r.cheung@cityu.edu.hk>`
  - Çetin Kaya Koç `<cetinkoc@ucsb.edu>`
  - Donglong Chen `<donglongchen@uic.edu.cn>` (Corresponding Author)
+Our paper is available at https://eprint.iacr.org/2022/956.
 
 The current branch mostly contains code from [1] and the reference code from [2]. The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``plantard`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.
 
@@ -82,3 +83,20 @@ st-flash --reset write bin/crypto_kem_kyber768_new_test.bin 0x8000000
 ### references:
 [1] Abdulrahman A, Hwang V, Kannwischer M J, et al. Faster Kyber and Dilithium on the Cortex-M4[J]. Cryptology ePrint Archive, 2022.
 [2] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.
+
+### Citation
+Please cite our paper if you want to use this repository.
+@article{Huang2022Improved,
+   author    = {Junhao Huang and
+               Jipeng Zhang and 
+               Haosong Zhao and
+               Zhe Liu and
+               Ray C. C. Cheung and
+               \c{C}etin Kaya Ko\c{c} and
+               Donglong Chen},
+  title     = {Improved {Plantard} Arithmetic for Lattice-based Cryptography},
+  journal   = {{IACR} Trans. Cryptogr. Hardw. Embed. Syst.},
+  volume    = {2022},
+  number    = {4},
+  year      = {2022},
+}

@@ -88,17 +88,17 @@ st-flash --reset write bin/crypto_kem_kyber768_new_test.bin 0x8000000
 ### Citation
 Please cite our paper if you want to use this repository.
 
-@article{Huang2022Improved,\\
-   author    = {Junhao Huang and\\
-               Jipeng Zhang and \\
-               Haosong Zhao and\\
-               Zhe Liu and\\
-               Ray C. C. Cheung and\\
-               \c{C}etin Kaya Ko\c{c} and\\
-               Donglong Chen},\\
-  title     = {Improved {Plantard} Arithmetic for Lattice-based Cryptography},\\
-  journal   = {{IACR} Trans. Cryptogr. Hardw. Embed. Syst.},\\
-  volume    = {2022},\\
-  number    = {4},\\
-  year      = {2022},\\
+@article{Huang2022Improved,\
+   author    = {Junhao Huang and\
+               Jipeng Zhang and \
+               Haosong Zhao and\
+               Zhe Liu and\
+               Ray C. C. Cheung and\
+               \c{C}etin Kaya Ko\c{c} and\
+               Donglong Chen},\
+  title     = {Improved {Plantard} Arithmetic for Lattice-based Cryptography},\
+  journal   = {{IACR} Trans. Cryptogr. Hardw. Embed. Syst.},\
+  volume    = {2022},\
+  number    = {4},\
+  year      = {2022}\
 }

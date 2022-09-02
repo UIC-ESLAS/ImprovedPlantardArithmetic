@@ -11,7 +11,6 @@ Authors:
 
 
 The setup for testing and evaluating of our code is based on the framework provided in the [pqm4](https://github.com/mupq/pqm4) project.
-Detailed instructions on interacting with the hardware and on installing required software can be found in pqm4's readme.
 ## Prerequisites
 
 - `arm-none-eabi-gcc`: version 10.2.1
@@ -26,23 +25,22 @@ Detailed instructions on interacting with the hardware and on installing require
 - `config.py`: Saves platform configuration
 - `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024, nttru
     - `kyber512`
-        - `old`: Our code with the improved Plantard arithmetic based on the implementation in pqm4
-        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [1]
+        - `old`: Our code with the improved Plantard arithmetic based on the implementation in [ABCG20].
+        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
     - `kyber768`
-        - `old`: Our code with the improved Plantard arithmetic based on the implementation in pqm4
-        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [1]
+        - `old`: Our code with the improved Plantard arithmetic based on the implementation in [ABCG20].
+        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
     - `kyber1024`
-        - `old`: Our code with the improved Plantard arithmetic based on the implementation in pqm4
-        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [1]
+        - `old`: Our code with the improved Plantard arithmetic based on the implementation in [ABCG20].
+        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
     - `nttru`
-        - Our code with the improved Plantard arithmetic based on [2]
+        - Our code with the improved Plantard arithmetic based on [LS19]
     - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
     - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts. Can be used by using `benchmarks.py`.
     - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
     - `test.c`: From pqm4; Firmware for self-testing the schemes. Can be used by using `test.py`.
     - `testvectors.c`: From pqm4; Firmware for computing testvectors for Kyber only.
-- `gen_table`: contains code to generate the twiddle factors for our implementations.
-- `help`: contains code to generate the twiddle factors in Plantard domain.
+- `gen_table`: contains code to generate the twiddle factors in Plantard domain for our implementations.
 - `Makefile`: Makefile to build the code
 - `benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
 - `f_benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `f_speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
@@ -54,6 +52,7 @@ Detailed instructions on interacting with the hardware and on installing require
 - `test.py`: This script is used for building, flashing, and evaluating the outputs produced by `test.c`.
 
 ## Usage
+Detailed instructions on interacting with the hardware and on installing required software can be found in [pqm4](https://github.com/mupq/pqm4)'s readme.
 
 The scripts `benchmarks.py`, `f_benchmarks.py`, `stack.py` and `test.py` cover most of the frequent use cases.
 In case separate, manual testing is required, the binaries for a scheme can be build using
@@ -77,5 +76,6 @@ st-flash --reset write bin/crypto_kem_kyber768_newstack_test.bin 0x8000000
 ```
 
 ### reference
-[1] Amin Abdulrahman, Vincent Hwang, Matthias J Kannwischer, and Daan Sprenkels. Faster Kyber and Dilithium on the Cortex-M4. Cryptology ePrint Archive, 2022.
-[2] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.
+[AHKS22] Amin Abdulrahman, Vincent Hwang, Matthias J Kannwischer, and Daan Sprenkels. Faster Kyber and Dilithium on the Cortex-M4. Cryptology ePrint Archive, 2022.
+[LS19] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.
+[ABCG20] Erdem Alkim, Yusuf Alper Bilgin, Murat Cenk, and François Gérard. Cortex-M4 optimizations for {R, M}-LWE schemes. IACR Transactions on Cryptographic Hardware and Embedded Systems, pages 336–357, 2020.

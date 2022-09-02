@@ -5,11 +5,11 @@
 .thumb
 
 .macro mul_twiddle tb, a, twiddle, tmp, tmp2, q, qinv
-    smulb\tb \tmp, \a, \twiddle
-    smult\tb \a, \a, \twiddle
-    montgomery \q, \qinv, \tmp, \tmp2 // reduce -> result in tmp2
-    montgomery \q, \qinv, \a, \tmp // reduce -> result in tmp2
-    pkhtb \a, \tmp, \tmp2, asr#16 // combine results from above in one register as 16bit halves
+  smulb\tb \tmp, \a, \twiddle
+  smult\tb \a, \a, \twiddle
+  montgomery \q, \qinv, \tmp, \tmp2 // reduce -> result in tmp2
+  montgomery \q, \qinv, \a, \tmp // reduce -> result in tmp2
+  pkhtb \a, \tmp, \tmp2, asr#16 // combine results from above in one register as 16bit halves
 .endm
 
 .macro doublebutterfly tb, a0, a1, twiddle, tmp, tmp2, q, qinv

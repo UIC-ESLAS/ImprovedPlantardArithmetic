@@ -1,13 +1,13 @@
 # Improved Plantard Arithmetic for Lattice-based Cryptography
 
-The current branch mostly contains code from [1] and the reference code from [2]. The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``master`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.
+The current branch mostly contains code from [AHKS22] and the reference code from [LS19]. The implementations of this branch are based on the Montgomery and Barrett arithmetic. The ``master`` branch consists of the code based on the improved Plantard arithmetic presented in ``Improved Plantard Arithmetic for Lattice-based Cryptography`` in TCHES2022-04.
 
 The setup for testing and evaluating of our code is based on the framework provided in the [pqm4](https://github.com/mupq/pqm4) project.
 Detailed instructions on interacting with the hardware and on installing required software can be found in pqm4's readme.
 ## Prerequisites
 
 - `arm-none-eabi-gcc`: version 10.2.1
-- `libopencm3`: commit `b1d8a4c546531d6a79f9a7be156205c6a40f215c` from [GitHub](https://github.com/libopencm3/libopencm3/tree/b1d8a4c546531d6a79f9a7be156205c6a40f215c)
+- `libopencm3`: commit `44e142d4f97863e669737707a1a22bf40ed49bbc` from [GitHub](https://github.com/libopencm3/libopencm3/tree/44e142d4f97863e669737707a1a22bf40ed49bbc)
 - `st-link` for flashing the binaries
 - `python3` with the packages `pyserial` and `numpy` (only required for the evaluation scripts)
 - Hardware: `STM32F407G-DISC1`
@@ -18,19 +18,19 @@ Detailed instructions on interacting with the hardware and on installing require
 - `config.py`: Saves platform configuration
 - `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024, nttru
     - `kyber512(-90s)`
-        - `old`: Code from the implementation in pqm4
-        - `new`: Code containing proposals in [1]
-        - `newstack`: Code containing only optimizations that do not require additional stack usage in [1]
+        - `old`: Code from the implementation in [ABCG20]
+        - `new`: Code containing proposals in [AHKS22]
+        - `newstack`: Code containing only optimizations that do not require additional stack usage in [AHKS22]
     - `kyber768(-90s)`
         - `old`: Code from the implementation in pqm4
-        - `new`: Code containing proposals in [1]
-        - `newstack`: Code containing only optimizations that do not require additional stack usage in [1]
+        - `new`: Code containing proposals in [AHKS22]
+        - `newstack`: Code containing only optimizations that do not require additional stack usage in [AHKS22]
     - `kyber1024(-90s)`
         - `old`: Code from the implementation in pqm4
-        - `new`: Code containing proposals in [1]
-        - `newstack`: Code containing only optimizations that do not require additional stack usage in [1]
+        - `new`: Code containing proposals in [AHKS22]
+        - `newstack`: Code containing only optimizations that do not require additional stack usage in [AHKS22]
     - `nttru`
-        - reference code for Cortex-M4 based on [2]; modified version to suit on Cortex-M4.
+        - reference code for Cortex-M4 based on [LS19]; modified version to suit on Cortex-M4.
     - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
     - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts. Can be used by using `benchmarks.py`.
     - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
@@ -71,8 +71,9 @@ st-flash --reset write bin/crypto_kem_kyber768_new_test.bin 0x8000000
 ```
 
 ### references:
-[1] Abdulrahman A, Hwang V, Kannwischer M J, et al. Faster Kyber and Dilithium on the Cortex-M4[J]. Cryptology ePrint Archive, 2022.
-[2] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.
+[AHKS22] Amin Abdulrahman, Vincent Hwang, Matthias J Kannwischer, and Daan Sprenkels. Faster Kyber and Dilithium on the Cortex-M4. Cryptology ePrint Archive, 2022.  
+[LS19] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.  
+[ABCG20] Erdem Alkim, Yusuf Alper Bilgin, Murat Cenk, and François Gérard. Cortex-M4 optimizations for {R, M}-LWE schemes. IACR Transactions on Cryptographic Hardware and Embedded Systems, pages 336–357, 2020.  
 
 ### Citation
 Please cite our paper if you want to use this repository.

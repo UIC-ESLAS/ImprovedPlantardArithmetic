@@ -14,7 +14,7 @@ The setup for testing and evaluating of our code is based on the framework provi
 ## Prerequisites
 
 - `arm-none-eabi-gcc`: version 10.2.1
-- `libopencm3`: commit `b1d8a4c546531d6a79f9a7be156205c6a40f215c` from [GitHub](https://github.com/libopencm3/libopencm3/tree/b1d8a4c546531d6a79f9a7be156205c6a40f215c)
+- `libopencm3`: commit `44e142d4f97863e669737707a1a22bf40ed49bbc` from [GitHub](https://github.com/libopencm3/libopencm3/tree/44e142d4f97863e669737707a1a22bf40ed49bbc)
 - `st-link` for flashing the binaries
 - `python3` with the packages `pyserial` and `numpy` (only required for the evaluation scripts)
 - Hardware: `STM32F407G-DISC1`

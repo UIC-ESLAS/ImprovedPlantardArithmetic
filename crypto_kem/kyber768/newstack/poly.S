@@ -1,3 +1,16 @@
+/******************************************************************************
+* Integrating the improved Plantard arithmetic into Kyber.
+*
+* Efficient Plantard arithmetic enables a faster Kyber implementation with the 
+* same stack usage.
+*
+* See the paper at https://eprint.iacr.org/2022/956.pdf for more details.
+*
+* @author   Junhao Huang, BNU-HKBU United International College, Zhuhai, China
+*           jhhuang_nuaa@126.com
+*
+* @date     September 2022
+******************************************************************************/
 #include "matacc.i"
 
 .syntax unified

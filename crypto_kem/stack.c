@@ -1,11 +1,16 @@
-/*
- * @Author: your name
- * @Date: 2022-02-14 01:02:44
- * @LastEditTime: 2022-02-14 02:00:41
- * @LastEditors: your name
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /WordSizeMod-pqm4/crypto_kem/stack.c
- */
+/******************************************************************************
+ * Integrating the improved Plantard arithmetic into Kyber and NTTRU.
+ *
+ * Efficient Plantard arithmetic enables a faster Kyber and NTTRU implementation with the
+ * same stack usage.
+ *
+ * See the paper at https://eprint.iacr.org/2022/956.pdf for more details.
+ *
+ * @author   Junhao Huang, BNU-HKBU United International College, Zhuhai, China
+ *           jhhuang_nuaa@126.com
+ *
+ * @date     September 2022
+ ******************************************************************************/
 #include "api.h"
 #include "randombytes.h"
 #include "hal.h"

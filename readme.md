@@ -80,6 +80,11 @@ st-flash --reset write bin/crypto_kem_kyber768_newstack_test.bin 0x8000000
 [LS19] Lyubashevsky V, Seiler G. NTTRU: Truly Fast NTRU Using NTT[J]. IACR Transactions on Cryptographic Hardware and Embedded Systems, 2019: 180-201.  
 [ABCG20] Erdem Alkim, Yusuf Alper Bilgin, Murat Cenk, and François Gérard. Cortex-M4 optimizations for {R, M}-LWE schemes. IACR Transactions on Cryptographic Hardware and Embedded Systems, pages 336–357, 2020.  
 
+
+### License
+
+Each subdirectory containing implementations contains a LICENSE or COPYING file stating under what license that specific implementation is released. The files in common contain licensing information at the top of the file (and are currently either public domain or MIT). All other code in this repository is licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+
 ### Citation
 
 Please cite our paper if you want to use this repository.

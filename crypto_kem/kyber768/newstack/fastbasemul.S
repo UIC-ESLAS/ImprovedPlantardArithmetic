@@ -1,11 +1,16 @@
-/*
- * @Author: Junhao Huang
- * @Date: 2021-09-09 19:09:30
- * @LastEditTime: 2021-10-08 20:41:51
- * @LastEditors: Please set LastEditors
- * @Description: Integrate Plantard Modular reduction
- * @FilePath: \Kyber_M4\kyber\fastbasemul.S
- */
+/******************************************************************************
+* Integrating the improved Plantard arithmetic into Kyber.
+*
+* Efficient Plantard arithmetic enables a faster Kyber implementation with the 
+* same stack usage.
+*
+* See the paper at https://eprint.iacr.org/2022/956.pdf for more details.
+*
+* @author   Junhao Huang, BNU-HKBU United International College, Zhuhai, China
+*           jhhuang_nuaa@126.com
+*
+* @date     September 2022
+******************************************************************************/
 #include "macros.i"
 .syntax unified
 .cpu cortex-m4

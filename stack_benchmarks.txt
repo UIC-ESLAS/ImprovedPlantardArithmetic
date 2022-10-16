@@ -1,4 +1,4 @@
-% Stack Benchmarking measurements written on 2022-07-05 03:32:32.870164+00:00;
+% Stack Benchmarking measurements written on 2022-10-16 11:03:32.047925+00:00;
 
 %M4 results for crypto_kem_kyber512_old (type=kem)
 \DefineVar{crypto_kem_kyber512_oldkeygen_stack_usage}{2\,464}
@@ -6,9 +6,9 @@
 \DefineVar{crypto_kem_kyber512_olddecaps_stack_usage}{2\,184}
 
 %M4 results for crypto_kem_kyber512_newstack (type=kem)
-\DefineVar{crypto_kem_kyber512_newstackkeygen_stack_usage}{2\,608}
-\DefineVar{crypto_kem_kyber512_newstackencaps_stack_usage}{2\,160}
-\DefineVar{crypto_kem_kyber512_newstackdecaps_stack_usage}{2\,176}
+\DefineVar{crypto_kem_kyber512_newstackkeygen_stack_usage}{2\,640}
+\DefineVar{crypto_kem_kyber512_newstackencaps_stack_usage}{2\,172}
+\DefineVar{crypto_kem_kyber512_newstackdecaps_stack_usage}{2\,188}
 
 %M4 results for crypto_kem_kyber768_old (type=kem)
 \DefineVar{crypto_kem_kyber768_oldkeygen_stack_usage}{2\,696}
@@ -16,9 +16,9 @@
 \DefineVar{crypto_kem_kyber768_olddecaps_stack_usage}{2\,656}
 
 %M4 results for crypto_kem_kyber768_newstack (type=kem)
-\DefineVar{crypto_kem_kyber768_newstackkeygen_stack_usage}{3\,056}
-\DefineVar{crypto_kem_kyber768_newstackencaps_stack_usage}{2\,660}
-\DefineVar{crypto_kem_kyber768_newstackdecaps_stack_usage}{2\,676}
+\DefineVar{crypto_kem_kyber768_newstackkeygen_stack_usage}{3\,088}
+\DefineVar{crypto_kem_kyber768_newstackencaps_stack_usage}{2\,692}
+\DefineVar{crypto_kem_kyber768_newstackdecaps_stack_usage}{2\,708}
 
 %M4 results for crypto_kem_kyber1024_old (type=kem)
 \DefineVar{crypto_kem_kyber1024_oldkeygen_stack_usage}{3\,584}
@@ -26,9 +26,9 @@
 \DefineVar{crypto_kem_kyber1024_olddecaps_stack_usage}{3\,224}
 
 %M4 results for crypto_kem_kyber1024_newstack (type=kem)
-\DefineVar{crypto_kem_kyber1024_newstackkeygen_stack_usage}{3\,576}
-\DefineVar{crypto_kem_kyber1024_newstackencaps_stack_usage}{3\,236}
-\DefineVar{crypto_kem_kyber1024_newstackdecaps_stack_usage}{3\,252}
+\DefineVar{crypto_kem_kyber1024_newstackkeygen_stack_usage}{3\,608}
+\DefineVar{crypto_kem_kyber1024_newstackencaps_stack_usage}{3\,268}
+\DefineVar{crypto_kem_kyber1024_newstackdecaps_stack_usage}{3\,284}
 
 %M4 results for crypto_kem_nttru (type=kem)
 \DefineVar{crypto_kem_nttrukeygen_stack_usage}{9\,372}

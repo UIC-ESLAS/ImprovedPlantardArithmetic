@@ -220,15 +220,10 @@ basemul_asm:
 	movw qinv, #62209
 	movt qinv, #27560
 
-#ifdef USE_REPT
-	movw qa, #26632
-	.rept 64
-#else
 	movw loop, #64
 	1:
 	vmov.w s0,loop
 	movw qa, #26632
-#endif
 			
 	ldrd poly0, poly2, [aptr], #8
 	ldrd poly1, poly3, [bptr], #8 
@@ -269,13 +264,10 @@ basemul_asm:
 	pkhtb tmp, tmp2, tmp, asr#16
 	str tmp, [rptr], #4
 		
-#ifdef USE_REPT
-	.endr
-#else
 	vmov.w loop,s0
 	subs.w loop, #1
 	bne.w 1b
-#endif
+
 
 	.unreq rptr   
 	.unreq aptr   
@@ -322,15 +314,11 @@ basemul_asm_acc:
 	### qinv=0x6ba8f301
 	movw qinv, #62209
 	movt qinv, #27560
-#ifdef USE_REPT
-	movw qa, #26632
-	.rept 64
-#else
+
 	movw loop, #64
 	1:
 		vmov.w s0,loop
 		movw qa, #26632
-#endif
 
 	ldrd poly0, poly2, [aptr], #8
 	ldrd poly1, poly3, [bptr], #8
@@ -372,13 +360,10 @@ basemul_asm_acc:
 	ldr.w tmp2, [rptr]
 	uadd16 tmp, tmp, tmp2
 	str.w tmp, [rptr], #4
-#ifdef USE_REPT
-	.endr
-#else
+
 	vmov.w loop, s0
 	subs.w loop, #1
 	bne.w 1b
-#endif
 
 	.unreq rptr    
 	.unreq aptr    

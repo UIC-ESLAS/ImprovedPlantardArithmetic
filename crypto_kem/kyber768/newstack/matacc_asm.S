@@ -28,7 +28,7 @@ matacc_asm:
 	
 	ldr.w zetaptr, [sp, #13*4] // load zetaptr from stack
 	ldr.w tmp, [sp, #14*4] // load state from stack
-	vmov s10, tmp
+	vmov s26, tmp
 	
 	movw qa, #26632
 	movw q, #3329
@@ -39,7 +39,7 @@ matacc_asm:
 
 	// outer while loop
 	movw ctr, #0
-	vmov s1, bufptr // save bufptr to check later
+	vmov s17, bufptr // save bufptr to check later
 	1:
 
 		ldrh val0, [bufptr], #2
@@ -84,7 +84,7 @@ matacc_asm_acc:
 	
 	ldr.w zetaptr, [sp, #13*4] // load zetaptr from stack
 	ldr.w tmp, [sp, #14*4] // load state from stack
-	vmov s10, tmp
+	vmov s26, tmp
 
 	movw qa, #26632
 	movw q, #3329
@@ -95,7 +95,7 @@ matacc_asm_acc:
 
 	// outer while loop
 	movw ctr, #0
-	vmov s1, bufptr // save bufptr to check later
+	vmov s17, bufptr // save bufptr to check later
 	1:
 
 		ldrh val0, [bufptr], #2

@@ -11,7 +11,7 @@
 *
 * @date     September 2022
 ******************************************************************************/
-#include "matacc.i"
+#include "macros.i"
 
 .syntax unified
 .cpu cortex-m4
@@ -188,9 +188,9 @@ frombytes_mul_asm_acc:
 	1:
 		ldr.w zeta, [zetaptr], #4
 		deserialize aptr, tmp, tmp2, tmp3, t0, t1
-		vmov s0, ctr
+		vmov s16, ctr
 		doublebasemul_frombytes_asm_acc rptr, bptr, zeta, tmp3, t0, t1, ctr, tmp, tmp2, q, qa, qinv
-		vmov ctr, s0
+		vmov ctr, s16
 	cmp.w rptr, ctr
 	bne.w 1b
 

@@ -47,11 +47,14 @@
   usub16 \a, \a, \tmp
 .endm
 
+// q locate in the top half of the register
 .macro plant_red q, qa, qinv, tmp
 	mul \tmp, \tmp, \qinv     
 	//tmp*qinv mod 2^2n/ 2^n; in high half
 	smlatt \tmp, \tmp, \q, \qa
 	// result in high half
 .endm
+
+
 
 #endif /* MACROS_I */

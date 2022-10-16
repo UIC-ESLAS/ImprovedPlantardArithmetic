@@ -8,12 +8,8 @@
 pointwise_sub:
 	push {r4-r11, lr}
 
-#ifdef USE_REPT
-	.rept 25
-#else
 	movw r14, #25
 	1:
-#endif
 
 	ldm r1!, {r3-r7}
 	ldm r2!, {r8-r12}
@@ -24,12 +20,8 @@ pointwise_sub:
 	usub16 r7, r7, r12
 	stm r0!, {r3-r7}
 
-#ifdef USE_REPT
-	.endr
-#else
-		subs.w r14, #1
+	subs.w r14, #1
 	bne.w 1b
-#endif
 
 	ldm r1!, {r3-r5}
 	ldm r2!, {r8-r10}
@@ -46,12 +38,8 @@ pointwise_sub:
 pointwise_add:
 	push {r4-r11, lr}
 
-#ifdef USE_REPT
-	.rept 25
-#else
 	movw r14, #25
 	1:
-#endif
 
 	ldm r1!, {r3-r7}
 	ldm r2!, {r8-r12}
@@ -62,12 +50,8 @@ pointwise_add:
 	uadd16 r7, r7, r12
 	stm r0!, {r3-r7}
 
-#ifdef USE_REPT
-	.endr
-#else
 	subs.w r14, #1
 	bne.w 1b
-#endif
 
 	ldm r1!, {r3-r5}
 	ldm r2!, {r8-r10}

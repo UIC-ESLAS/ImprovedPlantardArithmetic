@@ -56,13 +56,13 @@ print(f"% Testing implementation(s) {now}\n")
 
 # uncomment the scheme variants that should be build and evaluated
 for scheme_path in [
-        "crypto_kem/kyber512/old",
-        "crypto_kem/kyber512/newstack",
-        "crypto_kem/kyber768/old",
+        # "crypto_kem/kyber512/old",
+        # "crypto_kem/kyber512/newstack",
+        # "crypto_kem/kyber768/old",
         "crypto_kem/kyber768/newstack",
-        "crypto_kem/kyber1024/old",
-        "crypto_kem/kyber1024/newstack",
-        "crypto_kem/nttru"
+        # "crypto_kem/kyber1024/old",
+        # "crypto_kem/kyber1024/newstack",
+        # "crypto_kem/nttru"
     ]:
     scheme_name = scheme_path.replace("/", "_")
     test(scheme_path, scheme_name)

@@ -44,7 +44,6 @@ The setup for testing and evaluating of our code is based on the framework provi
 - `Makefile`: Makefile to build the code
 - `benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
 - `f_benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `f_speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
-- `read_serial.py`: Script to receive serial communication from the target.
 - `stack_benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `stack.c`. The desired algorithms as well as the number of iterations can be set in the code.
 - `stm32f405x6_full.ld`: Linker script using 128kB of memory (SRAM1 and SRAM2)
 - `stm32f405x6.ld`: Linker script using 112kB of memory (SRAM1 only)

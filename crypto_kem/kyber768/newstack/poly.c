@@ -424,14 +424,14 @@ void poly_basemul_acc(poly *r, const poly *a, const poly *b) {
 
 extern void asm_fromplant(int16_t *r);
 /*************************************************
-* Name:        poly_frommont
+* Name:        poly_fromplant
 *
 * Description: Inplace conversion of all coefficients of a polynomial
 *              from Montgomery domain to normal domain
 *
 * Arguments:   - poly *r:       pointer to input/output polynomial
 **************************************************/
-void poly_frommont(poly *r) {
+void poly_fromplant(poly *r) {
   asm_fromplant(r->coeffs);
 }
 

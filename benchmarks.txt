@@ -74,3 +74,7 @@
 \DefineVar{crypto_kem_nttruencaps}{236k}
 \DefineVar{crypto_kem_nttrudecaps}{253k}
 
+% Benchmarking measurements written on 2022-10-17 06:58:39.545447+00:00; iterations=100
+
+% Benchmarking measurements written on 2022-10-17 06:59:01.607861+00:00; iterations=100
+

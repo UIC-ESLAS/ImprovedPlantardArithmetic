@@ -88,7 +88,7 @@
 .align 2
 ntt_fast:
 	push {r4-r11, r14}
-	vpush.w {s9-s24}
+	vpush.w {s16-s24}
 	poly         .req r0
 	twiddle_ptr  .req r1
 	poly0        .req r2
@@ -261,5 +261,5 @@ ntt_fast:
 	vmov tmp, s13
 	cmp.w poly, tmp
 	bne.w 2b
-	vpop.w {s9-s24}
+	vpop.w {s16-s24}
 	pop {r4-r11, pc}

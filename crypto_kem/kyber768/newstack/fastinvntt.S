@@ -161,7 +161,7 @@
 .align 2
 invntt_fast:
 	push {r4-r11, r14}
-	vpush.w {s8-s23}
+	vpush.w {s16-s23}
 	poly         .req r0
 	twiddle_ptr  .req r1
 	poly0        .req r2
@@ -356,5 +356,5 @@ invntt_fast:
 		vmov tmp, s14
 		cmp.w poly, tmp
 	bne.w 2b
-	vpop.w {s8-s23}
+	vpop.w {s16-s23}
 	pop {r4-r11, pc}

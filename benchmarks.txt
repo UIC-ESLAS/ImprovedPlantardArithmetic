@@ -78,4 +78,81 @@
 % Benchmarking measurements written on 2023-07-26 07:04:43.779921+00:00; iterations=100
 
 % Benchmarking measurements written on 2023-07-26 07:06:11.476078+00:00; iterations=100
+After update keccak
+% Benchmarking measurements written on 2023-07-26 08:45:26.970712+00:00; iterations=100
+
+%M4 results for crypto_kem_kyber512_old (type=kem)
+\DefineVar{crypto_kem_kyber512_oldkeygen}{383k}
+\DefineVar{crypto_kem_kyber512_oldencaps}{463k}
+\DefineVar{crypto_kem_kyber512_olddecaps}{434k}
+
+%M4 results for crypto_kem_kyber512_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber512_m4fstackkeygen}{367k}
+\DefineVar{crypto_kem_kyber512_m4fstackencaps}{448k}
+\DefineVar{crypto_kem_kyber512_m4fstackdecaps}{410k}
+
+%M4 results for crypto_kem_kyber512_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeedkeygen}{368k}
+\DefineVar{crypto_kem_kyber512_m4fspeedencaps}{447k}
+\DefineVar{crypto_kem_kyber512_m4fspeeddecaps}{408k}
+
+%M4 results for crypto_kem_kyber512-90s_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber51290s_m4fstackkeygen}{362k}
+\DefineVar{crypto_kem_kyber51290s_m4fstackencaps}{416k}
+\DefineVar{crypto_kem_kyber51290s_m4fstackdecaps}{413k}
+
+%M4 results for crypto_kem_kyber512-90s_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber51290s_m4fspeedkeygen}{362k}
+\DefineVar{crypto_kem_kyber51290s_m4fspeedencaps}{414k}
+\DefineVar{crypto_kem_kyber51290s_m4fspeeddecaps}{411k}
+
+%M4 results for crypto_kem_kyber768_old (type=kem)
+\DefineVar{crypto_kem_kyber768_oldkeygen}{630k}
+\DefineVar{crypto_kem_kyber768_oldencaps}{758k}
+\DefineVar{crypto_kem_kyber768_olddecaps}{715k}
+
+%M4 results for crypto_kem_kyber768_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber768_m4fstackkeygen}{603k}
+\DefineVar{crypto_kem_kyber768_m4fstackencaps}{733k}
+\DefineVar{crypto_kem_kyber768_m4fstackdecaps}{676k}
+
+%M4 results for crypto_kem_kyber768_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber768_m4fspeedkeygen}{601k}
+\DefineVar{crypto_kem_kyber768_m4fspeedencaps}{729k}
+\DefineVar{crypto_kem_kyber768_m4fspeeddecaps}{671k}
+
+%M4 results for crypto_kem_kyber768-90s_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber76890s_m4fstackkeygen}{604k}
+\DefineVar{crypto_kem_kyber76890s_m4fstackencaps}{687k}
+\DefineVar{crypto_kem_kyber76890s_m4fstackdecaps}{680k}
+
+%M4 results for crypto_kem_kyber768-90s_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber76890s_m4fspeedkeygen}{601k}
+\DefineVar{crypto_kem_kyber76890s_m4fspeedencaps}{681k}
+\DefineVar{crypto_kem_kyber76890s_m4fspeeddecaps}{673k}
+
+%M4 results for crypto_kem_kyber1024_old (type=kem)
+\DefineVar{crypto_kem_kyber1024_oldkeygen}{1\,003k}
+\DefineVar{crypto_kem_kyber1024_oldencaps}{1\,162k}
+\DefineVar{crypto_kem_kyber1024_olddecaps}{1\,105k}
+
+%M4 results for crypto_kem_kyber1024_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fstackkeygen}{959k}
+\DefineVar{crypto_kem_kyber1024_m4fstackencaps}{1\,119k}
+\DefineVar{crypto_kem_kyber1024_m4fstackdecaps}{1\,046k}
+
+%M4 results for crypto_kem_kyber1024_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fspeedkeygen}{956k}
+\DefineVar{crypto_kem_kyber1024_m4fspeedencaps}{1\,112k}
+\DefineVar{crypto_kem_kyber1024_m4fspeeddecaps}{1\,038k}
+
+%M4 results for crypto_kem_kyber1024-90s_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber102490s_m4fstackkeygen}{958k}
+\DefineVar{crypto_kem_kyber102490s_m4fstackencaps}{1\,058k}
+\DefineVar{crypto_kem_kyber102490s_m4fstackdecaps}{1\,050k}
+
+%M4 results for crypto_kem_kyber1024-90s_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber102490s_m4fspeedkeygen}{952k}
+\DefineVar{crypto_kem_kyber102490s_m4fspeedencaps}{1\,047k}
+\DefineVar{crypto_kem_kyber102490s_m4fspeeddecaps}{1\,038k}
 

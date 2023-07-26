@@ -7,6 +7,9 @@
 #include "rounding.h"
 #include "symmetric.h"
 
+#include <stdio.h>
+#include "hal.h"
+
 #ifdef DBENCH
 #include "test/cpucycles.h"
 extern const uint64_t timing_overhead;
@@ -130,6 +133,7 @@ void poly_ntt(poly *a) {
   DBENCH_STOP(*tmul);
 }
 
+
 /*************************************************
 * Name:        poly_invntt_tomont
 *
@@ -146,6 +150,7 @@ void poly_invntt_tomont(poly *a) {
 
   DBENCH_STOP(*tmul);
 }
+
 
 /*************************************************
 * Name:        poly_pointwise_montgomery
@@ -184,6 +189,7 @@ void poly_pointwise_acc_montgomery(poly *c, const poly *a, const poly *b) {
 
   DBENCH_STOP(*tmul);
 }
+
 
 /*************************************************
 * Name:        poly_power2round
@@ -541,49 +547,6 @@ void polyeta_pack(uint8_t *r, const poly *a) {
   DBENCH_STOP(*tpack);
 }
 
-/*************************************************
-* Name:        polyeta_unpack
-*
-* Description: Unpack polynomial with coefficients in [-ETA,ETA].
-*
-* Arguments:   - poly *r: pointer to output polynomial
-*              - const uint8_t *a: byte array with bit-packed polynomial
-**************************************************/
-void polyeta_unpack(poly *r, const uint8_t *a) {
-  unsigned int i;
-  DBENCH_START();
-
-#if ETA == 2
-  for(i = 0; i < N/8; ++i) {
-    r->coeffs[8*i+0] =  (a[3*i+0] >> 0) & 7;
-    r->coeffs[8*i+1] =  (a[3*i+0] >> 3) & 7;
-    r->coeffs[8*i+2] = ((a[3*i+0] >> 6) | (a[3*i+1] << 2)) & 7;
-    r->coeffs[8*i+3] =  (a[3*i+1] >> 1) & 7;
-    r->coeffs[8*i+4] =  (a[3*i+1] >> 4) & 7;
-    r->coeffs[8*i+5] = ((a[3*i+1] >> 7) | (a[3*i+2] << 1)) & 7;
-    r->coeffs[8*i+6] =  (a[3*i+2] >> 2) & 7;
-    r->coeffs[8*i+7] =  (a[3*i+2] >> 5) & 7;
-
-    r->coeffs[8*i+0] = ETA - r->coeffs[8*i+0];
-    r->coeffs[8*i+1] = ETA - r->coeffs[8*i+1];
-    r->coeffs[8*i+2] = ETA - r->coeffs[8*i+2];
-    r->coeffs[8*i+3] = ETA - r->coeffs[8*i+3];
-    r->coeffs[8*i+4] = ETA - r->coeffs[8*i+4];
-    r->coeffs[8*i+5] = ETA - r->coeffs[8*i+5];
-    r->coeffs[8*i+6] = ETA - r->coeffs[8*i+6];
-    r->coeffs[8*i+7] = ETA - r->coeffs[8*i+7];
-  }
-#elif ETA == 4
-  for(i = 0; i < N/2; ++i) {
-    r->coeffs[2*i+0] = a[i] & 0x0F;
-    r->coeffs[2*i+1] = a[i] >> 4;
-    r->coeffs[2*i+0] = ETA - r->coeffs[2*i+0];
-    r->coeffs[2*i+1] = ETA - r->coeffs[2*i+1];
-  }
-#endif
-
-  DBENCH_STOP(*tpack);
-}
 
 /*************************************************
 * Name:        polyt1_pack

@@ -27,6 +27,37 @@ void pack_pk(uint8_t pk[CRYPTO_PUBLICKEYBYTES],
 }
 
 /*************************************************
+* Name:        pack_pk_rho
+*
+* Description: Bit-pack only rho in public key pk = (rho, t1).
+*
+* Arguments:   - unsigned char pk[]: output byte array
+*              - const unsigned char rho[]: byte array containing rho
+**************************************************/
+void pack_pk_rho(unsigned char pk[CRYPTO_PUBLICKEYBYTES],
+                 const unsigned char rho[SEEDBYTES]) {
+    for (unsigned int i = 0; i < SEEDBYTES; ++i) {
+        pk[i] = rho[i];
+    }
+}
+
+/*************************************************
+* Name:        pack_pk_t1
+*
+* Description: Bit-pack only the t1 elem at idx in public key pk = (rho, t1).
+*
+* Arguments:   - unsigned char pk[]: output byte array
+*              - const polyveck *t1: pointer to vector t1
+*              - const unsigned int idx: index to the elem to pack
+**************************************************/
+void pack_pk_t1(unsigned char pk[CRYPTO_PUBLICKEYBYTES],
+             const poly *t1,
+             const unsigned int idx) {
+    pk += SEEDBYTES;
+    polyt1_pack(pk + idx * POLYT1_PACKEDBYTES, t1);
+}
+
+/*************************************************
 * Name:        unpack_pk
 *
 * Description: Unpack public key pk = (rho, t1).
@@ -97,6 +128,101 @@ void pack_sk(uint8_t sk[CRYPTO_SECRETKEYBYTES],
 }
 
 /*************************************************
+* Name:        pack_sk_s1
+*
+* Description: Bit-pack only some element of s1 in secret key sk = (rho, key, tr, s1, s2, t0).
+*
+* Arguments:   - unsigned char sk[]: output byte array
+*              - const poly *s1_elem: pointer to vector element idx in s1
+*              - const unisgned int idx: index to the element of s1 that should be packed
+**************************************************/
+void pack_sk_s1(unsigned char sk[CRYPTO_SECRETKEYBYTES],
+                const poly *s1_elem,
+                const unsigned int idx) {
+    sk += 3 * SEEDBYTES;
+    polyeta_pack(sk + idx * POLYETA_PACKEDBYTES, s1_elem);
+}
+
+/*************************************************
+* Name:        pack_sk_s2
+*
+* Description: Bit-pack only some element of s2 in secret key sk = (rho, key, tr, s1, s2, t0).
+*
+* Arguments:   - unsigned char sk[]: output byte array
+*              - const poly *s2_elem: pointer to vector element idx in s2
+*              - const unsigned int idx: index to the element of s1 that should be packed
+**************************************************/
+void pack_sk_s2(unsigned char sk[CRYPTO_SECRETKEYBYTES],
+                const poly *s2_elem,
+                const unsigned int idx) {
+    sk += 3 * SEEDBYTES + L * POLYETA_PACKEDBYTES;
+    polyeta_pack(sk + idx * POLYETA_PACKEDBYTES, s2_elem);
+}
+
+/*************************************************
+* Name:        pack_sk_t0
+*
+* Description: Bit-pack only some element of t0 in secret key sk = (rho, key, tr, s1, s2, t0).
+*
+* Arguments:   - unsigned char sk[]: output byte array
+*              - const poly *t0_elem: pointer to vector element idx in s2
+*              - const unsigned int idx: index to the element of s1 that should be packed
+**************************************************/
+void pack_sk_t0(unsigned char sk[CRYPTO_SECRETKEYBYTES],
+                const poly *t0_elem,
+                const unsigned int idx) {
+    sk += 3 * SEEDBYTES + L * POLYETA_PACKEDBYTES + K * POLYETA_PACKEDBYTES;
+    polyt0_pack(sk + idx * POLYT0_PACKEDBYTES, t0_elem);
+}
+
+/*************************************************
+* Name:        pack_sk_rho
+*
+* Description: Bit-pack only rho in secret key sk = (rho, key, tr, s1, s2, t0).
+*
+* Arguments:   - unsigned char sk[]: output byte array
+*              - const unsigned char rho[]: byte array containing rho
+**************************************************/
+void pack_sk_rho(unsigned char sk[CRYPTO_SECRETKEYBYTES],
+                 const unsigned char rho[SEEDBYTES]) {
+  for (unsigned int i = 0; i < SEEDBYTES; ++i) {
+    sk[i] = rho[i];
+  }
+}
+
+/*************************************************
+* Name:        pack_sk_key
+*
+* Description: Bit-pack only key in secret key sk = (rho, key, tr, s1, s2, t0).
+*
+* Arguments:   - unsigned char sk[]: output byte array
+*              - const unsigned char key[]: byte array containing key
+**************************************************/
+void pack_sk_key(unsigned char sk[CRYPTO_SECRETKEYBYTES],
+                 const unsigned char key[SEEDBYTES]) {
+    sk += SEEDBYTES;
+    for (unsigned int i = 0; i < SEEDBYTES; ++i) {
+      sk[i] = key[i];
+    }
+}
+
+/*************************************************
+* Name:        pack_sk_tr
+*
+* Description: Bit-pack only tr in secret key sk = (rho, key, tr, s1, s2, t0).
+*
+* Arguments:   - unsigned char sk[]: output byte array
+*              - const unsigned char tr[]: byte array containing tr
+**************************************************/
+void pack_sk_tr(unsigned char sk[CRYPTO_SECRETKEYBYTES],
+                const unsigned char tr[SEEDBYTES]) {
+    sk += 2*SEEDBYTES;
+    for (unsigned int i = 0; i < SEEDBYTES; ++i) {
+        sk[i] = tr[i];
+    }
+}
+
+/*************************************************
 * Name:        unpack_sk
 *
 * Description: Unpack secret key sk = (rho, tr, key, t0, s1, s2).
@@ -113,8 +239,8 @@ void unpack_sk(uint8_t rho[SEEDBYTES],
                uint8_t tr[SEEDBYTES],
                uint8_t key[SEEDBYTES],
                polyveck *t0,
-               polyvecl *s1,
-               polyveck *s2,
+               smallpoly s1[L],
+               smallpoly s2[K],
                const uint8_t sk[CRYPTO_SECRETKEYBYTES])
 {
   unsigned int i;
@@ -132,11 +258,11 @@ void unpack_sk(uint8_t rho[SEEDBYTES],
   sk += SEEDBYTES;
 
   for(i=0; i < L; ++i)
-    polyeta_unpack(&s1->vec[i], sk + i*POLYETA_PACKEDBYTES);
+    small_polyeta_unpack(&s1[i], sk + i*POLYETA_PACKEDBYTES);
   sk += L*POLYETA_PACKEDBYTES;
 
   for(i=0; i < K; ++i)
-    polyeta_unpack(&s2->vec[i], sk + i*POLYETA_PACKEDBYTES);
+    small_polyeta_unpack(&s2[i], sk + i*POLYETA_PACKEDBYTES);
   sk += K*POLYETA_PACKEDBYTES;
 
   for(i=0; i < K; ++i)
@@ -181,8 +307,6 @@ void pack_sig(uint8_t sig[CRYPTO_BYTES],
     sig[OMEGA + i] = k;
   }
 }
-
-
 
 void pack_sig_c(uint8_t sig[CRYPTO_BYTES],
               const uint8_t c[SEEDBYTES])

@@ -24,6 +24,7 @@ void poly_shiftl(poly *a);
 
 #define poly_ntt DILITHIUM_NAMESPACE(poly_ntt)
 void poly_ntt(poly *a);
+
 #define poly_invntt_tomont DILITHIUM_NAMESPACE(poly_invntt_tomont)
 void poly_invntt_tomont(poly *a);
 #define poly_pointwise_montgomery DILITHIUM_NAMESPACE(poly_pointwise_montgomery)
@@ -59,8 +60,6 @@ void poly_challenge(poly *c, const uint8_t seed[SEEDBYTES]);
 
 #define polyeta_pack DILITHIUM_NAMESPACE(polyeta_pack)
 void polyeta_pack(uint8_t *r, const poly *a);
-#define polyeta_unpack DILITHIUM_NAMESPACE(polyeta_unpack)
-void polyeta_unpack(poly *r, const uint8_t *a);
 
 #define polyt1_pack DILITHIUM_NAMESPACE(polyt1_pack)
 void polyt1_pack(uint8_t *r, const poly *a);

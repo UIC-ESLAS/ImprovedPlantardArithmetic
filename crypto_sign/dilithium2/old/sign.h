@@ -7,7 +7,7 @@
 #include "api.h"
 #include "polyvec.h"
 #include "poly.h"
-
+#define opt
 #define challenge DILITHIUM_NAMESPACE(challenge)
 void challenge(poly *c, const uint8_t seed[SEEDBYTES]);
 

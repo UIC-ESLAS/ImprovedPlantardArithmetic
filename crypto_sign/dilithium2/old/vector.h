@@ -6,6 +6,8 @@
 
 #define asm_reduce32 DILITHIUM_NAMESPACE(asm_reduce32)
 void asm_reduce32(int32_t a[N]);
+#define small_asm_reduce32_central DILITHIUM_NAMESPACE(small_asm_reduce32_central)
+void small_asm_reduce32_central(int32_t a[N]);
 #define asm_caddq DILITHIUM_NAMESPACE(asm_caddq)
 void asm_caddq(int32_t a[N]);
 #define asm_freeze DILITHIUM_NAMESPACE(asm_freeze)

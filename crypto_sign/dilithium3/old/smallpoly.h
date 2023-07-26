@@ -1,0 +1,1 @@
+../../dilithium2/old/smallpoly.h

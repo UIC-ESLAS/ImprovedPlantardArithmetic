@@ -72,6 +72,7 @@ void polyveck_invntt_tomont(polyveck *v);
 #define polyveck_pointwise_poly_montgomery DILITHIUM_NAMESPACE(polyveck_pointwise_poly_montgomery)
 void polyveck_pointwise_poly_montgomery(polyveck *r, const poly *a, const polyveck *v);
 
+
 #define polyveck_chknorm DILITHIUM_NAMESPACE(polyveck_chknorm)
 int polyveck_chknorm(const polyveck *v, int32_t B);
 

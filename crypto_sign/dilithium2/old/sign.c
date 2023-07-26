@@ -6,6 +6,10 @@
 #include "poly.h"
 #include "randombytes.h"
 #include "symmetric.h"
+#include "smallpoly.h"
+
+#include "hal.h"
+#define printf(S) hal_send_str(S)
 
 /*************************************************
 * Name:        crypto_sign_keypair
@@ -20,12 +24,12 @@
 * Returns 0 (success)
 **************************************************/
 int crypto_sign_keypair(uint8_t *pk, uint8_t *sk) {
+  unsigned int i, j;
   uint8_t seedbuf[2*SEEDBYTES + CRHBYTES];
   uint8_t tr[SEEDBYTES];
   const uint8_t *rho, *rhoprime, *key;
-  polyvecl mat[K];
-  polyvecl s1, s1hat;
-  polyveck s2, t1, t0;
+  uint16_t nonce = 0;
+  polyvecl s1;
 
   /* Get randomness for rho, rhoprime and key */
   randombytes(seedbuf, SEEDBYTES);
@@ -34,34 +38,64 @@ int crypto_sign_keypair(uint8_t *pk, uint8_t *sk) {
   rhoprime = rho + SEEDBYTES;
   key = rhoprime + CRHBYTES;
 
-  /* Expand matrix */
-  polyvec_matrix_expand(mat, rho);
+  pack_sk_rho(sk, rho);
+  pack_sk_key(sk, key);
+  pack_pk_rho(pk, rho);
 
-  /* Sample short vectors s1 and s2 */
-  polyvecl_uniform_eta(&s1, rhoprime, 0);
-  polyveck_uniform_eta(&s2, rhoprime, L);
+  /* Sample short vector s1 and immediately store its time-domain version */
+  for (i = 0; i < L; i++)
+  {
+    poly_uniform_eta(&s1.vec[i], rhoprime, nonce++);
+    pack_sk_s1(sk, &s1.vec[i], i);
+    /* Move s1 to NTT domain */
+    poly_ntt(&s1.vec[i]);
+  }
 
   /* Matrix-vector multiplication */
-  s1hat = s1;
-  polyvecl_ntt(&s1hat);
-  polyvec_matrix_pointwise_montgomery(&t1, mat, &s1hat);
-  polyveck_reduce(&t1);
-  polyveck_invntt_tomont(&t1);
+  for (i = 0; i < K; i++)
+  {
+    poly t;
+    {
+      poly tmp_elem;
+      /* expand part of the matrix */
+      poly_uniform(&tmp_elem, rho, (i << 8) + 0);
+      /* partial matrix-vector multiplication */
+      poly_pointwise_montgomery(&t, &tmp_elem, &s1.vec[0]);
+      for(j = 1; j < L; j++)
+      {
+        poly_uniform(&tmp_elem, rho, (i << 8) + j);
+        poly_pointwise_acc_montgomery(&t, &tmp_elem, &s1.vec[j]);
+      }
+    }
+    poly_reduce(&t);
+    poly_invntt_tomont(&t);
 
-  /* Add error vector s2 */
-  polyveck_add(&t1, &t1, &s2);
+    /* Add error vector s2 */
+    {
+      poly s2;
+      /* Sample short vector s2 */
+      poly_uniform_eta(&s2, rhoprime, nonce++);
+      pack_sk_s2(sk, &s2, i);
+      poly_add(&t, &t, &s2);
+    }
 
-  /* Extract t1 and write public key */
-  polyveck_caddq(&t1);
-  polyveck_power2round(&t1, &t0, &t1);
-  pack_pk(pk, rho, &t1);
+    /* Compute t{0,1} */
+    {
+      poly t1, t0;
+      poly_caddq(&t);
+      poly_power2round(&t1, &t0, &t);
+      pack_sk_t0(sk, &t0, i);
+      pack_pk_t1(pk, &t1, i);
+    }
+  }
 
   /* Compute H(rho, t1) and write secret key */
   shake256(tr, SEEDBYTES, pk, CRYPTO_PUBLICKEYBYTES);
-  pack_sk(sk, rho, tr, key, &t0, &s1, &s2);
+  pack_sk_tr(sk, tr);
 
   return 0;
 }
+
 
 /*************************************************
 * Name:        crypto_sign_signature
@@ -85,18 +119,24 @@ int crypto_sign_signature(uint8_t *sig,
   uint8_t seedbuf[3*SEEDBYTES + 2*CRHBYTES];
   uint8_t *rho, *tr, *key, *mu, *rhoprime;
   uint16_t nonce = 0;
-  polyvecl mat[K], s1, y, z;
-  polyveck t0, s2, w1, w0;
+  polyvecl mat[K], y, z;
+  polyveck t0, w1, w0;
   poly cp;
   shake256incctx state;
+
+  smallpoly s1_prime[L];
+  smallpoly s2_prime[K];
+  smallpoly cp_small;
+  smallhalfpoly cp_small_prime;
 
   rho = seedbuf;
   tr = rho + SEEDBYTES;
   key = tr + SEEDBYTES;
   mu = key + SEEDBYTES;
   rhoprime = mu + CRHBYTES;
-  unpack_sk(rho, tr, key, &t0, &s1, &s2, sk);
-
+  printf("sign: before unpack_sk");
+  unpack_sk(rho, tr, key, &t0, s1_prime, s2_prime, sk);
+  printf("sign: after unpack_sk");
   /* Compute CRH(tr, msg) */
   shake256_inc_init(&state);
   shake256_inc_absorb(&state, tr, SEEDBYTES);
@@ -111,11 +151,13 @@ int crypto_sign_signature(uint8_t *sig,
 #endif
 
   /* Expand matrix and transform vectors */
+  printf("sign: before polyvecl_small_ntt");
   polyvec_matrix_expand(mat, rho);
-  polyvecl_ntt(&s1);
-  polyveck_ntt(&s2);
-  polyveck_ntt(&t0);
+  polyvecl_small_ntt(s1_prime);
+  polyveck_small_ntt(s2_prime);
 
+  polyveck_ntt(&t0);
+  printf("sign: before rej");
 rej:
   /* Sample intermediate vector y */
   polyvecl_uniform_gamma1(&y, rhoprime, nonce++);
@@ -138,48 +180,50 @@ rej:
   shake256_inc_finalize(&state);
   shake256_inc_squeeze(sig, SEEDBYTES, &state);
   poly_challenge(&cp, sig);
+  
+  poly_small_ntt_precomp(&cp_small, &cp_small_prime, &cp);
   poly_ntt(&cp);
 
   /* Compute z, reject if it reveals secret */
-  polyvecl_pointwise_poly_montgomery(&z, &cp, &s1);
-  polyvecl_invntt_tomont(&z);
+  polyvecl_small_basemul_invntt(&z, &cp_small, &cp_small_prime, s1_prime);
+
   polyvecl_add(&z, &z, &y);
   polyvecl_reduce(&z);
   if(polyvecl_chknorm(&z, GAMMA1 - BETA))
     goto rej;
 
-  /* Check that subtracting cs2 does not change high bits of w and low bits
-   * do not reveal secret information */
-  unsigned int hint_n = 0;
-  unsigned int hints_written = 0;
 
   /* Write signature */
   pack_sig_z(sig, &z);
+  unsigned int hint_n = 0;
+  unsigned int hints_written = 0;
+  /* Check that subtracting cs2 does not change high bits of w and low bits
+   * do not reveal secret information */
   for(unsigned int i = 0; i < K; ++i) {
-    poly tmp;
-    poly_pointwise_montgomery(&tmp, &cp, &s2.vec[i]);
-    poly_invntt_tomont(&tmp);
-    poly_sub(&w0.vec[i], &w0.vec[i], &tmp);
+    poly *tmp = &z.vec[0];
+    poly_small_basemul_invntt(tmp, &cp_small, &cp_small_prime, &s2_prime[i]);
+
+    poly_sub(&w0.vec[i], &w0.vec[i], tmp);
     poly_reduce(&w0.vec[i]);
     if(poly_chknorm(&w0.vec[i], GAMMA2 - BETA))
       goto rej;
 
     /* Compute hints for w1 */
-    poly_pointwise_montgomery(&tmp, &cp, &t0.vec[i]);
+    poly_pointwise_montgomery(tmp, &cp, &t0.vec[i]);
 
-    poly_invntt_tomont(&tmp);
-    poly_reduce(&tmp);
-    if(poly_chknorm(&tmp, GAMMA2))
+    poly_invntt_tomont(tmp);
+    poly_reduce(tmp);
+
+    if(poly_chknorm(tmp, GAMMA2))
       goto rej;
-    poly_add(&w0.vec[i], &w0.vec[i], &tmp);
-    hint_n += poly_make_hint(&tmp, &w0.vec[i], &w1.vec[i]);
+    poly_add(&w0.vec[i], &w0.vec[i], tmp);
+    hint_n += poly_make_hint(tmp, &w0.vec[i], &w1.vec[i]);
     if (hint_n > OMEGA) {
       goto rej;
     }
-    pack_sig_h(sig, &tmp, i, &hints_written);
+    pack_sig_h(sig, tmp, i, &hints_written);
   }
   pack_sig_h_zero(sig, &hints_written);
-
   *siglen = CRYPTO_BYTES;
   return 0;
 }
@@ -207,7 +251,6 @@ int crypto_sign(uint8_t *sm,
                 const uint8_t *sk)
 {
   size_t i;
-
   for(i = 0; i < mlen; ++i)
     sm[CRYPTO_BYTES + mlen - 1 - i] = m[mlen - 1 - i];
   crypto_sign_signature(sm, smlen, sm + CRYPTO_BYTES, mlen, sk);

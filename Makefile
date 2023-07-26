@@ -16,7 +16,7 @@ ARCH_FLAGS  = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -flto
 
 
 ifndef CRYPTO_ITERATIONS
-CRYPTO_ITERATIONS=1
+CRYPTO_ITERATIONS=10
 endif
 
 DEFINES     = -DSTM32F4 -DCRYPTO_ITERATIONS=$(CRYPTO_ITERATIONS)

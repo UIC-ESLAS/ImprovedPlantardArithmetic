@@ -39,11 +39,8 @@ int main(void){
 
     hal_setup(CLOCK_BENCHMARK);
 
-    for(i = 0; i < 60; i++){
-        hal_send_str("==========================");
-    }
-    // printcycles("secret key addr:", sk);
-    // printcycles("public key addr:", pk);
+    hal_send_str("==========================");
+
     for(crypto_i = 0; crypto_i < CRYPTO_ITERATIONS; crypto_i++){
 
         // Key-pair generation

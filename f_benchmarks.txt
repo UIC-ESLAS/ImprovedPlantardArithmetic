@@ -1,80 +1,374 @@
-% Benchmarking measurements written on 2022-10-16 10:59:56.190257+00:00; iterations=100, nohash=True
+
+% Benchmarking measurements written on 2023-07-26 08:02:03.941069+00:00; iterations=100, nohash=False
 
 %M4 results for crypto_kem_kyber512_old (scheme_type=kem)
-\DefineVar{crypto_kem_kyber512_old_MatrixVectorMulMataccNoHash}{61\,712}
-\DefineVar{crypto_kem_kyber512_old_InnerProdEnc}{10\,962}
-\DefineVar{crypto_kem_kyber512_old_InnerProdDec}{29\,048}
-\DefineVar{crypto_kem_kyber512_old_NTT}{5\,441}
-\DefineVar{crypto_kem_kyber512_old_iNTT}{5\,775}
-\DefineVar{crypto_kem_kyber512_old_doublebasemulasm}{86}
-\DefineVar{crypto_kem_kyber512_old_doublebasemulasmacc}{89}
-\DefineVar{crypto_kem_kyber512_oldpolybasemul}{2\,421}
-\DefineVar{crypto_kem_kyber512_oldpolybasemulacc}{2\,805}
+\DefineVar{crypto_kem_kyber512_old_MatrixVectorMulMataccHash}{219\,006}
+\DefineVar{crypto_kem_kyber512_old_InnerProdEnc}{10\,961}
+\DefineVar{crypto_kem_kyber512_old_InnerProdDec}{29\,049}
+\DefineVar{crypto_kem_kyber512_old_NTT}{5\,439}
+\DefineVar{crypto_kem_kyber512_old_iNTT}{5\,777}
+\DefineVar{crypto_kem_kyber512_old_doublebasemulasm}{83}
+\DefineVar{crypto_kem_kyber512_old_doublebasemulasmacc}{92}
+\DefineVar{crypto_kem_kyber512_oldpolybasemul}{2\,420}
+\DefineVar{crypto_kem_kyber512_oldpolybasemulacc}{2\,806}
 
-%M4 results for crypto_kem_kyber512_newstack (scheme_type=kem)
-\DefineVar{crypto_kem_kyber512_newstack_MatrixVectorMulMataccNoHash}{50\,737}
-\DefineVar{crypto_kem_kyber512_newstack_InnerProdEnc}{9\,821}
-\DefineVar{crypto_kem_kyber512_newstack_InnerProdDec}{19\,878}
-\DefineVar{crypto_kem_kyber512_newstack_NTT}{4\,474}
-\DefineVar{crypto_kem_kyber512_newstack_iNTT}{4\,636}
-\DefineVar{crypto_kem_kyber512_newstack_doublebasemulasm_s}{88}
-\DefineVar{crypto_kem_kyber512_newstack_doublebasemulasmacc_s}{93}
-\DefineVar{crypto_kem_kyber512_newstackpolybasemul}{2\,423}
-\DefineVar{crypto_kem_kyber512_newstackpolybasemulacc}{2\,807}
+%M4 results for crypto_kem_kyber512_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fstack_MatrixVectorMulMataccHash}{205\,995}
+\DefineVar{crypto_kem_kyber512_m4fstack_InnerProdEnc}{9\,819}
+\DefineVar{crypto_kem_kyber512_m4fstack_InnerProdDec}{19\,852}
+\DefineVar{crypto_kem_kyber512_m4fstack_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber512_m4fstack_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber512_m4fstack_doublebasemulasm_s}{89}
+\DefineVar{crypto_kem_kyber512_m4fstack_doublebasemulasmacc_s}{96}
+\DefineVar{crypto_kem_kyber512_m4fstackpolybasemul}{2\,420}
+\DefineVar{crypto_kem_kyber512_m4fstackpolybasemulacc}{2\,806}
+
+% Benchmarking measurements written on 2023-07-26 08:06:40.360727+00:00; iterations=100, nohash=False
+
+%M4 results for crypto_kem_kyber512_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeed_MatrixVectorMulMataccHash}{206\,171}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdEnc}{7\,902}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdDec}{19\,598}
+\DefineVar{crypto_kem_kyber512_m4fspeed_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber512_m4fspeed_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmcache1632}{95}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3232}{106}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulopt1632}{1\,201}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3232}{1\,584}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3216}{2\,105}
 
 %M4 results for crypto_kem_kyber768_old (scheme_type=kem)
-\DefineVar{crypto_kem_kyber768_old_MatrixVectorMulMataccNoHash}{121\,021}
+\DefineVar{crypto_kem_kyber768_old_MatrixVectorMulMataccHash}{479\,614}
 \DefineVar{crypto_kem_kyber768_old_InnerProdEnc}{13\,747}
-\DefineVar{crypto_kem_kyber768_old_InnerProdDec}{41\,046}
-\DefineVar{crypto_kem_kyber768_old_NTT}{5\,439}
-\DefineVar{crypto_kem_kyber768_old_iNTT}{5\,777}
-\DefineVar{crypto_kem_kyber768_old_doublebasemulasm}{83}
-\DefineVar{crypto_kem_kyber768_old_doublebasemulasmacc}{92}
-\DefineVar{crypto_kem_kyber768_oldpolybasemul}{2\,420}
-\DefineVar{crypto_kem_kyber768_oldpolybasemulacc}{2\,806}
+\DefineVar{crypto_kem_kyber768_old_InnerProdDec}{41\,044}
+\DefineVar{crypto_kem_kyber768_old_NTT}{5\,441}
+\DefineVar{crypto_kem_kyber768_old_iNTT}{5\,775}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasm}{86}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasmacc}{89}
+\DefineVar{crypto_kem_kyber768_oldpolybasemul}{2\,422}
+\DefineVar{crypto_kem_kyber768_oldpolybasemulacc}{2\,804}
 
-%M4 results for crypto_kem_kyber768_newstack (scheme_type=kem)
-\DefineVar{crypto_kem_kyber768_newstack_MatrixVectorMulMataccNoHash}{101\,508}
-\DefineVar{crypto_kem_kyber768_newstack_InnerProdEnc}{12\,789}
-\DefineVar{crypto_kem_kyber768_newstack_InnerProdDec}{27\,874}
-\DefineVar{crypto_kem_kyber768_newstack_NTT}{4\,475}
-\DefineVar{crypto_kem_kyber768_newstack_iNTT}{4\,819}
-\DefineVar{crypto_kem_kyber768_newstack_doublebasemulasm_s}{89}
-\DefineVar{crypto_kem_kyber768_newstack_doublebasemulasmacc_s}{93}
-\DefineVar{crypto_kem_kyber768_newstackpolybasemul}{2\,423}
-\DefineVar{crypto_kem_kyber768_newstackpolybasemulacc}{2\,807}
+%M4 results for crypto_kem_kyber768_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_m4fstack_MatrixVectorMulMataccHash}{451\,654}
+\DefineVar{crypto_kem_kyber768_m4fstack_InnerProdEnc}{12\,772}
+\DefineVar{crypto_kem_kyber768_m4fstack_InnerProdDec}{27\,817}
+\DefineVar{crypto_kem_kyber768_m4fstack_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber768_m4fstack_iNTT}{4\,800}
+\DefineVar{crypto_kem_kyber768_m4fstack_doublebasemulasm_s}{90}
+\DefineVar{crypto_kem_kyber768_m4fstack_doublebasemulasmacc_s}{96}
+\DefineVar{crypto_kem_kyber768_m4fstackpolybasemul}{2\,420}
+\DefineVar{crypto_kem_kyber768_m4fstackpolybasemulacc}{2\,804}
+
+%M4 results for crypto_kem_kyber768_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_m4fspeed_MatrixVectorMulMataccHash}{449\,606}
+\DefineVar{crypto_kem_kyber768_m4fspeed_InnerProdEnc}{9\,471}
+\DefineVar{crypto_kem_kyber768_m4fspeed_InnerProdDec}{27\,143}
+\DefineVar{crypto_kem_kyber768_m4fspeed_NTT}{4\,458}
+\DefineVar{crypto_kem_kyber768_m4fspeed_iNTT}{4\,633}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmcache1632}{94}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmacccache3232}{104}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulopt1632}{1\,203}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulaccopt3232}{1\,586}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulaccopt3216}{2\,107}
 
 %M4 results for crypto_kem_kyber1024_old (scheme_type=kem)
-\DefineVar{crypto_kem_kyber1024_old_MatrixVectorMulMataccNoHash}{199\,751}
+\DefineVar{crypto_kem_kyber1024_old_MatrixVectorMulMataccHash}{837\,616}
 \DefineVar{crypto_kem_kyber1024_old_InnerProdEnc}{16\,541}
-\DefineVar{crypto_kem_kyber1024_old_InnerProdDec}{53\,053}
-\DefineVar{crypto_kem_kyber1024_old_NTT}{5\,439}
-\DefineVar{crypto_kem_kyber1024_old_iNTT}{5\,777}
-\DefineVar{crypto_kem_kyber1024_old_doublebasemulasm}{83}
-\DefineVar{crypto_kem_kyber1024_old_doublebasemulasmacc}{92}
-\DefineVar{crypto_kem_kyber1024_oldpolybasemul}{2\,420}
-\DefineVar{crypto_kem_kyber1024_oldpolybasemulacc}{2\,806}
+\DefineVar{crypto_kem_kyber1024_old_InnerProdDec}{53\,046}
+\DefineVar{crypto_kem_kyber1024_old_NTT}{5\,441}
+\DefineVar{crypto_kem_kyber1024_old_iNTT}{5\,775}
+\DefineVar{crypto_kem_kyber1024_old_doublebasemulasm}{86}
+\DefineVar{crypto_kem_kyber1024_old_doublebasemulasmacc}{91}
+\DefineVar{crypto_kem_kyber1024_oldpolybasemul}{2\,422}
+\DefineVar{crypto_kem_kyber1024_oldpolybasemulacc}{2\,804}
 
-%M4 results for crypto_kem_kyber1024_newstack (scheme_type=kem)
-\DefineVar{crypto_kem_kyber1024_newstack_MatrixVectorMulMataccNoHash}{168\,851}
-\DefineVar{crypto_kem_kyber1024_newstack_InnerProdEnc}{15\,619}
-\DefineVar{crypto_kem_kyber1024_newstack_InnerProdDec}{35\,734}
-\DefineVar{crypto_kem_kyber1024_newstack_NTT}{4\,472}
-\DefineVar{crypto_kem_kyber1024_newstack_iNTT}{4\,854}
-\DefineVar{crypto_kem_kyber1024_newstack_doublebasemulasm_s}{85}
-\DefineVar{crypto_kem_kyber1024_newstack_doublebasemulasmacc_s}{90}
-\DefineVar{crypto_kem_kyber1024_newstackpolybasemul}{2\,422}
-\DefineVar{crypto_kem_kyber1024_newstackpolybasemulacc}{2\,804}
+%M4 results for crypto_kem_kyber1024_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fstack_MatrixVectorMulMataccHash}{790\,633}
+\DefineVar{crypto_kem_kyber1024_m4fstack_InnerProdEnc}{15\,565}
+\DefineVar{crypto_kem_kyber1024_m4fstack_InnerProdDec}{35\,623}
+\DefineVar{crypto_kem_kyber1024_m4fstack_NTT}{4\,458}
+\DefineVar{crypto_kem_kyber1024_m4fstack_iNTT}{4\,802}
+\DefineVar{crypto_kem_kyber1024_m4fstack_doublebasemulasm_s}{89}
+\DefineVar{crypto_kem_kyber1024_m4fstack_doublebasemulasmacc_s}{96}
+\DefineVar{crypto_kem_kyber1024_m4fstackpolybasemul}{2\,422}
+\DefineVar{crypto_kem_kyber1024_m4fstackpolybasemulacc}{2\,806}
 
-%M4 results for crypto_kem_nttru (scheme_type=kem)
-\DefineVar{crypto_kem_nttru_NTT}{17\,274}
-\DefineVar{crypto_kem_nttru_iNTT}{20\,931}
-\DefineVar{crypto_kem_nttrupolybasemul}{10\,550}
-\DefineVar{crypto_kem_nttrupolybaseinv}{40\,763}
+%M4 results for crypto_kem_kyber1024_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fspeed_MatrixVectorMulMataccHash}{787\,085}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_InnerProdEnc}{11\,038}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_InnerProdDec}{34\,689}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmcache1632}{94}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmacccache3232}{104}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulopt1632}{1\,201}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulaccopt3232}{1\,586}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulaccopt3216}{2\,105}
 
-% Benchmarking measurements written on 2022-10-16 11:00:59.777471+00:00; iterations=100, nohash=True
+% Benchmarking measurements written on 2023-07-26 08:09:09.101599+00:00; iterations=100, nohash=False
 
-% Benchmarking measurements written on 2022-10-16 11:01:13.703368+00:00; iterations=100, nohash=True
+%M4 results for crypto_kem_kyber512_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeed_MatrixVectorMulMataccHash}{206\,260}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdEnc}{7\,902}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdDec}{19\,598}
+\DefineVar{crypto_kem_kyber512_m4fspeed_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber512_m4fspeed_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmcache1632}{95}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3232}{106}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulopt1632}{1\,201}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3232}{1\,584}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3216}{2\,105}
 
-% Benchmarking measurements written on 2022-10-16 11:01:24.577476+00:00; iterations=100, nohash=True
+% Benchmarking measurements written on 2023-07-26 08:20:20.194045+00:00; iterations=100, nohash=False
+
+%M4 results for crypto_kem_kyber512_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeed_MatrixVectorMulMataccHash}{206\,839}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdEnc}{7\,902}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdDec}{19\,598}
+\DefineVar{crypto_kem_kyber512_m4fspeed_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber512_m4fspeed_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmcache1632}{94}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3232}{105}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulopt1632}{1\,200}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3232}{1\,585}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3216}{2\,105}
+
+%M4 results for crypto_kem_kyber768_old (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_old_MatrixVectorMulMataccHash}{479\,586}
+\DefineVar{crypto_kem_kyber768_old_InnerProdEnc}{13\,747}
+\DefineVar{crypto_kem_kyber768_old_InnerProdDec}{41\,044}
+\DefineVar{crypto_kem_kyber768_old_NTT}{5\,441}
+\DefineVar{crypto_kem_kyber768_old_iNTT}{5\,775}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasm}{86}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasmacc}{89}
+\DefineVar{crypto_kem_kyber768_oldpolybasemul}{2\,422}
+\DefineVar{crypto_kem_kyber768_oldpolybasemulacc}{2\,804}
+
+%M4 results for crypto_kem_kyber768_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_m4fstack_MatrixVectorMulMataccHash}{451\,112}
+\DefineVar{crypto_kem_kyber768_m4fstack_InnerProdEnc}{12\,772}
+\DefineVar{crypto_kem_kyber768_m4fstack_InnerProdDec}{27\,817}
+\DefineVar{crypto_kem_kyber768_m4fstack_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber768_m4fstack_iNTT}{4\,800}
+\DefineVar{crypto_kem_kyber768_m4fstack_doublebasemulasm_s}{90}
+\DefineVar{crypto_kem_kyber768_m4fstack_doublebasemulasmacc_s}{96}
+\DefineVar{crypto_kem_kyber768_m4fstackpolybasemul}{2\,420}
+\DefineVar{crypto_kem_kyber768_m4fstackpolybasemulacc}{2\,804}
+
+%M4 results for crypto_kem_kyber768_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_m4fspeed_MatrixVectorMulMataccHash}{449\,889}
+\DefineVar{crypto_kem_kyber768_m4fspeed_InnerProdEnc}{9\,467}
+\DefineVar{crypto_kem_kyber768_m4fspeed_InnerProdDec}{27\,142}
+\DefineVar{crypto_kem_kyber768_m4fspeed_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber768_m4fspeed_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmcache1632}{94}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmacccache3232}{104}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulopt1632}{1\,200}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulaccopt3232}{1\,585}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulaccopt3216}{2\,105}
+
+%M4 results for crypto_kem_kyber1024_old (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_old_MatrixVectorMulMataccHash}{837\,900}
+\DefineVar{crypto_kem_kyber1024_old_InnerProdEnc}{16\,541}
+\DefineVar{crypto_kem_kyber1024_old_InnerProdDec}{53\,046}
+\DefineVar{crypto_kem_kyber1024_old_NTT}{5\,441}
+\DefineVar{crypto_kem_kyber1024_old_iNTT}{5\,775}
+\DefineVar{crypto_kem_kyber1024_old_doublebasemulasm}{86}
+\DefineVar{crypto_kem_kyber1024_old_doublebasemulasmacc}{91}
+\DefineVar{crypto_kem_kyber1024_oldpolybasemul}{2\,422}
+\DefineVar{crypto_kem_kyber1024_oldpolybasemulacc}{2\,804}
+
+%M4 results for crypto_kem_kyber1024_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fstack_MatrixVectorMulMataccHash}{791\,073}
+\DefineVar{crypto_kem_kyber1024_m4fstack_InnerProdEnc}{15\,565}
+\DefineVar{crypto_kem_kyber1024_m4fstack_InnerProdDec}{35\,623}
+\DefineVar{crypto_kem_kyber1024_m4fstack_NTT}{4\,458}
+\DefineVar{crypto_kem_kyber1024_m4fstack_iNTT}{4\,802}
+\DefineVar{crypto_kem_kyber1024_m4fstack_doublebasemulasm_s}{89}
+\DefineVar{crypto_kem_kyber1024_m4fstack_doublebasemulasmacc_s}{96}
+\DefineVar{crypto_kem_kyber1024_m4fstackpolybasemul}{2\,422}
+\DefineVar{crypto_kem_kyber1024_m4fstackpolybasemulacc}{2\,806}
+
+%M4 results for crypto_kem_kyber1024_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fspeed_MatrixVectorMulMataccHash}{788\,350}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_InnerProdEnc}{11\,038}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_InnerProdDec}{34\,692}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_NTT}{4\,456}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_iNTT}{4\,635}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmcache1632}{94}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmacccache3232}{104}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmacccache3216}{115}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmopt1632}{84}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmaccopt3232}{83}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmaccopt3216}{98}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulopt1632}{1\,201}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulaccopt3232}{1\,586}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulaccopt3216}{2\,105}
+
+% Benchmarking measurements written on 2023-07-26 08:25:29.593298+00:00; iterations=1, nohash=False
+
+% Benchmarking measurements written on 2023-07-26 08:40:18.226736+00:00; iterations=1, nohash=False
+
+%M4 results for crypto_kem_kyber512_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeed_MatrixVectorMulMataccHash}{205\,855}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdEnc}{7\,922}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdDec}{19\,618}
+\DefineVar{crypto_kem_kyber512_m4fspeed_NTT}{4\,481}
+\DefineVar{crypto_kem_kyber512_m4fspeed_iNTT}{4\,659}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmcache1632}{116}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3232}{124}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3216}{136}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmopt1632}{106}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3232}{104}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3216}{121}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulopt1632}{1\,225}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3232}{1\,610}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3216}{2\,131}
+
+% Benchmarking measurements written on 2023-07-26 08:40:45.960905+00:00; iterations=1, nohash=False
+
+%M4 results for crypto_kem_kyber512_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeed_MatrixVectorMulMataccHash}{206\,080}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdEnc}{7\,922}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdDec}{19\,618}
+\DefineVar{crypto_kem_kyber512_m4fspeed_NTT}{4\,481}
+\DefineVar{crypto_kem_kyber512_m4fspeed_iNTT}{4\,659}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmcache1632}{116}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3232}{124}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3216}{136}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmopt1632}{106}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3232}{104}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3216}{121}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulopt1632}{1\,225}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3232}{1\,610}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3216}{2\,131}
+
+%M4 results for crypto_kem_kyber768_old (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_old_MatrixVectorMulMataccHash}{470\,227}
+\DefineVar{crypto_kem_kyber768_old_InnerProdEnc}{13\,771}
+\DefineVar{crypto_kem_kyber768_old_InnerProdDec}{41\,068}
+\DefineVar{crypto_kem_kyber768_old_NTT}{5\,465}
+\DefineVar{crypto_kem_kyber768_old_iNTT}{5\,800}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasm}{109}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasmacc}{114}
+\DefineVar{crypto_kem_kyber768_oldpolybasemul}{2\,446}
+\DefineVar{crypto_kem_kyber768_oldpolybasemulacc}{2\,829}
+
+% Benchmarking measurements written on 2023-07-26 08:42:40.386896+00:00; iterations=1, nohash=False
+
+%M4 results for crypto_kem_kyber512_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeed_MatrixVectorMulMataccHash}{205\,738}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdEnc}{7\,922}
+\DefineVar{crypto_kem_kyber512_m4fspeed_InnerProdDec}{19\,618}
+\DefineVar{crypto_kem_kyber512_m4fspeed_NTT}{4\,481}
+\DefineVar{crypto_kem_kyber512_m4fspeed_iNTT}{4\,659}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmcache1632}{116}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3232}{124}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmacccache3216}{136}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmopt1632}{106}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3232}{104}
+\DefineVar{crypto_kem_kyber512_m4fspeed_doublebasemulasmaccopt3216}{121}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulopt1632}{1\,225}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3232}{1\,610}
+\DefineVar{crypto_kem_kyber512_m4fspeedpolybasemulaccopt3216}{2\,131}
+
+%M4 results for crypto_kem_kyber768_old (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_old_MatrixVectorMulMataccHash}{469\,847}
+\DefineVar{crypto_kem_kyber768_old_InnerProdEnc}{13\,771}
+\DefineVar{crypto_kem_kyber768_old_InnerProdDec}{41\,068}
+\DefineVar{crypto_kem_kyber768_old_NTT}{5\,465}
+\DefineVar{crypto_kem_kyber768_old_iNTT}{5\,800}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasm}{109}
+\DefineVar{crypto_kem_kyber768_old_doublebasemulasmacc}{114}
+\DefineVar{crypto_kem_kyber768_oldpolybasemul}{2\,446}
+\DefineVar{crypto_kem_kyber768_oldpolybasemulacc}{2\,829}
+
+%M4 results for crypto_kem_kyber768_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_m4fstack_MatrixVectorMulMataccHash}{450\,422}
+\DefineVar{crypto_kem_kyber768_m4fstack_InnerProdEnc}{12\,797}
+\DefineVar{crypto_kem_kyber768_m4fstack_InnerProdDec}{27\,839}
+\DefineVar{crypto_kem_kyber768_m4fstack_NTT}{4\,481}
+\DefineVar{crypto_kem_kyber768_m4fstack_iNTT}{4\,826}
+\DefineVar{crypto_kem_kyber768_m4fstack_doublebasemulasm_s}{110}
+\DefineVar{crypto_kem_kyber768_m4fstack_doublebasemulasmacc_s}{115}
+\DefineVar{crypto_kem_kyber768_m4fstackpolybasemul}{2\,445}
+\DefineVar{crypto_kem_kyber768_m4fstackpolybasemulacc}{2\,830}
+
+%M4 results for crypto_kem_kyber768_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber768_m4fspeed_MatrixVectorMulMataccHash}{448\,984}
+\DefineVar{crypto_kem_kyber768_m4fspeed_InnerProdEnc}{9\,489}
+\DefineVar{crypto_kem_kyber768_m4fspeed_InnerProdDec}{27\,167}
+\DefineVar{crypto_kem_kyber768_m4fspeed_NTT}{4\,482}
+\DefineVar{crypto_kem_kyber768_m4fspeed_iNTT}{4\,658}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmcache1632}{115}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmacccache3232}{123}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmacccache3216}{135}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmopt1632}{105}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmaccopt3232}{103}
+\DefineVar{crypto_kem_kyber768_m4fspeed_doublebasemulasmaccopt3216}{120}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulopt1632}{1\,226}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulaccopt3232}{1\,610}
+\DefineVar{crypto_kem_kyber768_m4fspeedpolybasemulaccopt3216}{2\,130}
+
+%M4 results for crypto_kem_kyber1024_old (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_old_MatrixVectorMulMataccHash}{819\,983}
+\DefineVar{crypto_kem_kyber1024_old_InnerProdEnc}{16\,562}
+\DefineVar{crypto_kem_kyber1024_old_InnerProdDec}{53\,070}
+\DefineVar{crypto_kem_kyber1024_old_NTT}{5\,465}
+\DefineVar{crypto_kem_kyber1024_old_iNTT}{5\,800}
+\DefineVar{crypto_kem_kyber1024_old_doublebasemulasm}{109}
+\DefineVar{crypto_kem_kyber1024_old_doublebasemulasmacc}{114}
+\DefineVar{crypto_kem_kyber1024_oldpolybasemul}{2\,446}
+\DefineVar{crypto_kem_kyber1024_oldpolybasemulacc}{2\,829}
+
+%M4 results for crypto_kem_kyber1024_m4fstack (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fstack_MatrixVectorMulMataccHash}{788\,861}
+\DefineVar{crypto_kem_kyber1024_m4fstack_InnerProdEnc}{15\,588}
+\DefineVar{crypto_kem_kyber1024_m4fstack_InnerProdDec}{35\,640}
+\DefineVar{crypto_kem_kyber1024_m4fstack_NTT}{4\,481}
+\DefineVar{crypto_kem_kyber1024_m4fstack_iNTT}{4\,826}
+\DefineVar{crypto_kem_kyber1024_m4fstack_doublebasemulasm_s}{110}
+\DefineVar{crypto_kem_kyber1024_m4fstack_doublebasemulasmacc_s}{115}
+\DefineVar{crypto_kem_kyber1024_m4fstackpolybasemul}{2\,445}
+\DefineVar{crypto_kem_kyber1024_m4fstackpolybasemulacc}{2\,830}
+
+%M4 results for crypto_kem_kyber1024_m4fspeed (scheme_type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fspeed_MatrixVectorMulMataccHash}{785\,133}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_InnerProdEnc}{11\,056}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_InnerProdDec}{34\,713}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_NTT}{4\,481}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_iNTT}{4\,659}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmcache1632}{116}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmacccache3232}{124}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmacccache3216}{136}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmopt1632}{106}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmaccopt3232}{104}
+\DefineVar{crypto_kem_kyber1024_m4fspeed_doublebasemulasmaccopt3216}{121}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulopt1632}{1\,226}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulaccopt3232}{1\,609}
+\DefineVar{crypto_kem_kyber1024_m4fspeedpolybasemulaccopt3216}{2\,130}
 

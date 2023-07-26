@@ -176,7 +176,7 @@ int main(void)
 
     int i;
     // marker for automated testing
-    for (i = 0; i < 30; i++)
+    for (i = 0; i < 1; i++)
     {
         hal_send_str("==========================");
     }

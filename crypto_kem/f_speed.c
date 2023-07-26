@@ -2,33 +2,43 @@
 #include "hal.h"
 #include "randombytes.h"
 #include "sendfn.h"
+
 #include <stdint.h>
 #include <string.h>
+
 #include "params.h"
+#include "symmetric.h"
+#include "indcpa.h"
 #include "poly.h"
+#include "polyvec.h"
 #include "ntt.h"
 #include "implvariant.h"
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
-#ifndef nttru
-#include "symmetric.h"
-#include "indcpa.h"
-#include "polyvec.h"
-#endif
 
-#ifdef optstack
+
+#ifdef opt
+#include "matacc.h"
+extern void basemul_asm_opt(int16_t *, const int16_t *, const int16_t *, const int16_t *);
+extern void basemul_asm_acc_opt(int16_t *, const int16_t *, const int16_t *, const int16_t *);
+extern void doublebasemul_asm_cache_16_32_wrapper(int16_t *);
+extern void doublebasemul_asm_acc_cache_32_32_wrapper(int16_t *);
+extern void doublebasemul_asm_acc_cache_32_16_wrapper(int16_t *);
+extern void doublebasemul_asm_opt_16_32_wrapper(int16_t *);
+extern void doublebasemul_asm_acc_opt_32_32_wrapper(int16_t *);
+extern void doublebasemul_asm_acc_opt_32_16_wrapper(int16_t *);
+
+#elif defined(optstack)
 #include "matacc.h"
 extern void doublebasemul_asm_wrapper(int16_t *);
 extern void doublebasemul_asm_acc_wrapper(int16_t *);
 #else
-extern void doublebasemul_asm(int16_t *r, const int16_t *a, const int16_t *b, int32_t zeta);
-extern void doublebasemul_asm_acc(int16_t *r, const int16_t *a, const int16_t *b, int32_t zeta);
+extern void doublebasemul_asm(int16_t *r, const int16_t *a, const int16_t *b, int16_t zeta);
+extern void doublebasemul_asm_acc(int16_t *r, const int16_t *a, const int16_t *b, int16_t zeta);
 #endif
 
 #define printcycles(S, U) send_unsignedll((S), (U))
-
-#ifndef nttru
 static inline __attribute__((always_inline)) void absorb_squeeze(int transposed, xof_state *state, unsigned char buf[XOF_BLOCKBYTES + 2], const unsigned char *seed, int i, int j)
 {
 #ifndef nohash
@@ -39,24 +49,14 @@ static inline __attribute__((always_inline)) void absorb_squeeze(int transposed,
 
   xof_squeezeblocks(buf, 1, state);
 #endif
-  #define UNUSED(x) (void)(x)
-  UNUSED(transposed);
-  UNUSED(state);
-  UNUSED(buf);
-  UNUSED(seed);
-  UNUSED(i);
-  UNUSED(j);
 }
-#endif
-
-
 int main(void)
 {
 
   hal_setup(CLOCK_BENCHMARK);
-#ifndef nttru
+  int32_t dummy32_a[KYBER_N], dummy32_b[KYBER_N];
   int16_t dummy16_a[KYBER_N], dummy16_b[KYBER_N], dummy16_c[KYBER_N];
-  poly dummypoly_a, dummypoly_b, dummypoly_c;
+  poly dummypoly_a, dummypoly_b, dummypoly_c, dummypoly_d;
   int16_t c[4];
   unsigned long long t0, t1;
   int i, j;
@@ -65,19 +65,12 @@ int main(void)
   randombytes(buf, 2 * KYBER_SYMBYTES);
   unsigned char buf_matacc[XOF_BLOCKBYTES + 2];
   xof_state state;
-#else
-  poly dummypoly_a, dummypoly_b, dummypoly_c;
-  unsigned long long t0, t1;
-  int i;
-  int crypto_i;
-#endif
 
-  for (i = 0; i < 60; i++)
+  for (i = 0; i < 1; i++)
   {
     hal_send_str("==========================");
   }
 
-#ifndef nttru
   for (crypto_i = 0; crypto_i < CRYPTO_ITERATIONS; crypto_i++)
   {
     // make sure buffers contain random data so benchmarks will average
@@ -88,7 +81,37 @@ int main(void)
     // ### matrix-vector product ###
     t0 = hal_get_time();
     // ### matrix-vector product (matacc style) ###
-#ifdef optstack
+#ifdef opt
+    j = 0;
+    absorb_squeeze(0, &state, buf_matacc, buf, 0, j);
+    matacc_asm_cache_16_32(dummy32_a, dummy16_a, c, buf_matacc, zetas, &state, dummy16_b);
+    for (j = 1; j < KYBER_K - 1; j++)
+    {
+      absorb_squeeze(0, &state, buf_matacc, buf, 0, j);
+      matacc_asm_cache_32_32(dummy32_a, dummy16_a, c, buf_matacc, zetas, &state, dummy16_b);
+    }
+    absorb_squeeze(0, &state, buf_matacc, buf, 0, j);
+    matacc_asm_cache_32_16(dummy16_c, dummy16_a, c, buf_matacc, zetas, &state, dummy16_b, dummy32_a);
+
+    poly_invntt(&dummypoly_a);
+    poly_ntt(&dummypoly_a);
+
+    for (i = 1; i < KYBER_K; i++)
+    {
+      absorb_squeeze(0, &state, buf_matacc, buf, i, j);
+      matacc_asm_opt_16_32(dummy32_a, dummy16_a, c, buf_matacc, &state, dummy16_b);
+      for (j = 1; j < KYBER_K - 1; j++)
+      {
+        absorb_squeeze(0, &state, buf_matacc, buf, i, j);
+        matacc_asm_opt_32_32(dummy32_a, dummy16_a, c, buf_matacc, &state, dummy16_b);
+      }
+      absorb_squeeze(0, &state, buf_matacc, buf, i, j);
+      matacc_asm_opt_32_16(dummy16_c, dummy16_a, c, buf_matacc, &state, dummy16_b, dummy32_a);
+
+      poly_invntt(&dummypoly_a);
+      poly_ntt(&dummypoly_a);
+    }
+#elif defined(optstack)
     j = 0;
     for (i = 0; i < KYBER_K; i++)
     {
@@ -174,7 +197,16 @@ int main(void)
 #endif
     // ### inner prod (enc) ###
     t0 = hal_get_time();
-
+#ifdef opt
+    i = 0;
+    poly_basemul_opt_16_32(dummy32_a, &dummypoly_a, &dummypoly_b, &dummypoly_c);
+    for (i = 1; i < KYBER_K - 1; i++)
+    {
+      poly_basemul_acc_opt_32_32(dummy32_a, &dummypoly_b, &dummypoly_c, &dummypoly_d);
+    }
+    poly_basemul_acc_opt_32_16(&dummypoly_a, &dummypoly_b, &dummypoly_c, &dummypoly_d, dummy32_a);
+    poly_invntt(&dummypoly_a);
+#else
     i = 0;
     poly_basemul(&dummypoly_a, &dummypoly_b, &dummypoly_c);
     for (i = 1; i < KYBER_K; i++)
@@ -182,16 +214,28 @@ int main(void)
       poly_basemul_acc(&dummypoly_a, &dummypoly_b, &dummypoly_c);
     }
     poly_invntt(&dummypoly_a);
-
+#endif
     t1 = hal_get_time();
     printcycles("Inner prod cycles (enc):", t1 - t0);
 
     // ### inner prod (dec) ###
     t0 = hal_get_time();
-#ifdef optstack
+#ifdef opt
+    poly_ntt(&dummypoly_a);
+    poly_frombytes_mul_16_32(dummy32_a, dummy16_a, dummy16_b);
+    for (j = 1; j < KYBER_K - 1; j++)
+    {
+      poly_ntt(&dummypoly_a);
+      poly_frombytes_mul_32_32(dummy32_a, dummy16_a, dummy16_b);
+    }
+    poly_ntt(&dummypoly_a);
+    poly_frombytes_mul_32_16(dummy32_a, dummy16_a, dummy16_b, dummy32_a);
+
+    poly_invntt(&dummypoly_a);
+#elif defined(optstack)
     poly_ntt(&dummypoly_a);
 
-    poly_frombytes_mul(&dummypoly_a, &dummypoly_a, &dummypoly_b);
+    poly_frombytes_mul(dummy16_a, dummy16_a, dummy16_b);
     for (i = 1; i < KYBER_K; i++)
     {
       poly_ntt(&dummypoly_a);
@@ -201,11 +245,11 @@ int main(void)
     poly_invntt(&dummypoly_a);
 #else
     poly_ntt(&dummypoly_a);
-    poly_frombytes_mul(&dummypoly_a, (unsigned char*)dummy16_b);
+    poly_frombytes_mul(dummy16_a, dummy16_b);
     for (j = 1; j < KYBER_K; j++)
     {
       poly_ntt(&dummypoly_a);
-      poly_frombytes_mul(&dummypoly_a, (unsigned char *)dummy16_b);
+      poly_frombytes_mul(dummy16_a, dummy16_b);
       poly_add(&dummypoly_a, &dummypoly_b, &dummypoly_c);
     }
 
@@ -227,7 +271,54 @@ int main(void)
     printcycles("iNTT cycles:", t1 - t0);
 
     // ### basemul ###
-#ifdef optstack
+#ifdef opt
+    // basemul (on full poly)
+    t0 = hal_get_time();
+    poly_basemul_opt_16_32(dummy32_a, &dummypoly_a, &dummypoly_b, &dummypoly_c);
+    t1 = hal_get_time();
+    printcycles("poly_basemul_opt_16_32 cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    poly_basemul_acc_opt_32_32(dummy32_a, &dummypoly_b, &dummypoly_c, &dummypoly_d);
+    t1 = hal_get_time();
+    printcycles("poly_basemul_acc_opt_32_32 cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    poly_basemul_acc_opt_32_16(&dummypoly_a, &dummypoly_b, &dummypoly_c, &dummypoly_d, dummy32_a);
+    t1 = hal_get_time();
+    printcycles("poly_basemul_acc_opt_32_16 cycles:", t1 - t0);
+
+    // double basemul (on 4 coeffs)
+    t0 = hal_get_time();
+    doublebasemul_asm_cache_16_32_wrapper(dummy16_a);
+    t1 = hal_get_time();
+    printcycles("doublebasemul_asm_cache_16_32_wrapper cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    doublebasemul_asm_acc_cache_32_32_wrapper(dummy16_a);
+    t1 = hal_get_time();
+    printcycles("doublebasemul_asm_acc_cache_32_32_wrapper cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    doublebasemul_asm_acc_cache_32_16_wrapper(dummy16_a);
+    t1 = hal_get_time();
+    printcycles("doublebasemul_asm_acc_cache_32_16_wrapper cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    doublebasemul_asm_opt_16_32_wrapper(dummy16_a);
+    t1 = hal_get_time();
+    printcycles("doublebasemul_asm_opt_16_32_wrapper cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    doublebasemul_asm_acc_opt_32_32_wrapper(dummy16_a);
+    t1 = hal_get_time();
+    printcycles("doublebasemul_asm_acc_opt_32_32_wrapper cycles:", t1 - t0);
+
+    t0 = hal_get_time();
+    doublebasemul_asm_acc_opt_32_16_wrapper(dummy16_a);
+    t1 = hal_get_time();
+    printcycles("doublebasemul_asm_acc_opt_32_16_wrapper cycles:", t1 - t0);
+#elif defined(optstack)
     // basemul (on full poly)
     t0 = hal_get_time();
     poly_basemul(&dummypoly_a, &dummypoly_b, &dummypoly_c);
@@ -277,37 +368,6 @@ int main(void)
     hal_send_str("#");
   }
 
-#else
-  for (crypto_i = 0; crypto_i < CRYPTO_ITERATIONS; crypto_i++)
-  {
-
-    t0 = hal_get_time();
-    poly_ntt(&dummypoly_a);
-    t1 = hal_get_time();
-    printcycles("NTT cycles:", t1 - t0);
-
-    // ### iNTT ###
-    t0 = hal_get_time();
-    poly_invntt(&dummypoly_a);
-    t1 = hal_get_time();
-    printcycles("iNTT cycles:", t1 - t0);
-
-
-    t0 = hal_get_time();
-    poly_basemul(&dummypoly_a, &dummypoly_b, &dummypoly_c);
-    t1 = hal_get_time();
-    printcycles("poly_basemul cycles:", t1 - t0);
-
-    t0 = hal_get_time();
-    poly_baseinv(&dummypoly_a, &dummypoly_b);
-    t1 = hal_get_time();
-    printcycles("poly_baseinv cycles:", t1 - t0);
-
-    hal_send_str("OK KEYS\n");
-
-    hal_send_str("#");
-  }
-#endif
   while (1)
     ;
   return 0;

@@ -99,7 +99,6 @@ def parseLogSpeed(log, ignoreErrors):
         f"polybasemulaccopt3232":  get(lines, "poly_basemul_acc_opt_32_32 cycles:"),
         f"polybasemulaccopt3216":  get(lines, "poly_basemul_acc_opt_32_16 cycles:"),
         f"polybasemul":  get(lines, "poly_basemul cycles:"),
-        f"polybaseinv":  get(lines, "poly_baseinv cycles:"),
         f"polybasemulacc":  get(lines, "poly_basemul_acc cycles:"),
         f"Nothing":  get(lines, "Nothing cycles:"),
     })
@@ -134,8 +133,8 @@ def bench(scheme_path, scheme_name, scheme_type, iterations, outfile, nohash, ig
 
 
 with open(f"f_benchmarks.txt", "a") as outfile:
-    iterations = 100  # defines the number of measurements to perform
-    nohash = True  # defines if hashing should be disabled
+    iterations = 1  # defines the number of measurements to perform
+    nohash = False  # defines if hashing should be disabled
     now = datetime.datetime.now(datetime.timezone.utc)
     print(f"% Benchmarking measurements written on {now}; iterations={iterations}, nohash={nohash}\n", file=outfile)
 
@@ -143,13 +142,15 @@ with open(f"f_benchmarks.txt", "a") as outfile:
     
     # uncomment the scheme variants that should be build and evaluated
     for scheme_path in [
-        "crypto_kem/kyber512/old",
-        "crypto_kem/kyber512/newstack",
+        # "crypto_kem/kyber512/old",
+        # "crypto_kem/kyber512/m4fstack",
+        "crypto_kem/kyber512/m4fspeed",
         "crypto_kem/kyber768/old",
-        "crypto_kem/kyber768/newstack",
+        "crypto_kem/kyber768/m4fstack",
+        "crypto_kem/kyber768/m4fspeed",
         "crypto_kem/kyber1024/old",
-        "crypto_kem/kyber1024/newstack",
-        "crypto_kem/nttru"
+        "crypto_kem/kyber1024/m4fstack",
+        "crypto_kem/kyber1024/m4fspeed"
     ]:
         scheme_name = scheme_path.replace("/", "_")
         scheme_type = re.search('crypto_(.*?)_', scheme_name).group(1)

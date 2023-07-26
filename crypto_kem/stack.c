@@ -85,7 +85,7 @@ int main(void) {
   hal_setup(CLOCK_BENCHMARK); // using CLOCK_FAST would lead to error characters and output failure
 
   // marker for automated benchmarks
-  for(int i = 0; i < 2; i++){
+  for(int i = 0; i < 1; i++){
         hal_send_str("==========================");
     }
   canary_size = 0x1000;

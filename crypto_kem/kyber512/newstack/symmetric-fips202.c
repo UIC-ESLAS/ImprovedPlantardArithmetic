@@ -1,1 +1,0 @@
-../../kyber768/newstack/symmetric-fips202.c

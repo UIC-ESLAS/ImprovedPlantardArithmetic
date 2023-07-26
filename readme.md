@@ -26,13 +26,25 @@ The setup for testing and evaluating of our code is based on the framework provi
 - `crypto_kem`: contains the implementations for kyber512, kyber768, kyber1024, nttru
     - `kyber512`
         - `old`: Our code with the improved Plantard arithmetic based on the implementation in [ABCG20].
-        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
+        - `m4fspeed`: Our code with the improved Plantard arithmetic based on the speed-version implementation in [AHKS22]
+        - `m4fstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
+    - `kyber512-90s`
+        - `m4fspeed`: Our code with the improved Plantard arithmetic based on the speed-version implementation in [AHKS22]
+        - `m4fstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
     - `kyber768`
         - `old`: Our code with the improved Plantard arithmetic based on the implementation in [ABCG20].
-        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
+        - `m4fspeed`: Our code with the improved Plantard arithmetic based on the speed-version implementation in [AHKS22]
+        - `m4fstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
+    - `kyber768-90s`
+        - `m4fspeed`: Our code with the improved Plantard arithmetic based on the speed-version implementation in [AHKS22]
+        - `m4fstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
     - `kyber1024`
         - `old`: Our code with the improved Plantard arithmetic based on the implementation in [ABCG20].
-        - `newstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
+        - `m4fspeed`: Our code with the improved Plantard arithmetic based on the speed-version implementation in [AHKS22]
+        - `m4fstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
+    - `kyber1024-90s`
+        - `m4fspeed`: Our code with the improved Plantard arithmetic based on the speed-version implementation in [AHKS22]
+        - `m4fstack`: Our code with the improved Plantard arithmetic based on the stack-version implementation in [AHKS22]
     - `nttru`
         - Our code with the improved Plantard arithmetic based on [LS19]
     - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
@@ -58,16 +70,16 @@ In case separate, manual testing is required, the binaries for a scheme can be b
 ```
 make IMPLEMENTATION_PATH=crypto_{kem,sign}/{scheme}/{variant} bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin
 ```
-, where `firmware` is one of `{test, testvectors, speed, f_speed, stack}` and `variant` is one of `old, newstack` (`testvectors` only available for Kyber).
+, where `firmware` is one of `{test, testvectors, speed, f_speed, stack}` and `variant` is one of `old, m4fstack` (`testvectors` only available for Kyber).
 
 It can then be flashed using: 
 ```
 st-flash --reset write bin/crypto_{kem,sign}_{scheme}_{variant}_{firmware}.bin 0x8000000
 ```
 ### Example
-For building the `test` firmware for our newstack version of `kyber768` the following command can be used:
+For building the `test` firmware for our m4fstack version of `kyber768` the following command can be used:
 ```
-make IMPLEMENTATION_PATH=crypto_kem/kyber768/newstack bin/crypto_kem_kyber768_newstack_test.bin
+make IMPLEMENTATION_PATH=crypto_kem/kyber768/m4fstack bin/crypto_kem_kyber768_newstack_test.bin
 ```
 It can the be flashed using:
 ```

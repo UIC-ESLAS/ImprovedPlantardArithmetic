@@ -59,12 +59,18 @@ for scheme_path in [
         # "crypto_kem/kyber512/old",
         # "crypto_kem/kyber512/m4fstack",
         # "crypto_kem/kyber512/m4fspeed",
-        # "crypto_kem/kyber768/old",
-        # "crypto_kem/kyber768/m4fstack",
-        # "crypto_kem/kyber768/m4fspeed",
-        # "crypto_kem/kyber1024/old",
+        # "crypto_kem/kyber512-90s/m4fstack",
+        # "crypto_kem/kyber512-90s/m4fspeed",
+        "crypto_kem/kyber768/old",
+        "crypto_kem/kyber768/m4fstack",
+        "crypto_kem/kyber768/m4fspeed",
+        "crypto_kem/kyber768-90s/m4fstack",
+        "crypto_kem/kyber768-90s/m4fspeed",
+        "crypto_kem/kyber1024/old",
         "crypto_kem/kyber1024/m4fstack",
         "crypto_kem/kyber1024/m4fspeed",
+        "crypto_kem/kyber1024-90s/m4fstack",
+        "crypto_kem/kyber1024-90s/m4fspeed",
         "crypto_kem/nttru"
     ]:
     scheme_name = scheme_path.replace("/", "_")

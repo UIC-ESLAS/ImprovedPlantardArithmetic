@@ -128,13 +128,18 @@ with open(f"benchmarks.txt", "a") as outfile:
         "crypto_kem/kyber512/old",
         "crypto_kem/kyber512/m4fstack",
         "crypto_kem/kyber512/m4fspeed",
+        "crypto_kem/kyber512-90s/m4fstack",
+        "crypto_kem/kyber512-90s/m4fspeed",
         "crypto_kem/kyber768/old",
         "crypto_kem/kyber768/m4fstack",
         "crypto_kem/kyber768/m4fspeed",
+        "crypto_kem/kyber768-90s/m4fstack",
+        "crypto_kem/kyber768-90s/m4fspeed",
         "crypto_kem/kyber1024/old",
         "crypto_kem/kyber1024/m4fstack",
         "crypto_kem/kyber1024/m4fspeed",
-        "crypto_kem/nttru"
+        "crypto_kem/kyber1024-90s/m4fstack",
+        "crypto_kem/kyber1024-90s/m4fspeed",
     ]:
         scheme_name = scheme_path.replace("/", "_")
         scheme_type = re.search('crypto_(.*?)_', scheme_name).group(1)

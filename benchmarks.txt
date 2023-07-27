@@ -156,3 +156,116 @@ After update keccak
 \DefineVar{crypto_kem_kyber102490s_m4fspeedencaps}{1\,047k}
 \DefineVar{crypto_kem_kyber102490s_m4fspeeddecaps}{1\,038k}
 
+% Benchmarking measurements written on 2023-07-26 09:05:40.621896+00:00; iterations=100
+
+%M4 results for crypto_kem_kyber512_old (type=kem)
+\DefineVar{crypto_kem_kyber512_oldkeygen}{383k}
+\DefineVar{crypto_kem_kyber512_oldencaps}{463k}
+\DefineVar{crypto_kem_kyber512_olddecaps}{434k}
+
+%M4 results for crypto_kem_kyber512_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber512_m4fstackkeygen}{367k}
+\DefineVar{crypto_kem_kyber512_m4fstackencaps}{448k}
+\DefineVar{crypto_kem_kyber512_m4fstackdecaps}{410k}
+
+%M4 results for crypto_kem_kyber512_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber512_m4fspeedkeygen}{368k}
+\DefineVar{crypto_kem_kyber512_m4fspeedencaps}{447k}
+\DefineVar{crypto_kem_kyber512_m4fspeeddecaps}{407k}
+
+%M4 results for crypto_kem_kyber512-90s_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber51290s_m4fstackkeygen}{362k}
+\DefineVar{crypto_kem_kyber51290s_m4fstackencaps}{416k}
+\DefineVar{crypto_kem_kyber51290s_m4fstackdecaps}{413k}
+
+%M4 results for crypto_kem_kyber512-90s_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber51290s_m4fspeedkeygen}{361k}
+\DefineVar{crypto_kem_kyber51290s_m4fspeedencaps}{414k}
+\DefineVar{crypto_kem_kyber51290s_m4fspeeddecaps}{410k}
+
+%M4 results for crypto_kem_kyber768_old (type=kem)
+\DefineVar{crypto_kem_kyber768_oldkeygen}{630k}
+\DefineVar{crypto_kem_kyber768_oldencaps}{758k}
+\DefineVar{crypto_kem_kyber768_olddecaps}{715k}
+
+%M4 results for crypto_kem_kyber768_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber768_m4fstackkeygen}{603k}
+\DefineVar{crypto_kem_kyber768_m4fstackencaps}{733k}
+\DefineVar{crypto_kem_kyber768_m4fstackdecaps}{676k}
+
+%M4 results for crypto_kem_kyber768_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber768_m4fspeedkeygen}{601k}
+\DefineVar{crypto_kem_kyber768_m4fspeedencaps}{729k}
+\DefineVar{crypto_kem_kyber768_m4fspeeddecaps}{671k}
+
+%M4 results for crypto_kem_kyber768-90s_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber76890s_m4fstackkeygen}{604k}
+\DefineVar{crypto_kem_kyber76890s_m4fstackencaps}{687k}
+\DefineVar{crypto_kem_kyber76890s_m4fstackdecaps}{680k}
+
+%M4 results for crypto_kem_kyber768-90s_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber76890s_m4fspeedkeygen}{601k}
+\DefineVar{crypto_kem_kyber76890s_m4fspeedencaps}{681k}
+\DefineVar{crypto_kem_kyber76890s_m4fspeeddecaps}{674k}
+
+%M4 results for crypto_kem_kyber1024_old (type=kem)
+\DefineVar{crypto_kem_kyber1024_oldkeygen}{1\,003k}
+\DefineVar{crypto_kem_kyber1024_oldencaps}{1\,162k}
+\DefineVar{crypto_kem_kyber1024_olddecaps}{1\,105k}
+
+%M4 results for crypto_kem_kyber1024_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fstackkeygen}{959k}
+\DefineVar{crypto_kem_kyber1024_m4fstackencaps}{1\,119k}
+\DefineVar{crypto_kem_kyber1024_m4fstackdecaps}{1\,046k}
+
+%M4 results for crypto_kem_kyber1024_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber1024_m4fspeedkeygen}{956k}
+\DefineVar{crypto_kem_kyber1024_m4fspeedencaps}{1\,113k}
+\DefineVar{crypto_kem_kyber1024_m4fspeeddecaps}{1\,038k}
+
+%M4 results for crypto_kem_kyber1024-90s_m4fstack (type=kem)
+\DefineVar{crypto_kem_kyber102490s_m4fstackkeygen}{958k}
+\DefineVar{crypto_kem_kyber102490s_m4fstackencaps}{1\,057k}
+\DefineVar{crypto_kem_kyber102490s_m4fstackdecaps}{1\,049k}
+
+%M4 results for crypto_kem_kyber1024-90s_m4fspeed (type=kem)
+\DefineVar{crypto_kem_kyber102490s_m4fspeedkeygen}{952k}
+\DefineVar{crypto_kem_kyber102490s_m4fspeedencaps}{1\,048k}
+\DefineVar{crypto_kem_kyber102490s_m4fspeeddecaps}{1\,038k}
+
+% Benchmarking measurements written on 2023-07-27 09:15:20.656025+00:00; iterations=100
+
+% Benchmarking measurements written on 2023-07-27 09:16:16.453099+00:00; iterations=100
+
+% Benchmarking measurements written on 2023-07-27 09:16:59.701434+00:00; iterations=100
+
+%M4 results for crypto_sign_dilithium2_old (type=sign)
+\DefineVar{crypto_sign_dilithium2_oldkeygen}{1\,349k}
+\DefineVar{crypto_sign_dilithium2_oldsign}{3\,377k}
+\DefineVar{crypto_sign_dilithium2_oldverify}{1\,335k}
+
+%M4 results for crypto_sign_dilithium2_new (type=sign)
+\DefineVar{crypto_sign_dilithium2_newkeygen}{1\,348k}
+\DefineVar{crypto_sign_dilithium2_newsign}{3\,644k}
+\DefineVar{crypto_sign_dilithium2_newverify}{1\,335k}
+
+%M4 results for crypto_sign_dilithium3_old (type=sign)
+\DefineVar{crypto_sign_dilithium3_oldkeygen}{2\,371k}
+\DefineVar{crypto_sign_dilithium3_oldsign}{5\,769k}
+\DefineVar{crypto_sign_dilithium3_oldverify}{2\,279k}
+
+%M4 results for crypto_sign_dilithium3_new (type=sign)
+\DefineVar{crypto_sign_dilithium3_newkeygen}{2\,371k}
+\DefineVar{crypto_sign_dilithium3_newsign}{5\,374k}
+\DefineVar{crypto_sign_dilithium3_newverify}{2\,279k}
+
+%M4 results for crypto_sign_dilithium5_old (type=sign)
+\DefineVar{crypto_sign_dilithium5_oldkeygen}{4\,043k}
+\DefineVar{crypto_sign_dilithium5_oldsign}{7\,629k}
+\DefineVar{crypto_sign_dilithium5_oldverify}{3\,970k}
+
+%M4 results for crypto_sign_dilithium5_new (type=sign)
+\DefineVar{crypto_sign_dilithium5_newkeygen}{4\,039k}
+\DefineVar{crypto_sign_dilithium5_newsign}{7\,386k}
+\DefineVar{crypto_sign_dilithium5_newverify}{3\,964k}
+

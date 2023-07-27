@@ -3,6 +3,9 @@
 #include "polyvec.h"
 #include "poly.h"
 
+#include <stdio.h>
+#include "hal.h"
+
 /*************************************************
 * Name:        expand_mat
 *
@@ -116,6 +119,8 @@ void polyvecl_pointwise_poly_montgomery(polyvecl *r, const poly *a, const polyve
   for(i = 0; i < L; ++i)
     poly_pointwise_montgomery(&r->vec[i], a, &v->vec[i]);
 }
+
+
 
 /*************************************************
 * Name:        polyvecl_pointwise_acc_montgomery
@@ -285,6 +290,8 @@ void polyveck_ntt(polyveck *v) {
     poly_ntt(&v->vec[i]);
 }
 
+
+
 /*************************************************
 * Name:        polyveck_invntt_tomont
 *
@@ -300,6 +307,7 @@ void polyveck_invntt_tomont(polyveck *v) {
   for(i = 0; i < K; ++i)
     poly_invntt_tomont(&v->vec[i]);
 }
+
 
 void polyveck_pointwise_poly_montgomery(polyveck *r, const poly *a, const polyveck *v) {
   unsigned int i;

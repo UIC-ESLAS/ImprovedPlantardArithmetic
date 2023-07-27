@@ -1,1 +1,0 @@
-../../dilithium2/old/pointwise_mont.s

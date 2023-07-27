@@ -1,7 +1,7 @@
 #include "smallpoly.h"
 #include "smallntt.h"
 
-void poly_small_ntt_precomp(smallpoly *out, smallpoly *out2, poly *in) {
+void poly_small_ntt_precomp(smallpoly *out, smallhalfpoly *out2, poly *in) {
   for (int i = 0; i < N; i++)
   {
     out->coeffs[i] = in->coeffs[i];
@@ -28,20 +28,22 @@ void polyveck_small_ntt(smallpoly v[K]) {
 
 
 
-void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallpoly *aprime, const smallpoly *b){
+void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallhalfpoly *aprime, const smallpoly *b){
     // re-use the buffer
     smallpoly *tmp = (smallpoly *)r;
     small_asymmetric_mul(tmp->coeffs, b->coeffs, a->coeffs, aprime->coeffs);
     small_invntt_tomont(tmp->coeffs);
 
+    #ifdef SMALL_POLY_16_BIT
+    int j;
     // buffer is the same, so we neeed to be careful
-     for (int j = N - 1; j >= 0; j--)
-     {
+    for(j=N-1;j>=0;j--){
         r->coeffs[j] = tmp->coeffs[j];
-     }
+    }
+    #endif
 }
 
-void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L]){
+void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallhalfpoly *aprime, const smallpoly b[L]){
     unsigned int i;
     for(i=0;i<L;i++){
         poly_small_basemul_invntt(&r->vec[i], a, aprime, &b[i]);

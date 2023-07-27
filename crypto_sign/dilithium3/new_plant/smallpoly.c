@@ -1,1 +1,0 @@
-../../dilithium2/new/smallpoly.c

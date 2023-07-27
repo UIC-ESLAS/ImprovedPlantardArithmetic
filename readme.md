@@ -52,6 +52,21 @@ The setup for testing and evaluating of our code is based on the framework provi
     - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
     - `test.c`: From pqm4; Firmware for self-testing the schemes. Can be used by using `test.py`.
     - `testvectors.c`: From pqm4; Firmware for computing testvectors for Kyber only.
+- `crypto_sign`: contains the implementations for dilithium2, dilithium3, and dilithium5
+    - `dilithium2`
+        - `new`: Our code with the improved Plantard arithmetic based on the implementation in [AHKS22].
+        - `old`: Code in [AHKS22]
+    - `dilithium3`
+        - `new`: Our code with the improved Plantard arithmetic based on the implementation in [AHKS22].
+        - `old`: Code in [AHKS22]
+    - `dilithium5`
+        - `new`: Our code with the improved Plantard arithmetic based on the implementation in [AHKS22].
+        - `old`: Code in [AHKS22]
+    - `f_speed.c`: Firmware used for benchmarking parts of the scheme. Can be used by using `f_benchmarks.py`.
+    - `speed.c`: From pqm4; Firmware for benchmarking the schemes' cycle counts. Can be used by using `benchmarks.py`.
+    - `stack.c`: From pqm4; Firmware for benchmarking the schemes' stack usage. 
+    - `test.c`: From pqm4; Firmware for self-testing the schemes. Can be used by using `test.py`.
+    - `testvectors.c`: From pqm4; Firmware for computing testvectors for Dilithium only.
 - `gen_table`: contains code to generate the twiddle factors in Plantard domain for our implementations.
 - `Makefile`: Makefile to build the code
 - `benchmarks.py`: This script is used for building, flashing, and evaluating the outputs produced by `speed.c`. The desired algorithms as well as the number of iterations can be set in the code.
@@ -84,6 +99,15 @@ make IMPLEMENTATION_PATH=crypto_kem/kyber768/m4fstack bin/crypto_kem_kyber768_ne
 It can the be flashed using:
 ```
 st-flash --reset write bin/crypto_kem_kyber768_newstack_test.bin 0x8000000
+```
+
+For building the `test` firmware for our new version of `dilithium2` the following command can be used:
+```
+make IMPLEMENTATION_PATH=crypto_kem/dilithium2/new bin/crypto_kem_dilithium2_new_test.bin
+```
+It can the be flashed using:
+```
+st-flash --reset write bin/crypto_kem_dilithium2_new_test.bin 0x8000000
 ```
 
 ### reference

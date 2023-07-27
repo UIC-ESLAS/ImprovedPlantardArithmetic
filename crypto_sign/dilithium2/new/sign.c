@@ -121,10 +121,8 @@ int crypto_sign_signature(uint8_t *sig,
   poly cp;
   shake256incctx state;
 
-  smallpoly s1_prime[L];
-  smallpoly s2_prime[K];
-  smallpoly cp_small;
-  smallhalfpoly cp_small_prime;
+  smallpoly s1_prime[L], s2_prime[K];
+  smallpoly cp_small, cp_small_prime;
 
   rho = seedbuf;
   tr = rho + SEEDBYTES;

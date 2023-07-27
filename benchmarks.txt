@@ -233,3 +233,39 @@ After update keccak
 \DefineVar{crypto_kem_kyber102490s_m4fspeedencaps}{1\,048k}
 \DefineVar{crypto_kem_kyber102490s_m4fspeeddecaps}{1\,038k}
 
+% Benchmarking measurements written on 2023-07-27 09:15:20.656025+00:00; iterations=100
+
+% Benchmarking measurements written on 2023-07-27 09:16:16.453099+00:00; iterations=100
+
+% Benchmarking measurements written on 2023-07-27 09:16:59.701434+00:00; iterations=100
+
+%M4 results for crypto_sign_dilithium2_old (type=sign)
+\DefineVar{crypto_sign_dilithium2_oldkeygen}{1\,349k}
+\DefineVar{crypto_sign_dilithium2_oldsign}{3\,377k}
+\DefineVar{crypto_sign_dilithium2_oldverify}{1\,335k}
+
+%M4 results for crypto_sign_dilithium2_new (type=sign)
+\DefineVar{crypto_sign_dilithium2_newkeygen}{1\,348k}
+\DefineVar{crypto_sign_dilithium2_newsign}{3\,644k}
+\DefineVar{crypto_sign_dilithium2_newverify}{1\,335k}
+
+%M4 results for crypto_sign_dilithium3_old (type=sign)
+\DefineVar{crypto_sign_dilithium3_oldkeygen}{2\,371k}
+\DefineVar{crypto_sign_dilithium3_oldsign}{5\,769k}
+\DefineVar{crypto_sign_dilithium3_oldverify}{2\,279k}
+
+%M4 results for crypto_sign_dilithium3_new (type=sign)
+\DefineVar{crypto_sign_dilithium3_newkeygen}{2\,371k}
+\DefineVar{crypto_sign_dilithium3_newsign}{5\,374k}
+\DefineVar{crypto_sign_dilithium3_newverify}{2\,279k}
+
+%M4 results for crypto_sign_dilithium5_old (type=sign)
+\DefineVar{crypto_sign_dilithium5_oldkeygen}{4\,043k}
+\DefineVar{crypto_sign_dilithium5_oldsign}{7\,629k}
+\DefineVar{crypto_sign_dilithium5_oldverify}{3\,970k}
+
+%M4 results for crypto_sign_dilithium5_new (type=sign)
+\DefineVar{crypto_sign_dilithium5_newkeygen}{4\,039k}
+\DefineVar{crypto_sign_dilithium5_newsign}{7\,386k}
+\DefineVar{crypto_sign_dilithium5_newverify}{3\,964k}
+

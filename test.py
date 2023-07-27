@@ -23,6 +23,8 @@ def run_test(scheme_path, scheme_name):
         subprocess.check_call(f"st-flash --reset write {binary} 0x8000000", shell=True)
     except:
         print("st-flash failed --> retry")
+        subprocess.check_call(
+            f"st-flash erase && st-flash reset", shell=True)
         return run_test(scheme_path, scheme_name)
 
     # get serial output and wait for '#'
@@ -61,17 +63,23 @@ for scheme_path in [
         # "crypto_kem/kyber512/m4fspeed",
         # "crypto_kem/kyber512-90s/m4fstack",
         # "crypto_kem/kyber512-90s/m4fspeed",
-        "crypto_kem/kyber768/old",
-        "crypto_kem/kyber768/m4fstack",
-        "crypto_kem/kyber768/m4fspeed",
-        "crypto_kem/kyber768-90s/m4fstack",
-        "crypto_kem/kyber768-90s/m4fspeed",
-        "crypto_kem/kyber1024/old",
-        "crypto_kem/kyber1024/m4fstack",
-        "crypto_kem/kyber1024/m4fspeed",
-        "crypto_kem/kyber1024-90s/m4fstack",
-        "crypto_kem/kyber1024-90s/m4fspeed",
-        "crypto_kem/nttru"
+        # "crypto_kem/kyber768/old",
+        # "crypto_kem/kyber768/m4fstack",
+        # "crypto_kem/kyber768/m4fspeed",
+        # "crypto_kem/kyber768-90s/m4fstack",
+        # "crypto_kem/kyber768-90s/m4fspeed",
+        # "crypto_kem/kyber1024/old",
+        # "crypto_kem/kyber1024/m4fstack",
+        # "crypto_kem/kyber1024/m4fspeed",
+        # "crypto_kem/kyber1024-90s/m4fstack",
+        # "crypto_kem/kyber1024-90s/m4fspeed",
+        # "crypto_kem/nttru",
+        "crypto_sign/dilithium2/old",
+        "crypto_sign/dilithium2/new",
+        "crypto_sign/dilithium3/old",
+        "crypto_sign/dilithium3/new",
+        "crypto_sign/dilithium5/old",
+        "crypto_sign/dilithium5/new"
     ]:
     scheme_name = scheme_path.replace("/", "_")
     test(scheme_path, scheme_name)

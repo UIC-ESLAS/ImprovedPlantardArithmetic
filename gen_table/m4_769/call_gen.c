@@ -34,7 +34,7 @@ int main()
     int32_t twist_omega_int16;
     uint64_t mod_inv;
 
-    // Plant================
+    // Twiddle factors for Plantard arithmetic
     scale_int16 = R2modQ1; // Plantard constant
     scale2_int16 = invNQ1;
     omega_int16 = omegaQ1;
@@ -105,7 +105,7 @@ int main()
     }  
     printf("\n\n");
 
-    // Mont================
+    // Twiddle factors for Montgomery arithmetic
     
     scale_int16 = RmodQ1;
     scale2_int16 = invNQ1;

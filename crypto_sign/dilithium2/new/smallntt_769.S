@@ -4,76 +4,12 @@
 .cpu cortex-m4
 .thumb
 
-// general macros
-.macro load a, a0, a1, a2, a3, mem0, mem1, mem2, mem3
-  ldr.w \a0, [\a, \mem0]
-  ldr.w \a1, [\a, \mem1]
-  ldr.w \a2, [\a, \mem2]
-  ldr.w \a3, [\a, \mem3]
-.endm
-
-.macro store a, a0, a1, a2, a3, mem0, mem1, mem2, mem3
-  str.w \a0, [\a, \mem0]
-  str.w \a1, [\a, \mem1]
-  str.w \a2, [\a, \mem2]
-  str.w \a3, [\a, \mem3]
-.endm
-
-.macro doubleplant a, tmp, q, qa, plantconst
-  smulwb \tmp, \plantconst, \a
-  smulwt \a, \plantconst, \a
-  smlabt \tmp, \tmp, \q, \qa
-  smlabt \a, \a, \q, \qa
-  pkhtb \a, \a, \tmp, asr#16
-.endm
-
-.macro doublebarrett a, tmp, tmp2, q, barrettconst
-  smulbb \tmp, \a, \barrettconst
-  smultb \tmp2, \a, \barrettconst
-  asr \tmp, \tmp, #26
-  asr \tmp2, \tmp2, #26
-  smulbb \tmp, \tmp, \q
-  smulbb \tmp2, \tmp2, \q
-  pkhbt \tmp, \tmp, \tmp2, lsl#16
-  usub16 \a, \a, \tmp
-.endm
-
-// q locate in the top half of the register
-.macro plant_red q, qa, qinv, tmp
-  mul \tmp, \tmp, \qinv     
-  //tmp*qinv mod 2^2n/ 2^n; in high half
-  smlatt \tmp, \tmp, \q, \qa
-  // result in high half
-.endm
-
+#include "macros_smallntt.i"
 // #######
 // #######
 // # NTT #
 // #######
 // #######
-
-.macro mul_twiddle_plant a, twiddle, tmp, q, qa
-	smulwb \tmp, \twiddle, \a
-	smulwt \a,   \twiddle, \a
-	smlabt \tmp, \tmp, \q, \qa
-	smlabt \a, \a, \q, \qa
-	pkhtb \a, \a, \tmp, asr#16
-.endm
-
-.macro doublebutterfly_plant a0, a1, twiddle, tmp, q, qa
-	smulwb \tmp, \twiddle, \a1
-	smulwt \a1, \twiddle, \a1
-	smlabt \tmp, \tmp, \q, \qa
-	smlabt \a1, \a1, \q, \qa
-	pkhtb \tmp, \a1, \tmp, asr#16
-	usub16 \a1, \a0, \tmp
-	uadd16 \a0, \a0, \tmp
-.endm
-
-.macro two_doublebutterfly_plant a0, a1, a2, a3, twiddle0, twiddle1, tmp, q, qa
-	doublebutterfly_plant \a0, \a1, \twiddle0, \tmp, \q, \qa
-	doublebutterfly_plant \a2, \a3, \twiddle1, \tmp, \q, \qa
-.endm
 
 .macro _3_layer_double_CT_16_plant c0, c1, c2, c3, c4, c5, c6, c7, twiddle1, twiddle2, twiddle_ptr, q, qa, tmp
 	// layer 3
@@ -322,7 +258,7 @@ small_ntt_asm_769:
 // ########
 // ########
 
-.macro fullplant a0, a1, a2, a3, a4, a5, a6, a7, tmp, q, qa, plantconst
+.macro fullplant_769 a0, a1, a2, a3, a4, a5, a6, a7, tmp, q, qa, plantconst
 	movw \plantconst, #14574
 	movt \plantconst, #85
 	doubleplant \a0, \tmp, \q, \qa, \plantconst
@@ -334,16 +270,6 @@ small_ntt_asm_769:
 	doubleplant \a6, \tmp, \q, \qa, \plantconst
 	doubleplant \a7, \tmp, \q, \qa, \plantconst
 .endm
-
-.macro halfplant a0, a1, a2, a3, tmp, q, qa, plantconst
-	movw \plantconst, #14574
-	movt \plantconst, #85
-	doubleplant \a0, \tmp, \q, \qa, \plantconst
-	doubleplant \a1, \tmp, \q, \qa, \plantconst
-	doubleplant \a2, \tmp, \q, \qa, \plantconst
-	doubleplant \a3, \tmp, \q, \qa, \plantconst
-.endm
-
 
 // input: 0.5/1q
 .macro _3_layer_double_inv_CT_16_plant_light c0, c1, c2, c3, c4, c5, c6, c7, xi2, xi4, xi5, xi6, twiddle1, tmp2, q, qa, tmp
@@ -594,7 +520,7 @@ small_invntt_asm_769:
 
 	vldm twiddle_ptr!, {s0-s5}
 	movw qa, #24608
-	// fullplant poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7 tmp, q, qa, twiddle1
+	// fullplant_769 poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7 tmp, q, qa, twiddle1
 	// twiddle2 is used as tmp2
 	_3_layer_double_inv_CT_16_plant_light poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, s1, s3, s4, s5, twiddle1, twiddle2, q, qa, tmp
 

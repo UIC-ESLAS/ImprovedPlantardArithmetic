@@ -63,6 +63,28 @@ int main(void)
         t1 = hal_get_time();
         printcycles("iNTT cycles:", t1 - t0);
 
+        t0 = hal_get_time();
+        poly_pointwise_montgomery(&buf, &buf, &buf);
+        t1 = hal_get_time();
+        printcycles("basemul cycles:", t1 - t0);
+        
+        // ### multi-moduli NTT ###
+        t0 = hal_get_time();
+        poly_double_ntt(&a1);
+        t1 = hal_get_time();
+        printcycles("Multi-moduli NTT cycles:", t1 - t0);
+
+        t0 = hal_get_time();
+        poly_double_ntt_precomp(&c1, &buf);
+        t1 = hal_get_time();
+        printcycles("Multi-moduli NTT precomp cycles:", t1 - t0);
+
+        // ### iNTT ###
+        t0 = hal_get_time();
+        poly_double_basemul_invntt(&a1, &buf, &c1, &a1);
+        t1 = hal_get_time();
+        printcycles("Multi-moduli basemul+iNTT cycles:", t1 - t0);
+
         // ### SHAKE256 ###
         t0 = hal_get_time();
         KeccakF1600_StatePermute(&state);

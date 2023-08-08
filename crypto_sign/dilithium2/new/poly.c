@@ -508,6 +508,58 @@ void poly_challenge(poly *c, const uint8_t seed[SEEDBYTES]) {
 }
 
 /*************************************************
+ * Name:        challenge
+ *
+ * Description: Implementation of H. Samples polynomial with TAU nonzero
+ *              coefficients in {-1,1} using the output stream of
+ *              SHAKE256(seed).
+ *
+ * Arguments:   - poly *c: pointer to output polynomial; use 16-bit to store each challenge and store two copies for double-moduli implementation;
+ *              - const uint8_t mu[]: byte array containing seed of length SEEDBYTES
+ **************************************************/
+void poly_challenge_new(poly *c, const uint8_t seed[SEEDBYTES])
+{
+  unsigned int i, b, pos;
+  uint64_t signs;
+  uint8_t buf[SHAKE256_RATE];
+  int16_t* cp=(int16_t*)c->coeffs;
+
+  shake256incctx state;
+
+  shake256_inc_init(&state);
+  shake256_inc_absorb(&state, seed, SEEDBYTES);
+  shake256_inc_finalize(&state);
+  shake256_inc_squeezeblocks(buf, 1, &state);
+
+  signs = 0;
+  for (i = 0; i < 8; ++i)
+    signs |= (uint64_t)buf[i] << 8 * i;
+  pos = 8;
+
+  for (i = 0; i < 2*N; ++i)
+    cp[i] = 0;
+  for (i = N - TAU; i < N; ++i)
+  {
+    do
+    {
+      if (pos >= SHAKE256_RATE)
+      {
+        shake256_inc_squeezeblocks(buf, 1, &state);
+        pos = 0;
+      }
+
+      b = buf[pos++];
+    } while (b > i);
+
+    cp[i] = cp[b];
+    cp[b] = 1 - 2 * (signs & 1);
+    cp[i+N]=cp[i];
+    cp[b+N]=cp[b];//two copies
+    signs >>= 1;
+  }
+}
+
+/*************************************************
 * Name:        polyeta_pack
 *
 * Description: Bit-pack polynomial with coefficients in [-ETA,ETA].

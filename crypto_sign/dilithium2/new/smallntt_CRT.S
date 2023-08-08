@@ -10,7 +10,6 @@
 .type __asm_small_CRT_32, %function
 __asm_small_CRT_32:
     push.w {r4-r12, lr}
-
     des          .req r0
 	src1         .req r1
 	src2         .req r2
@@ -20,21 +19,21 @@ __asm_small_CRT_32:
 	poly3        .req r6
 	tmp          .req r7
 	res0         .req r8
-	m1           .req r9  // (plant_const* q0^-1 mod q1)*(q1^-1 mod 2^2n) mod 2^2n
-	q0           .req r10 
-	q1           .req r11 // at the top of r11
-	q1a          .req r12 
+	m1           .req r9  // (plant_const* mod0^-1 mod mod1)*(mod1^-1 mod 2^2n) mod 2^2n
+	mod0         .req r10 
+	mod1         .req r11 // at the top of r11
+	mod1a        .req r12 
 	// qa=2^a q;a=3; at the bottom of r12
 	loop         .req r14
 
     .equ ldrwidth, 2
     .equ strwidth, 4
 
-    movt q0, #769
-    movt q1, #3329
-    movw q1a, #26632
+    movt mod0, #769
+    movt mod1, #3329
+    movw mod1a, #26632
     movw m1, #25711
-    movt m1, #19686 // m1=(plant_const* q0^-1 mod q1)*(q1^-1 mod 2^2n) mod 2^2n=1290167407
+    movt m1, #19686 // m1=(plant_const* mod0^-1 mod mod1)*(mod1^-1 mod 2^2n) mod 2^2n=1290167407
 
     add.w loop, des, #256*strwidth
     _CRT:
@@ -46,24 +45,24 @@ __asm_small_CRT_32:
         ssub16.w res0, poly1, poly0
         asr.w poly1, poly0, #16
         sxth.w poly0, poly0
-        // mul_twiddle_plant res0, m1, tmp, q1, q1a
+        // mul_twiddle_plant res0, m1, tmp, mod1, mod1a
         smulwb tmp, m1, res0
         smulwt res0, m1, res0
-        smlabt tmp, tmp, q1, q1a
-        smlabt res0, res0, q1, q1a
-        smlatt poly0, tmp, q0, poly0
-        smlatt poly1, res0, q0, poly1
+        smlabt tmp, tmp, mod1, mod1a
+        smlabt res0, res0, mod1, mod1a
+        smlatt poly0, tmp, mod0, poly0
+        smlatt poly1, res0, mod0, poly1
 
         ssub16.w res0, poly3, poly2
         asr.w poly3, poly2, #16
         sxth.w poly2, poly2
-        // mul_twiddle_plant res0, m1, tmp, q1, q1a
+        // mul_twiddle_plant res0, m1, tmp, mod1, mod1a
         smulwb tmp, m1, res0
         smulwt res0, m1, res0
-        smlabt tmp, tmp, q1, q1a
-        smlabt res0, res0, q1, q1a
-        smlabt poly2, tmp, q0, poly2
-        smlatt poly3, res0, q0, poly3
+        smlabt tmp, tmp, mod1, mod1a
+        smlabt res0, res0, mod1, mod1a
+        smlatt poly2, tmp, mod0, poly2
+        smlatt poly3, res0, mod0, poly3
 
         str.w poly1, [des, #1*strwidth]
         str.w poly2, [des, #2*strwidth]

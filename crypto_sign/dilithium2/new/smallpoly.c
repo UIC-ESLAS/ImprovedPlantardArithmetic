@@ -1,6 +1,6 @@
 #include "smallpoly.h"
 #include "smallntt.h"
-
+// small NTT for computing cs
 void poly_small_ntt_precomp(smallpoly *out, smallpoly *out2, poly *in) {
   for (int i = 0; i < N; i++)
   {
@@ -41,10 +41,56 @@ void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallpoly *apr
      }
 }
 
-void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L]){
+void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L])
+{
     unsigned int i;
-    for(i=0;i<L;i++){
-        poly_small_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
+    for (i = 0; i < L; i++)
+    {
+      poly_small_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
+    }
+}
+// double-moduli NTT for computing ct
+void poly_double_ntt_precomp(poly *out, poly *in)
+{
+    double_ntt((int16_t*)in->coeffs);
+    double_point_mul((int16_t *)out->coeffs, (int16_t *)in->coeffs);
+}
+
+void poly_double_ntt(poly *v)
+{
+    double_ntt((int16_t *)v->coeffs);
+}
+
+void polyvecl_double_ntt(poly v[L])
+{
+    unsigned int i;
+
+    for (i = 0; i < L; ++i)
+        double_ntt((int16_t *)v[i].coeffs);
+}
+
+void polyveck_double_ntt(poly v[K])
+{
+    unsigned int i;
+
+    for (i = 0; i < K; ++i)
+        double_ntt((int16_t *)v[i].coeffs);
+}
+
+void poly_double_basemul_invntt(poly *r, const poly *a, const poly *aprime, const poly *b)
+{
+    int16_t tmp[2*N];
+    double_asymmetric_mul(tmp, (int16_t *)b->coeffs, (int16_t *)a->coeffs, (int16_t *)aprime->coeffs);
+    double_invntt(tmp);
+    double_CRT(r->coeffs, tmp, tmp + N);
+}
+
+void polyvecl_double_basemul_invntt(polyvecl *r, const poly *a, const poly *aprime, const poly b[L])
+{
+    unsigned int i;
+    for (i = 0; i < L; i++)
+    {
+      poly_double_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
     }
 }
 

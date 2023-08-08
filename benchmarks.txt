@@ -269,3 +269,10 @@ After update keccak
 \DefineVar{crypto_sign_dilithium5_newsign}{7\,386k}
 \DefineVar{crypto_sign_dilithium5_newverify}{3\,964k}
 
+% Benchmarking measurements written on 2023-08-08 12:27:20.068105+00:00; iterations=100
+
+%M4 results for crypto_sign_dilithium2_new (type=sign)
+\DefineVar{crypto_sign_dilithium2_newkeygen}{1\,347k}
+\DefineVar{crypto_sign_dilithium2_newsign}{3\,554k}
+\DefineVar{crypto_sign_dilithium2_newverify}{1\,397k}
+

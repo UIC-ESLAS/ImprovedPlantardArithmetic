@@ -61,20 +61,20 @@ void poly_double_ntt(poly *v)
     double_ntt((int16_t *)v->coeffs);
 }
 
-void polyvecl_double_ntt(poly v[L])
+void polyvecl_double_ntt(polyvecl *v)
 {
     unsigned int i;
 
     for (i = 0; i < L; ++i)
-        double_ntt((int16_t *)v[i].coeffs);
+        double_ntt((int16_t *)v->vec[i].coeffs);
 }
 
-void polyveck_double_ntt(poly v[K])
+void polyveck_double_ntt(polyveck *v)
 {
     unsigned int i;
 
     for (i = 0; i < K; ++i)
-        double_ntt((int16_t *)v[i].coeffs);
+        double_ntt((int16_t *)v->vec[i].coeffs);
 }
 
 void poly_double_basemul_invntt(poly *r, const poly *a, const poly *aprime, const poly *b)

@@ -16,8 +16,8 @@ void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallpoly *apr
 
 void poly_double_ntt_precomp(poly *out, poly *in);
 void poly_double_ntt(poly *v);
-void polyvecl_double_ntt(poly v[L]);
-void polyveck_double_ntt(poly v[K]);
+void polyvecl_double_ntt(polyvecl *v);
+void polyveck_double_ntt(polyveck *v);
 void poly_double_basemul_invntt(poly *r, const poly *a, const poly *aprime, const poly *b);
 void polyvecl_double_basemul_invntt(polyvecl *r, const poly *a, const poly *aprime, const poly b[L]);
 

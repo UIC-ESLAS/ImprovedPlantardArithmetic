@@ -143,12 +143,12 @@ with open(f"benchmarks.txt", "a") as outfile:
         # "crypto_kem/kyber1024-90s/m4fstack",
         # "crypto_kem/kyber1024-90s/m4fspeed",
         # "crypto_kem/nttru",
-        "crypto_sign/dilithium2/old",
+        # "crypto_sign/dilithium2/old",
         "crypto_sign/dilithium2/new",
-        "crypto_sign/dilithium3/old",
-        "crypto_sign/dilithium3/new",
-        "crypto_sign/dilithium5/old",
-        "crypto_sign/dilithium5/new"
+        # "crypto_sign/dilithium3/old",
+        # "crypto_sign/dilithium3/new",
+        # "crypto_sign/dilithium5/old",
+        # "crypto_sign/dilithium5/new"
     ]:
         scheme_name = scheme_path.replace("/", "_")
         scheme_type = re.search('crypto_(.*?)_', scheme_name).group(1)

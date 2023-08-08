@@ -648,6 +648,26 @@ void polyt1_unpack(poly *r, const uint8_t *a) {
   DBENCH_STOP(*tpack);
 }
 
+void polyt1_unpack_new(poly *r, const uint8_t *a)
+{
+  int16_t *rp=(int16_t*)r->coeffs;
+  unsigned int i;
+  DBENCH_START();
+
+  for (i = 0; i < N / 4; ++i)
+  {
+    rp[4 * i + 0] = ((a[5 * i + 0] >> 0) | ((uint32_t)a[5 * i + 1] << 8)) & 0x3FF;
+    rp[4 * i + 1] = ((a[5 * i + 1] >> 2) | ((uint32_t)a[5 * i + 2] << 6)) & 0x3FF;
+    rp[4 * i + 2] = ((a[5 * i + 2] >> 4) | ((uint32_t)a[5 * i + 3] << 4)) & 0x3FF;
+    rp[4 * i + 3] = ((a[5 * i + 3] >> 6) | ((uint32_t)a[5 * i + 4] << 2)) & 0x3FF;
+    rp[4 * i + 0 + N] = rp[4 * i + 0];
+    rp[4 * i + 1 + N] = rp[4 * i + 1];
+    rp[4 * i + 2 + N] = rp[4 * i + 2];
+    rp[4 * i + 3 + N] = rp[4 * i + 3];
+  }
+
+  DBENCH_STOP(*tpack);
+}
 /*************************************************
 * Name:        polyt0_pack
 *
@@ -759,6 +779,71 @@ void polyt0_unpack(poly *r, const uint8_t *a) {
   DBENCH_STOP(*tpack);
 }
 
+void polyt0_unpack_new(poly *r, const uint8_t *a)
+{
+  int16_t *rp=(int16_t*)r->coeffs;
+  unsigned int i;
+  DBENCH_START();
+
+  for (i = 0; i < N / 8; ++i)
+  {
+    rp[8 * i + 0] = a[13 * i + 0];
+    rp[8 * i + 0] |= (uint32_t)a[13 * i + 1] << 8;
+    rp[8 * i + 0] &= 0x1FFF;
+
+    rp[8 * i + 1] = a[13 * i + 1] >> 5;
+    rp[8 * i + 1] |= (uint32_t)a[13 * i + 2] << 3;
+    rp[8 * i + 1] |= (uint32_t)a[13 * i + 3] << 11;
+    rp[8 * i + 1] &= 0x1FFF;
+
+    rp[8 * i + 2] = a[13 * i + 3] >> 2;
+    rp[8 * i + 2] |= (uint32_t)a[13 * i + 4] << 6;
+    rp[8 * i + 2] &= 0x1FFF;
+
+    rp[8 * i + 3] = a[13 * i + 4] >> 7;
+    rp[8 * i + 3] |= (uint32_t)a[13 * i + 5] << 1;
+    rp[8 * i + 3] |= (uint32_t)a[13 * i + 6] << 9;
+    rp[8 * i + 3] &= 0x1FFF;
+
+    rp[8 * i + 4] = a[13 * i + 6] >> 4;
+    rp[8 * i + 4] |= (uint32_t)a[13 * i + 7] << 4;
+    rp[8 * i + 4] |= (uint32_t)a[13 * i + 8] << 12;
+    rp[8 * i + 4] &= 0x1FFF;
+
+    rp[8 * i + 5] = a[13 * i + 8] >> 1;
+    rp[8 * i + 5] |= (uint32_t)a[13 * i + 9] << 7;
+    rp[8 * i + 5] &= 0x1FFF;
+
+    rp[8 * i + 6] = a[13 * i + 9] >> 6;
+    rp[8 * i + 6] |= (uint32_t)a[13 * i + 10] << 2;
+    rp[8 * i + 6] |= (uint32_t)a[13 * i + 11] << 10;
+    rp[8 * i + 6] &= 0x1FFF;
+
+    rp[8 * i + 7] = a[13 * i + 11] >> 3;
+    rp[8 * i + 7] |= (uint32_t)a[13 * i + 12] << 5;
+    rp[8 * i + 7] &= 0x1FFF;
+
+    rp[8 * i + 0] = (1 << (D - 1)) - rp[8 * i + 0];
+    rp[8 * i + 1] = (1 << (D - 1)) - rp[8 * i + 1];
+    rp[8 * i + 2] = (1 << (D - 1)) - rp[8 * i + 2];
+    rp[8 * i + 3] = (1 << (D - 1)) - rp[8 * i + 3];
+    rp[8 * i + 4] = (1 << (D - 1)) - rp[8 * i + 4];
+    rp[8 * i + 5] = (1 << (D - 1)) - rp[8 * i + 5];
+    rp[8 * i + 6] = (1 << (D - 1)) - rp[8 * i + 6];
+    rp[8 * i + 7] = (1 << (D - 1)) - rp[8 * i + 7];
+
+    rp[8 * i + 0 + N] = rp[8 * i + 0];
+    rp[8 * i + 1 + N] = rp[8 * i + 1];
+    rp[8 * i + 2 + N] = rp[8 * i + 2];
+    rp[8 * i + 3 + N] = rp[8 * i + 3];
+    rp[8 * i + 4 + N] = rp[8 * i + 4];
+    rp[8 * i + 5 + N] = rp[8 * i + 5];
+    rp[8 * i + 6 + N] = rp[8 * i + 6];
+    rp[8 * i + 7 + N] = rp[8 * i + 7];// two copies
+  }
+
+  DBENCH_STOP(*tpack);
+}
 /*************************************************
 * Name:        polyz_pack
 *

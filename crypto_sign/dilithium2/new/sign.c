@@ -118,18 +118,20 @@ int crypto_sign_signature(uint8_t *sig,
   uint16_t nonce = 0;
   polyvecl mat[K], y, z;
   polyveck t0, w1, w0;
-  poly cp;
+  poly cp, cp_prime;
   shake256incctx state;
 
   smallpoly s1_prime[L], s2_prime[K];
-  smallpoly cp_small, cp_small_prime;
+  smallpoly *cp_small, *cp_small_prime;
+  cp_small = (smallpoly *)&cp;
+  cp_small_prime = (smallpoly *)&cp_prime;
 
   rho = seedbuf;
   tr = rho + SEEDBYTES;
   key = tr + SEEDBYTES;
   mu = key + SEEDBYTES;
   rhoprime = mu + CRHBYTES;
-  unpack_sk(rho, tr, key, &t0, s1_prime, s2_prime, sk);
+  unpack_sk_new(rho, tr, key, &t0, s1_prime, s2_prime, sk);
 
   /* Compute CRH(tr, msg) */
   shake256_inc_init(&state);
@@ -149,7 +151,8 @@ int crypto_sign_signature(uint8_t *sig,
   polyvecl_small_ntt(s1_prime);
   polyveck_small_ntt(s2_prime);
 
-  polyveck_ntt(&t0);
+  // polyveck_ntt(&t0);
+  polyveck_double_ntt(&t0);
 
 rej:
   /* Sample intermediate vector y */
@@ -172,13 +175,16 @@ rej:
   shake256_inc_absorb(&state, sig, K * POLYW1_PACKEDBYTES);
   shake256_inc_finalize(&state);
   shake256_inc_squeeze(sig, SEEDBYTES, &state);
-  poly_challenge(&cp, sig);
+  
+  // poly_challenge(&cp, sig);
+  poly_challenge_new(&cp, sig);
 
-  poly_small_ntt_precomp(&cp_small, &cp_small_prime, &cp);
-  poly_ntt(&cp);
-
+  // poly_small_ntt_precomp(&cp_small, &cp_small_prime, &cp);
+  poly_double_ntt_precomp(&cp_prime, &cp);
+  
   /* Compute z, reject if it reveals secret */
-  polyvecl_small_basemul_invntt(&z, &cp_small, &cp_small_prime, s1_prime);
+  // polyvecl_small_basemul_invntt(&z, &cp_small, &cp_small_prime, s1_prime);
+  polyvecl_small_basemul_invntt(&z, cp_small, cp_small_prime, s1_prime);
 
   polyvecl_add(&z, &z, &y);
   polyvecl_reduce(&z);
@@ -194,7 +200,7 @@ rej:
   for (unsigned int i = 0; i < K; ++i)
   {
     poly *tmp = &z.vec[0];
-    poly_small_basemul_invntt(tmp, &cp_small, &cp_small_prime, &s2_prime[i]);
+    poly_small_basemul_invntt(tmp, cp_small, cp_small_prime, &s2_prime[i]);
 
     poly_sub(&w0.vec[i], &w0.vec[i], tmp);
     poly_reduce(&w0.vec[i]);
@@ -202,9 +208,9 @@ rej:
       goto rej;
 
     /* Compute hints for w1 */
-    poly_pointwise_montgomery(tmp, &cp, &t0.vec[i]);
+    poly_double_basemul_invntt(tmp, &cp, &cp_prime, &t0.vec[i]);
 
-    poly_invntt_tomont(tmp);
+    // poly_invntt_tomont(tmp);
     poly_reduce(tmp);
 
     if (poly_chknorm(tmp, GAMMA2))
@@ -277,7 +283,7 @@ int crypto_sign_verify(const uint8_t *sig,
   uint8_t mu[CRHBYTES];
   uint8_t c2[SEEDBYTES];
   polyvecl z;
-  poly c, w1_elem, tmp_elem;
+  poly c, c_prime, w1_elem, tmp_elem;
   shake256incctx state;
 
   if (siglen != CRYPTO_BYTES)
@@ -295,8 +301,10 @@ int crypto_sign_verify(const uint8_t *sig,
   shake256_inc_init(&state);
   shake256_inc_absorb(&state, mu, CRHBYTES);
 
-  poly_challenge(&c, sig);
-  poly_ntt(&c);
+  // poly_challenge(&c, sig);
+  // poly_ntt(&c);
+  poly_challenge_new(&c, sig);
+  poly_double_ntt_precomp(&c_prime, &c);
 
   if (unpack_sig_z(&z, sig) != 0)
   {
@@ -319,17 +327,22 @@ int crypto_sign_verify(const uint8_t *sig,
       poly_uniform(&tmp_elem, rho, (uint16_t)((i << 8) + j));
       poly_pointwise_acc_montgomery(&w1_elem, &tmp_elem, &z.vec[j]);
     }
+    poly_invntt_tomont(&w1_elem);
 
     // Subtract c*(t1_{i} * 2^d)
-    unpack_pk_t1(&tmp_elem, i, pk);
+    unpack_pk_t1_new(&tmp_elem, i, pk);
+    poly_double_ntt(&tmp_elem);
+    poly_double_basemul_invntt(&tmp_elem,&c,&c_prime,&tmp_elem);
     poly_shiftl(&tmp_elem);
-    poly_ntt(&tmp_elem);
-
-    poly_pointwise_montgomery(&tmp_elem, &c, &tmp_elem);
-
     poly_sub(&w1_elem, &w1_elem, &tmp_elem);
+    
+    // poly_ntt(&tmp_elem);
+
+    // poly_pointwise_montgomery(&tmp_elem, &c, &tmp_elem);
+
+    // poly_sub(&w1_elem, &w1_elem, &tmp_elem);
     poly_reduce(&w1_elem);
-    poly_invntt_tomont(&w1_elem);
+    // poly_invntt_tomont(&w1_elem);
 
     /* Reconstruct w1 */
     poly_caddq(&w1_elem);

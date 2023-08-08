@@ -67,11 +67,15 @@ void polyeta_pack(uint8_t *r, const poly *a);
 void polyt1_pack(uint8_t *r, const poly *a);
 #define polyt1_unpack DILITHIUM_NAMESPACE(polyt1_unpack)
 void polyt1_unpack(poly *r, const uint8_t *a);
+#define polyt1_unpack_new DILITHIUM_NAMESPACE(polyt1_unpack_new)
+void polyt1_unpack_new(poly *r, const uint8_t *a);
 
 #define polyt0_pack DILITHIUM_NAMESPACE(polyt0_pack)
 void polyt0_pack(uint8_t *r, const poly *a);
 #define polyt0_unpack DILITHIUM_NAMESPACE(polyt0_unpack)
 void polyt0_unpack(poly *r, const uint8_t *a);
+#define polyt0_unpack_new DILITHIUM_NAMESPACE(polyt0_unpack_new)
+void polyt0_unpack_new(poly *r, const uint8_t *a);
 
 #define polyz_pack DILITHIUM_NAMESPACE(polyz_pack)
 void polyz_pack(uint8_t *r, const poly *a);

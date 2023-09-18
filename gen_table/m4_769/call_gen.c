@@ -18,11 +18,12 @@ int main()
 {
 
     // two "blocks" of merged layers
-    profile.compressed_layers = 2;
+    profile.compressed_layers = 3;
     // first 4 layers merged...
-    profile.merged_layers[0] = 4;
+    profile.merged_layers[0] = 3;
     // ...then 3
-    profile.merged_layers[1] = 3;
+    profile.merged_layers[1] = 1;
+    profile.merged_layers[2] = 3;
 
     int16_t twiddle_int16[BUFF_MAX];
     int32_t twiddle_int32[BUFF_MAX];
@@ -59,6 +60,11 @@ int main()
         expmod_int16,
         mul_int32,
         &profile, 0);
+
+    profile.merged_layers[0] = 3;
+    // ...then 3
+    profile.merged_layers[1] = 3;
+    profile.merged_layers[2] = 1;
 
     printf("INTT CT Plantard:\n");
     for (int i = 0; i < (NTT_N << 1) - 1; i++)

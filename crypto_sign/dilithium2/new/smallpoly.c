@@ -49,6 +49,8 @@ void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallp
       poly_small_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
     }
 }
+
+#ifdef MULTI_MODULI
 // double-moduli NTT for computing ct
 void poly_double_ntt_precomp(poly *out, poly *in)
 {
@@ -93,7 +95,7 @@ void polyvecl_double_basemul_invntt(polyvecl *r, const poly *a, const poly *apri
       poly_double_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
     }
 }
-
+#endif
 void small_polyeta_unpack(smallpoly *r, const uint8_t *a) {
   unsigned int i;
 

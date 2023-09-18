@@ -507,6 +507,7 @@ void poly_challenge(poly *c, const uint8_t seed[SEEDBYTES]) {
   }
 }
 
+#ifdef MULTI_MODULI
 /*************************************************
  * Name:        challenge
  *
@@ -558,7 +559,7 @@ void poly_challenge_new(poly *c, const uint8_t seed[SEEDBYTES])
     signs >>= 1;
   }
 }
-
+#endif
 /*************************************************
 * Name:        polyeta_pack
 *
@@ -648,6 +649,7 @@ void polyt1_unpack(poly *r, const uint8_t *a) {
   DBENCH_STOP(*tpack);
 }
 
+#ifdef MULTI_MODULI
 void polyt1_unpack_new(poly *r, const uint8_t *a)
 {
   int16_t *rp=(int16_t*)r->coeffs;
@@ -668,6 +670,7 @@ void polyt1_unpack_new(poly *r, const uint8_t *a)
 
   DBENCH_STOP(*tpack);
 }
+#endif
 /*************************************************
 * Name:        polyt0_pack
 *
@@ -779,6 +782,7 @@ void polyt0_unpack(poly *r, const uint8_t *a) {
   DBENCH_STOP(*tpack);
 }
 
+#ifdef MULTI_MODULI
 void polyt0_unpack_new(poly *r, const uint8_t *a)
 {
   int16_t *rp=(int16_t*)r->coeffs;
@@ -844,6 +848,7 @@ void polyt0_unpack_new(poly *r, const uint8_t *a)
 
   DBENCH_STOP(*tpack);
 }
+#endif
 /*************************************************
 * Name:        polyz_pack
 *

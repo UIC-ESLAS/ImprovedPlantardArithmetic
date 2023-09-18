@@ -19,7 +19,7 @@ int main()
 
     // two "blocks" of merged layers
     profile.compressed_layers = 3;
-    // first 4 layers merged...
+    // first 3 layers merged...
     profile.merged_layers[0] = 3;
     // ...then 3
     profile.merged_layers[1] = 1;
@@ -70,6 +70,11 @@ int main()
 
     omega_int16 = omegaQ1; // w
 
+    profile.merged_layers[0] = 3;
+    // ...then 3
+    profile.merged_layers[1] = 3;
+    profile.merged_layers[2] = 1;
+
     gen_streamlined_CT_negacyclic_table_generic_plant(
         twiddle_int32,
         &scale_int16, &omega_int16,
@@ -85,13 +90,6 @@ int main()
         printf("%d, ", twiddle_int32[i]);
     }
     printf("\n\n");
-
-    // two "blocks" of merged layers
-    profile.compressed_layers = 2;
-    // first 3 layers merged...
-    profile.merged_layers[0] = 3;
-    // ...then 4
-    profile.merged_layers[1] = 4;
 
     omega_int16 = omegaQ1; // w
     scale2_int16 = invNQ1;

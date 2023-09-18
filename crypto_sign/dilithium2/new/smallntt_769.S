@@ -258,19 +258,6 @@ small_ntt_asm_769:
 // ########
 // ########
 
-.macro fullplant_769 a0, a1, a2, a3, a4, a5, a6, a7, tmp, q, qa, plantconst
-	movw \plantconst, #14574
-	movt \plantconst, #85
-	doubleplant \a0, \tmp, \q, \qa, \plantconst
-	doubleplant \a1, \tmp, \q, \qa, \plantconst
-	doubleplant \a2, \tmp, \q, \qa, \plantconst
-	doubleplant \a3, \tmp, \q, \qa, \plantconst
-	doubleplant \a4, \tmp, \q, \qa, \plantconst
-	doubleplant \a5, \tmp, \q, \qa, \plantconst
-	doubleplant \a6, \tmp, \q, \qa, \plantconst
-	doubleplant \a7, \tmp, \q, \qa, \plantconst
-.endm
-
 // input: 0.5/1q
 .macro _3_layer_double_inv_CT_16_plant_light c0, c1, c2, c3, c4, c5, c6, c7, xi2, xi4, xi5, xi6, twiddle1, tmp2, q, qa, tmp
 
@@ -520,7 +507,6 @@ small_invntt_asm_769:
 
 	vldm twiddle_ptr!, {s0-s5}
 	movw qa, #24608
-	// fullplant_769 poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7 tmp, q, qa, twiddle1
 	// twiddle2 is used as tmp2
 	_3_layer_double_inv_CT_16_plant_light poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, s1, s3, s4, s5, twiddle1, twiddle2, q, qa, tmp
 

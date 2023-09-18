@@ -280,7 +280,7 @@ void unpack_sk(uint8_t rho[SEEDBYTES],
   for (i = 0; i < K; ++i)
     polyt0_unpack(&t0->vec[i], sk + i * POLYT0_PACKEDBYTES);
 }
-
+#ifdef MULTI_MODULI
 void unpack_sk_new(uint8_t rho[SEEDBYTES],
                uint8_t tr[SEEDBYTES],
                uint8_t key[SEEDBYTES],
@@ -314,7 +314,7 @@ void unpack_sk_new(uint8_t rho[SEEDBYTES],
   for (i = 0; i < K; ++i)
     polyt0_unpack_new(&t0->vec[i], sk + i * POLYT0_PACKEDBYTES);
 }
-
+#endif
 /*************************************************
  * Name:        pack_sig
  *
@@ -497,13 +497,13 @@ void unpack_pk_t1(poly *t1, unsigned int idx, const unsigned char pk[CRYPTO_PUBL
   pk += SEEDBYTES;
   polyt1_unpack(t1, pk + idx * POLYT1_PACKEDBYTES);
 }
-
+#ifdef MULTI_MODULI
 void unpack_pk_t1_new(poly *t1, unsigned int idx, const unsigned char pk[CRYPTO_PUBLICKEYBYTES])
 {
   pk += SEEDBYTES;
   polyt1_unpack_new(t1, pk + idx * POLYT1_PACKEDBYTES);
 }
-
+#endif
 /*************************************************
  * Name:        unpack_sig_h
  *

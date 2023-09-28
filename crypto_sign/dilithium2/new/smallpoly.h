@@ -14,15 +14,6 @@ void polyveck_small_ntt(smallpoly v[K]);
 void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L]);
 void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallpoly *aprime, const smallpoly *b);
 
-#ifdef MULTI_MODULI
-void poly_double_ntt_precomp(poly *out, poly *in);
-void poly_double_ntt(poly *v);
-void polyvecl_double_ntt(polyvecl *v);
-void polyveck_double_ntt(polyveck *v);
-void poly_double_basemul_invntt(poly *r, const poly *a, const poly *aprime, const poly *b);
-void polyvecl_double_basemul_invntt(polyvecl *r, const poly *a, const poly *aprime, const poly b[L]);
-#endif
-
 void small_polyeta_unpack(smallpoly *r, const uint8_t *a);
 
 #endif

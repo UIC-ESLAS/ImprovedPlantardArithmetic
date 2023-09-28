@@ -50,52 +50,7 @@ void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallp
     }
 }
 
-#ifdef MULTI_MODULI
-// double-moduli NTT for computing ct
-void poly_double_ntt_precomp(poly *out, poly *in)
-{
-    double_ntt((int16_t*)in->coeffs);
-    double_point_mul((int16_t *)out->coeffs, (int16_t *)in->coeffs);
-}
 
-void poly_double_ntt(poly *v)
-{
-    double_ntt((int16_t *)v->coeffs);
-}
-
-void polyvecl_double_ntt(polyvecl *v)
-{
-    unsigned int i;
-
-    for (i = 0; i < L; ++i)
-        double_ntt((int16_t *)v->vec[i].coeffs);
-}
-
-void polyveck_double_ntt(polyveck *v)
-{
-    unsigned int i;
-
-    for (i = 0; i < K; ++i)
-        double_ntt((int16_t *)v->vec[i].coeffs);
-}
-
-void poly_double_basemul_invntt(poly *r, const poly *a, const poly *aprime, const poly *b)
-{
-    int16_t tmp[2*N];
-    double_asymmetric_mul(tmp, (int16_t *)b->coeffs, (int16_t *)a->coeffs, (int16_t *)aprime->coeffs);
-    double_invntt(tmp);
-    double_CRT(r->coeffs, tmp, tmp + N);
-}
-
-void polyvecl_double_basemul_invntt(polyvecl *r, const poly *a, const poly *aprime, const poly b[L])
-{
-    unsigned int i;
-    for (i = 0; i < L; i++)
-    {
-      poly_double_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
-    }
-}
-#endif
 void small_polyeta_unpack(smallpoly *r, const uint8_t *a) {
   unsigned int i;
 

@@ -100,16 +100,4 @@ void pack_sig_h(unsigned char sig[CRYPTO_BYTES],
 void pack_sig_h_zero(unsigned char sig[CRYPTO_BYTES],
                      unsigned int *hints_written);
 
-#ifdef MULTI_MODULI
-#define unpack_sk_new DILITHIUM_NAMESPACE(unpack_sk_new)
-void unpack_sk_new(uint8_t rho[SEEDBYTES],
-                   uint8_t tr[SEEDBYTES],
-                   uint8_t key[SEEDBYTES],
-                   polyveck *t0,
-                   smallpoly s1[L],
-                   smallpoly s2[K],
-                   const uint8_t sk[CRYPTO_SECRETKEYBYTES]);
-#define unpack_pk_t1_new DILITHIUM_NAMESPACE(unpack_pk_t1_new)
-void unpack_pk_t1_new(poly *t1, unsigned int idx, const unsigned char pk[CRYPTO_PUBLICKEYBYTES]);
-#endif
 #endif

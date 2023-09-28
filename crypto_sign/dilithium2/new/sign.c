@@ -176,8 +176,9 @@ rej:
   shake256_inc_squeeze(sig, SEEDBYTES, &state);
   
   poly_challenge(&cp, sig);
-
+  
   poly_small_ntt_precomp(&cp_small, &cp_small_prime, &cp);
+  poly_ntt(&cp);
   
   /* Compute z, reject if it reveals secret */
   polyvecl_small_basemul_invntt(&z, &cp_small, &cp_small_prime, s1_prime);
@@ -278,7 +279,7 @@ int crypto_sign_verify(const uint8_t *sig,
   uint8_t mu[CRHBYTES];
   uint8_t c2[SEEDBYTES];
   polyvecl z;
-  poly c, c_prime, w1_elem, tmp_elem;
+  poly c,  w1_elem, tmp_elem;
   shake256incctx state;
 
   if (siglen != CRYPTO_BYTES)

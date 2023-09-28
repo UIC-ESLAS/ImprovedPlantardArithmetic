@@ -58,15 +58,6 @@ void poly_uniform_gamma1(poly *a,
 #define poly_challenge DILITHIUM_NAMESPACE(poly_challenge)
 void poly_challenge(poly *c, const uint8_t seed[SEEDBYTES]);
 
-#ifdef MULTI_MODULI
-#define poly_challenge_new DILITHIUM_NAMESPACE(poly_challenge_new)
-void poly_challenge_new(poly *c, const uint8_t seed[SEEDBYTES]);
-#define polyt1_unpack_new DILITHIUM_NAMESPACE(polyt1_unpack_new)
-void polyt1_unpack_new(poly *r, const uint8_t *a);
-#define polyt0_unpack_new DILITHIUM_NAMESPACE(polyt0_unpack_new)
-void polyt0_unpack_new(poly *r, const uint8_t *a);
-#endif
-
 #define polyeta_pack DILITHIUM_NAMESPACE(polyeta_pack)
 void polyeta_pack(uint8_t *r, const poly *a);
 

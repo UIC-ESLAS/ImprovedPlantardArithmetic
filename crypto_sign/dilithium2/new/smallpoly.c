@@ -1,6 +1,6 @@
 #include "smallpoly.h"
 #include "smallntt.h"
-
+// small NTT for computing cs
 void poly_small_ntt_precomp(smallpoly *out, smallpoly *out2, poly *in) {
   for (int i = 0; i < N; i++)
   {
@@ -41,12 +41,15 @@ void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallpoly *apr
      }
 }
 
-void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L]){
+void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L])
+{
     unsigned int i;
-    for(i=0;i<L;i++){
-        poly_small_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
+    for (i = 0; i < L; i++)
+    {
+      poly_small_basemul_invntt(&r->vec[i], a, aprime, &b[i]);
     }
 }
+
 
 void small_polyeta_unpack(smallpoly *r, const uint8_t *a) {
   unsigned int i;

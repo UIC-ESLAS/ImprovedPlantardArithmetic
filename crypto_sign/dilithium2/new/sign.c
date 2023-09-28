@@ -121,8 +121,10 @@ int crypto_sign_signature(uint8_t *sig,
   poly cp;
   shake256incctx state;
 
-  smallpoly s1_prime[L], s2_prime[K];
-  smallpoly cp_small, cp_small_prime;
+  smallpoly s1_prime[L];
+  smallpoly s2_prime[K];
+  smallpoly cp_small;
+  smallpoly cp_small_prime;
 
   rho = seedbuf;
   tr = rho + SEEDBYTES;
@@ -172,11 +174,12 @@ rej:
   shake256_inc_absorb(&state, sig, K * POLYW1_PACKEDBYTES);
   shake256_inc_finalize(&state);
   shake256_inc_squeeze(sig, SEEDBYTES, &state);
+  
   poly_challenge(&cp, sig);
-
+  
   poly_small_ntt_precomp(&cp_small, &cp_small_prime, &cp);
   poly_ntt(&cp);
-
+  
   /* Compute z, reject if it reveals secret */
   polyvecl_small_basemul_invntt(&z, &cp_small, &cp_small_prime, s1_prime);
 
@@ -203,7 +206,6 @@ rej:
 
     /* Compute hints for w1 */
     poly_pointwise_montgomery(tmp, &cp, &t0.vec[i]);
-
     poly_invntt_tomont(tmp);
     poly_reduce(tmp);
 
@@ -277,7 +279,7 @@ int crypto_sign_verify(const uint8_t *sig,
   uint8_t mu[CRHBYTES];
   uint8_t c2[SEEDBYTES];
   polyvecl z;
-  poly c, w1_elem, tmp_elem;
+  poly c,  w1_elem, tmp_elem;
   shake256incctx state;
 
   if (siglen != CRYPTO_BYTES)
@@ -319,14 +321,14 @@ int crypto_sign_verify(const uint8_t *sig,
       poly_uniform(&tmp_elem, rho, (uint16_t)((i << 8) + j));
       poly_pointwise_acc_montgomery(&w1_elem, &tmp_elem, &z.vec[j]);
     }
-
+    
     // Subtract c*(t1_{i} * 2^d)
     unpack_pk_t1(&tmp_elem, i, pk);
     poly_shiftl(&tmp_elem);
     poly_ntt(&tmp_elem);
 
     poly_pointwise_montgomery(&tmp_elem, &c, &tmp_elem);
-
+    
     poly_sub(&w1_elem, &w1_elem, &tmp_elem);
     poly_reduce(&w1_elem);
     poly_invntt_tomont(&w1_elem);

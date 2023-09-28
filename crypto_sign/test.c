@@ -1,7 +1,7 @@
 #include "api.h"
 #include "randombytes.h"
 #include "hal.h"
-
+#include "sendfn.h"
 #include <string.h>
 
 #define NTESTS 1
@@ -116,6 +116,83 @@ static int test_wrong_pk(void)
     return 0;
 }
 
+#include "ntt.h"
+#include "smallntt.h"
+#include "smallpoly.h"
+#include "poly.h"
+#include "polyvec.h"
+static void printbytes(const unsigned char *x, unsigned long long xlen)
+{
+    char outs[2 * xlen + 1];
+    unsigned long long i;
+    for (i = 0; i < xlen; i++)
+        sprintf(outs + 2 * i, "%02x", x[i]);
+    outs[2 * xlen] = 0;
+    hal_send_str(outs);
+}
+
+static void printpoly32(const poly *x)
+{
+    char outs[4 *N + 1];
+    unsigned long long i;
+    for (i = 0; i < N; i++)
+        sprintf(outs + 4 * i, "%04x", x->coeffs[i]);
+    outs[4 * N] = 0;
+    hal_send_str(outs);
+}
+static void printpoly16(const poly *x)
+{
+  int16_t *xp=(int16_t*)x->coeffs;
+    char outs[4 * N + 1];
+    unsigned long long i;
+    for (i = 0; i < 2*N; i++)
+        sprintf(outs + 2 * i, "%02x", xp[i]);
+    outs[4 * N] = 0;
+    hal_send_str(outs);
+}
+
+int test_double_moduli_ntt(){
+  poly a,a1,b,c,cprime;
+  int16_t *bp = (int16_t *)b.coeffs;
+
+  // Use 32-bit NTT
+  poly_challenge(&c,"random sign");
+  for (int i = 0; i < N; i++)
+  {
+        b.coeffs[i] = i + (1 << 12);
+  }
+  // printpoly32(&c);
+  // printpoly32(&b);
+  poly_ntt(&c);
+  poly_ntt(&b);
+  poly_pointwise_montgomery(&a, &c, &b);
+  poly_invntt_tomont(&a);
+  poly_reduce(&a);
+  hal_send_str("Use 32-bit NTT output:");
+  printpoly32(&a);
+
+  // use multi-moduli NTT
+  poly_challenge_new(&c, "random sign");
+  for (int i = 0; i < N; i++)
+  {
+        bp[i] = i+(1<<12);
+        bp[i + N] = bp[i];
+  }
+  poly_double_ntt_precomp(&cprime,&c);
+  poly_double_ntt(&b);
+  poly_double_basemul_invntt(&a1,&c,&cprime,&b);
+  poly_reduce(&a1);
+  hal_send_str("Use multi-moduli NTT output:");
+  printpoly32(&a1);
+
+  for(int i=0;i<N;i++){
+    if(a.coeffs[i]!=a1.coeffs[i]){
+      hal_send_str("error");
+    }
+  }
+}
+
+
 int main(void)
 {
     hal_setup(CLOCK_FAST);
@@ -126,6 +203,7 @@ int main(void)
     }
     test_sign();
     test_wrong_pk();
+    // test_double_moduli_ntt();
 
     hal_send_str("#");
 

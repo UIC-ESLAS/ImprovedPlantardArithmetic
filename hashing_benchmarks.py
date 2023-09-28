@@ -26,8 +26,8 @@ def toMacro(name, value, k=None):
 
 def run_bench(scheme_path, scheme_name, scheme_type, iterations):
     subprocess.check_call(f"make clean", shell=True)
-    subprocess.check_call(f"make -j 12 IMPLEMENTATION_PATH={scheme_path} CRYPTO_ITERATIONS={iterations} bin/{scheme_name}_speed.bin", shell=True)
-    binary = f"bin/{scheme_name}_speed.bin"
+    subprocess.check_call(f"make -j 12 IMPLEMENTATION_PATH={scheme_path} CRYPTO_ITERATIONS={iterations} bin/{scheme_name}_hashing.bin", shell=True)
+    binary = f"bin/{scheme_name}_hashing.bin"
     if os.path.isfile(binary) is False:
         print("Binary does not exist")
         exit()
@@ -82,10 +82,15 @@ def parseLogSpeed(log, ignoreErrors):
 
     return cleanNullTerms({
         f"keygen":  get(lines, "keypair cycles:"),
+        f"keygen_hash":  get(lines, "keypair hash cycles:"),
         f"encaps":  get(lines, "encaps cycles:"),
+        f"encaps_hash":  get(lines, "encaps hash cycles:"),
         f"decaps":  get(lines, "decaps cycles:"),
+        f"decaps_hash":  get(lines, "decaps hash cycles:"),
         f"sign":  get(lines, "sign cycles:"),
-        f"verify":  get(lines, "verify cycles:")
+        f"sign_hash":  get(lines, "sign hash cycles:"),
+        f"verify":  get(lines, "verify cycles:"),
+        f"verify_hash":  get(lines, "verify hash cycles:")
     })
 
 def average(results):
@@ -94,6 +99,12 @@ def average(results):
         avgs[key] = int(np.array([results[i][key] for i in range(len(results))]).mean())
     return avgs
 
+def cal_percent(avgs):
+    percent = dict()
+    for key in avgs.keys():
+        if "_hash" not in key:
+            percent[key]=round(avgs[f"{key}_hash"]/avgs[key]*100,2)
+    return percent
 
 def bench(scheme_path, scheme_name, scheme_type, iterations, outfile, ignoreErrors=False):
     logs    = run_bench(scheme_path, scheme_name, scheme_type, iterations)
@@ -108,16 +119,22 @@ def bench(scheme_path, scheme_name, scheme_type, iterations, outfile, ignoreErro
         results.append(result)
 
     avgResults = average(results)
-    print(f"%M4 results for {scheme_name} (type={scheme_type})", file=outfile)
+    percent =cal_percent(avgResults)
+
+    print(f"%M4 hash profiling results for {scheme_name} (type={scheme_type})", file=outfile)
     scheme_nameStripped = scheme_name.replace("-", "") 
     for key, value in avgResults.items():
         macro = toMacro(f"{scheme_nameStripped}{key}", value)
         print(macro.strip())
         print(macro, end='', file=outfile)
+    for key, value in percent.items():
+        macro = toMacro(f"{scheme_nameStripped}{key}_hash_profile", value)
+        print(macro.strip())
+        print(macro, end='', file=outfile)
     print('', file=outfile, flush=True)
 
 
-with open(f"benchmarks.txt", "a") as outfile:
+with open(f"hashing_benchmarks.txt", "a") as outfile:
 
     now = datetime.datetime.now(datetime.timezone.utc)
     iterations = 1000 # defines the number of measurements to perform
@@ -129,25 +146,25 @@ with open(f"benchmarks.txt", "a") as outfile:
     for scheme_path in [
         # "crypto_kem/kyber512/old",
         # "crypto_kem/kyber512/m4fstack",
-        # "crypto_kem/kyber512/m4fspeed",
+        "crypto_kem/kyber512/m4fspeed",
         # "crypto_kem/kyber512-90s/m4fstack",
         # "crypto_kem/kyber512-90s/m4fspeed",
         # "crypto_kem/kyber768/old",
         # "crypto_kem/kyber768/m4fstack",
-        # "crypto_kem/kyber768/m4fspeed",
+        "crypto_kem/kyber768/m4fspeed",
         # "crypto_kem/kyber768-90s/m4fstack",
         # "crypto_kem/kyber768-90s/m4fspeed",
         # "crypto_kem/kyber1024/old",
         # "crypto_kem/kyber1024/m4fstack",
-        # "crypto_kem/kyber1024/m4fspeed",
+        "crypto_kem/kyber1024/m4fspeed",
         # "crypto_kem/kyber1024-90s/m4fstack",
         # "crypto_kem/kyber1024-90s/m4fspeed",
         # "crypto_kem/nttru",
-        "crypto_sign/dilithium2/old",
+        # "crypto_sign/dilithium2/old",
         # "crypto_sign/dilithium2/new",
-        "crypto_sign/dilithium3/old",
+        # "crypto_sign/dilithium3/old",
         # "crypto_sign/dilithium3/new",
-        "crypto_sign/dilithium5/old",
+        # "crypto_sign/dilithium5/old",
         # "crypto_sign/dilithium5/new"
     ]:
         scheme_name = scheme_path.replace("/", "_")

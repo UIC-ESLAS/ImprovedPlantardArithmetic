@@ -25,27 +25,27 @@ int main(void)
         hal_send_str("==========================");
     }
 
-  for(i=0;i<CRYPTO_ITERATIONS; i++)
-  {
-    // Key-pair generation
-    t0 = hal_get_time();
-    crypto_sign_keypair(pk, sk);
-    t1 = hal_get_time();
-    printcycles("keypair cycles:", t1-t0);
+    for (i = 0; i < CRYPTO_ITERATIONS; i++)
+    {
+      // Key-pair generation
+      t0 = hal_get_time();
+      crypto_sign_keypair(pk, sk);
+      t1 = hal_get_time();
+      printcycles("keypair cycles:", t1 - t0);
 
-    // Signing
-    t0 = hal_get_time();
-    crypto_sign(sm, &smlen, sm, MLEN, sk);
-    t1 = hal_get_time();
-    printcycles("sign cycles:", t1-t0);
+      // Signing
+      t0 = hal_get_time();
+      crypto_sign(sm, &smlen, sm, MLEN, sk);
+      t1 = hal_get_time();
+      printcycles("sign cycles:", t1 - t0);
 
-    // Verification
-    t0 = hal_get_time();
-    crypto_sign_open(sm, &smlen, sm, smlen, pk);
-    t1 = hal_get_time();
-    printcycles("verify cycles:", t1-t0);
+      // Verification
+      t0 = hal_get_time();
+      crypto_sign_open(sm, &smlen, sm, smlen, pk);
+      t1 = hal_get_time();
+      printcycles("verify cycles:", t1 - t0);
 
-    hal_send_str("#");
+      hal_send_str("#");
   }
   while(1);
   return 0;

@@ -1,0 +1,142 @@
+% Benchmarking measurements written on 2023-09-28 06:24:25.911911+00:00; iterations=1000
+
+%M4 hash profiling results for crypto_sign_dilithium2_old (type=sign)
+\def\crypto_sign_dilithium2_oldkeygen{1\,595k}
+\def\crypto_sign_dilithium2_oldkeygen_hash{1\,331k}
+\def\crypto_sign_dilithium2_oldsign{4\,052k}
+\def\crypto_sign_dilithium2_oldsign_hash{2\,615k}
+\def\crypto_sign_dilithium2_oldverify{1\,576k}
+\def\crypto_sign_dilithium2_oldverify_hash{1\,268k}
+\def\crypto_sign_dilithium2_oldkeygen_hash_profile{83.47}
+\def\crypto_sign_dilithium2_oldsign_hash_profile{64.53}
+\def\crypto_sign_dilithium2_oldverify_hash_profile{80.47}
+
+%M4 hash profiling results for crypto_sign_dilithium3_old (type=sign)
+\def\crypto_sign_dilithium3_oldkeygen{2\,828k}
+\def\crypto_sign_dilithium3_oldkeygen_hash{2\,420k}
+\def\crypto_sign_dilithium3_oldsign{6\,523k}
+\def\crypto_sign_dilithium3_oldsign_hash{4\,106k}
+\def\crypto_sign_dilithium3_oldverify{2\,702k}
+\def\crypto_sign_dilithium3_oldverify_hash{2\,232k}
+\def\crypto_sign_dilithium3_oldkeygen_hash_profile{85.54}
+\def\crypto_sign_dilithium3_oldsign_hash_profile{62.95}
+\def\crypto_sign_dilithium3_oldverify_hash_profile{82.62}
+
+%M4 hash profiling results for crypto_sign_dilithium5_old (type=sign)
+\def\crypto_sign_dilithium5_oldkeygen{4\,817k}
+\def\crypto_sign_dilithium5_oldkeygen_hash{4\,172k}
+\def\crypto_sign_dilithium5_oldsign{8\,534k}
+\def\crypto_sign_dilithium5_oldsign_hash{5\,810k}
+\def\crypto_sign_dilithium5_oldverify{4\,714k}
+\def\crypto_sign_dilithium5_oldverify_hash{3\,992k}
+\def\crypto_sign_dilithium5_oldkeygen_hash_profile{86.6}
+\def\crypto_sign_dilithium5_oldsign_hash_profile{68.08}
+\def\crypto_sign_dilithium5_oldverify_hash_profile{84.69}
+
+% Benchmarking measurements written on 2023-09-28 06:51:59.548878+00:00; iterations=1000
+
+%M4 hash profiling results for crypto_sign_dilithium2_old (type=sign)
+\def\crypto_sign_dilithium2_oldkeygen{1\,357k}
+\def\crypto_sign_dilithium2_oldkeygen_hash{1\,093k}
+\def\crypto_sign_dilithium2_oldsign{3\,487k}
+\def\crypto_sign_dilithium2_oldsign_hash{2\,093k}
+\def\crypto_sign_dilithium2_oldverify{1\,350k}
+\def\crypto_sign_dilithium2_oldverify_hash{1\,042k}
+\def\crypto_sign_dilithium2_oldkeygen_hash_profile{80.57}
+\def\crypto_sign_dilithium2_oldsign_hash_profile{60.02}
+\def\crypto_sign_dilithium2_oldverify_hash_profile{77.2}
+
+%M4 hash profiling results for crypto_sign_dilithium3_new (type=sign)
+\def\crypto_sign_dilithium3_newkeygen{2\,394k}
+\def\crypto_sign_dilithium3_newkeygen_hash{1\,985k}
+\def\crypto_sign_dilithium3_newsign{5\,574k}
+\def\crypto_sign_dilithium3_newsign_hash{3\,287k}
+\def\crypto_sign_dilithium3_newverify{2\,302k}
+\def\crypto_sign_dilithium3_newverify_hash{1\,832k}
+\def\crypto_sign_dilithium3_newkeygen_hash_profile{82.92}
+\def\crypto_sign_dilithium3_newsign_hash_profile{58.97}
+\def\crypto_sign_dilithium3_newverify_hash_profile{79.61}
+
+%M4 hash profiling results for crypto_sign_dilithium5_old (type=sign)
+\def\crypto_sign_dilithium5_oldkeygen{4\,069k}
+\def\crypto_sign_dilithium5_oldkeygen_hash{3\,423k}
+\def\crypto_sign_dilithium5_oldsign{7\,730k}
+\def\crypto_sign_dilithium5_oldsign_hash{4\,874k}
+\def\crypto_sign_dilithium5_oldverify{3\,998k}
+\def\crypto_sign_dilithium5_oldverify_hash{3\,277k}
+\def\crypto_sign_dilithium5_oldkeygen_hash_profile{84.14}
+\def\crypto_sign_dilithium5_oldsign_hash_profile{63.05}
+\def\crypto_sign_dilithium5_oldverify_hash_profile{81.95}
+
+% Benchmarking measurements written on 2023-09-28 07:19:09.900184+00:00; iterations=1000
+
+% Benchmarking measurements written on 2023-09-28 07:20:57.420022+00:00; iterations=1000
+
+%M4 hash profiling results for crypto_kem_kyber512_m4fspeed (type=kem)
+\def\crypto_kem_kyber512_m4fspeedkeygen{369k}
+\def\crypto_kem_kyber512_m4fspeedkeygen_hash{283k}
+\def\crypto_kem_kyber512_m4fspeedencaps{448k}
+\def\crypto_kem_kyber512_m4fspeedencaps_hash{358k}
+\def\crypto_kem_kyber512_m4fspeeddecaps{409k}
+\def\crypto_kem_kyber512_m4fspeeddecaps_hash{285k}
+\def\crypto_kem_kyber512_m4fspeedkeygen_hash_profile{76.75}
+\def\crypto_kem_kyber512_m4fspeedencaps_hash_profile{79.85}
+\def\crypto_kem_kyber512_m4fspeeddecaps_hash_profile{69.74}
+
+%M4 hash profiling results for crypto_kem_kyber768_m4fspeed (type=kem)
+\def\crypto_kem_kyber768_m4fspeedkeygen{604k}
+\def\crypto_kem_kyber768_m4fspeedkeygen_hash{457k}
+\def\crypto_kem_kyber768_m4fspeedencaps{732k}
+\def\crypto_kem_kyber768_m4fspeedencaps_hash{581k}
+\def\crypto_kem_kyber768_m4fspeeddecaps{674k}
+\def\crypto_kem_kyber768_m4fspeeddecaps_hash{478k}
+\def\crypto_kem_kyber768_m4fspeedkeygen_hash_profile{75.59}
+\def\crypto_kem_kyber768_m4fspeedencaps_hash_profile{79.32}
+\def\crypto_kem_kyber768_m4fspeeddecaps_hash_profile{70.84}
+
+%M4 hash profiling results for crypto_kem_kyber1024_m4fspeed (type=kem)
+\def\crypto_kem_kyber1024_m4fspeedkeygen{962k}
+\def\crypto_kem_kyber1024_m4fspeedkeygen_hash{733k}
+\def\crypto_kem_kyber1024_m4fspeedencaps{1\,119k}
+\def\crypto_kem_kyber1024_m4fspeedencaps_hash{888k}
+\def\crypto_kem_kyber1024_m4fspeeddecaps{1\,043k}
+\def\crypto_kem_kyber1024_m4fspeeddecaps_hash{754k}
+\def\crypto_kem_kyber1024_m4fspeedkeygen_hash_profile{76.18}
+\def\crypto_kem_kyber1024_m4fspeedencaps_hash_profile{79.41}
+\def\crypto_kem_kyber1024_m4fspeeddecaps_hash_profile{72.29}
+
+% Benchmarking measurements written on 2023-09-28 07:29:35.349018+00:00; iterations=1000
+
+%M4 hash profiling results for crypto_kem_kyber512_m4fspeed (type=kem)
+\def\crypto_kem_kyber512_m4fspeedkeygen{432k}
+\def\crypto_kem_kyber512_m4fspeedkeygen_hash{346k}
+\def\crypto_kem_kyber512_m4fspeedencaps{527k}
+\def\crypto_kem_kyber512_m4fspeedencaps_hash{437k}
+\def\crypto_kem_kyber512_m4fspeeddecaps{472k}
+\def\crypto_kem_kyber512_m4fspeeddecaps_hash{348k}
+\def\crypto_kem_kyber512_m4fspeedkeygen_hash_profile{80.12}
+\def\crypto_kem_kyber512_m4fspeedencaps_hash_profile{82.86}
+\def\crypto_kem_kyber512_m4fspeeddecaps_hash_profile{73.76}
+
+%M4 hash profiling results for crypto_kem_kyber768_m4fspeed (type=kem)
+\def\crypto_kem_kyber768_m4fspeedkeygen{704k}
+\def\crypto_kem_kyber768_m4fspeedkeygen_hash{556k}
+\def\crypto_kem_kyber768_m4fspeedencaps{860k}
+\def\crypto_kem_kyber768_m4fspeedencaps_hash{708k}
+\def\crypto_kem_kyber768_m4fspeeddecaps{778k}
+\def\crypto_kem_kyber768_m4fspeeddecaps_hash{582k}
+\def\crypto_kem_kyber768_m4fspeedkeygen_hash_profile{79.04}
+\def\crypto_kem_kyber1024_m4fspeedencaps_hash_profile{82.38}
+\def\crypto_kem_kyber1024_m4fspeeddecaps_hash_profile{74.75}
+
+%M4 hash profiling results for crypto_kem_kyber1024_m4fspeed (type=kem)
+\def\crypto_kem_kyber1024_m4fspeedkeygen{1\,122k}
+\def\crypto_kem_kyber1024_m4fspeedkeygen_hash{893k}
+\def\crypto_kem_kyber1024_m4fspeedencaps{1\,314k}
+\def\crypto_kem_kyber1024_m4fspeedencaps_hash{1\,083k}
+\def\crypto_kem_kyber1024_m4fspeeddecaps{1\,208k}
+\def\crypto_kem_kyber1024_m4fspeeddecaps_hash{919k}
+\def\crypto_kem_kyber1024_m4fspeedkeygen_hash_profile{79.58}
+\def\crypto_kem_kyber1024_m4fspeedencaps_hash_profile{82.46}
+\def\crypto_kem_kyber1024_m4fspeeddecaps_hash_profile{76.07}
+

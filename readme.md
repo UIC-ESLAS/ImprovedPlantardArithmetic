@@ -103,11 +103,11 @@ st-flash --reset write bin/crypto_kem_kyber768_newstack_test.bin 0x8000000
 
 For building the `test` firmware for our new version of `dilithium2` the following command can be used:
 ```
-make IMPLEMENTATION_PATH=crypto_kem/dilithium2/new bin/crypto_kem_dilithium2_new_test.bin
+make IMPLEMENTATION_PATH=crypto_sign/dilithium2/new bin/crypto_sign_dilithium2_new_test.bin
 ```
 It can the be flashed using:
 ```
-st-flash --reset write bin/crypto_kem_dilithium2_new_test.bin 0x8000000
+st-flash --reset write bin/crypto_sign_dilithium2_new_test.bin 0x8000000
 ```
 
 ### reference

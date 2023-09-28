@@ -3,8 +3,8 @@
 .syntax unified
 .cpu cortex-m4
 .thumb
-#include "macros_smallntt.i"
 
+#include "macros_smallntt.i"
 // #######
 // #######
 // # NTT #
@@ -54,10 +54,10 @@
 	two_doublebutterfly_plant \c4, \c5, \c6, \c7, \twiddle1, \twiddle2, \tmp, \q, \qa
 .endm
 
-.global small_ntt_asm_3329
-.type small_ntt_asm_3329, %function
+.global small_ntt_asm_769
+.type small_ntt_asm_769, %function
 .align 2
-small_ntt_asm_3329:
+small_ntt_asm_769:
 	push {r4-r11, r14}
 	vpush.w {s16-s24}
 	poly         .req r0
@@ -79,9 +79,9 @@ small_ntt_asm_3329:
 	### qa=2^a q;a=3; at the bottom of r12
 	tmp         .req r14
 
-	// movw qa, #26632
+	// movw qa, #24608
 	// Why movt? Because we initially placed qa at the bottom of the same register as q;
-	movt q, #3329
+	movt q, #769
 
 	### LAYER 7+6+5+4
 	.equ distance, 256
@@ -101,7 +101,7 @@ small_ntt_asm_3329:
 		load poly, poly0, poly1, poly2, poly3, #offset, #distance/4+offset, #2*distance/4+offset, #3*distance/4+offset
 		load poly, poly4, poly5, poly6, poly7, #distance+offset, #5*distance/4+offset, #6*distance/4+offset, #7*distance/4+offset
 		
-		movw qa, #26632
+		movw qa, #24608
 
 		// 8-NTT on a1, a3, ..., a15
 		_3_layer_double_CT_16_plant_fp poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, s8, s9, s10, s11, s12, s13, s14, twiddle1, twiddle2, q, qa, tmp
@@ -143,7 +143,7 @@ small_ntt_asm_3329:
 		load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
 		load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
 		
-		movw qa, #26632
+		movw qa, #24608
 		// 8-NTT on a0, a2, ..., a14
 		_3_layer_double_CT_16_plant_fp poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, s8, s9, s10, s11, s12, s13, s14, twiddle1, twiddle2, q, qa, tmp
 
@@ -219,7 +219,7 @@ small_ntt_asm_3329:
 		load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
 		load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
 		
-		movw qa, #26632
+		movw qa, #24608
 		_3_layer_double_CT_16_plant poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, twiddle1, twiddle2, twiddle_ptr, q, qa, tmp
 		
 		vmov poly, s23
@@ -345,10 +345,10 @@ small_ntt_asm_3329:
 	mul_twiddle_plant \c7, \twiddle2, \tmp, \q, \qa
 .endm
 # input coefficients < 0.5q
-.global small_invntt_asm_3329
-.type small_invntt_asm_3329, %function
+.global small_invntt_asm_769
+.type small_invntt_asm_769, %function
 .align 2
-small_invntt_asm_3329:
+small_invntt_asm_769:
 	push {r4-r11, r14}
 	vpush.w {s16-s23}
 	poly         .req r0
@@ -369,7 +369,7 @@ small_invntt_asm_3329:
 	// qa=2^a q;a=3; at the bottom of r12
 	tmp          .req r14
 
-	movt q, #3329
+	movt q, #769
 
 	### LAYER 7+6+5+4
 	.equ distance, 16
@@ -387,7 +387,7 @@ small_invntt_asm_3329:
 		load poly, poly0, poly1, poly2, poly3, #offset, #distance/4+offset, #2*distance/4+offset, #3*distance/4+offset
 		load poly, poly4, poly5, poly6, poly7, #distance+offset, #5*distance/4+offset, #6*distance/4+offset, #7*distance/4+offset
 
-		movw qa, #26632
+		movw qa, #24608
 
 		// NTT on a1, a3, ..., a15   
 		// twiddle2 is used as tmp2
@@ -430,7 +430,7 @@ small_invntt_asm_3329:
 		load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
 		load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
 		
-		movw qa, #26632
+		movw qa, #24608
 		// NTT on a0, a2, ..., a14
 		// twiddle2 is used as tmp2
 		_3_layer_double_inv_CT_16_plant_light poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, s10, s12, s13, s14, twiddle1, twiddle2, q, qa, tmp
@@ -506,8 +506,7 @@ small_invntt_asm_3329:
 	load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
 
 	vldm twiddle_ptr!, {s0-s5}
-	movw qa, #26632
-	fullplant poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7 tmp, q, qa, twiddle1
+	movw qa, #24608
 	// twiddle2 is used as tmp2
 	_3_layer_double_inv_CT_16_plant_light poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, s1, s3, s4, s5, twiddle1, twiddle2, q, qa, tmp
 
@@ -530,7 +529,7 @@ small_invntt_asm_3329:
 		load poly, poly0, poly1, poly2, poly3, #0, #distance/4, #2*distance/4, #3*distance/4
 		load poly, poly4, poly5, poly6, poly7, #distance, #5*distance/4, #6*distance/4, #7*distance/4
 		
-		movw qa, #26632
+		movw qa, #24608
 		_3_layer_double_inv_CT_16_plant poly0, poly1, poly2, poly3, poly4, poly5, poly6, poly7, twiddle1, twiddle2, twiddle_ptr, q, qa, tmp
 
 		// twisting
@@ -572,13 +571,13 @@ small_invntt_asm_3329:
 #### r0: out; r1: in; r2: zetas####
 ###################################
 .align 2
-.global small_pointmul_asm_3329
-.type small_pointmul_asm_3329, %function
-small_pointmul_asm_3329:
+.global small_pointmul_asm_769
+.type small_pointmul_asm_769, %function
+small_pointmul_asm_769:
     push.w {r4-r11, lr}
 
-    movw r14, #26632 // qa
-    movt r12, #3329  // q
+    movw r14, #24608 // qa
+    movt r12, #769  // q
     .equ width, 4
 
 
@@ -626,15 +625,15 @@ small_pointmul_asm_3329:
 
 #### r0: out; r1: a; r2: b; r3: bprime
   .align 2
-.global small_asymmetric_mul_asm_3329
-.type small_asymmetric_mul_asm_3329, %function
-small_asymmetric_mul_asm_3329:
+.global small_asymmetric_mul_asm_769
+.type small_asymmetric_mul_asm_769, %function
+small_asymmetric_mul_asm_769:
     push.w {r4-r11, lr}
 
-    movw r14, #26632 // qa
-    movt r12, #3329  // q
-	movw r11, #62209
-	movt r11, #27560 // qinv
+    movw r14, #24608 // qa
+    movt r12, #769  // q
+	movw r11, #64769
+	movt r11, #58632 // qinv
     .equ width, 4
     add.w r10, r0, #256*2
     _asymmetric_mul_16_loop:

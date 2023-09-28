@@ -16,7 +16,7 @@ def toLog(name, value, k=None):
 def toMacro(name, value, k=None):
   value = f"{value:,}"
   value = value.replace(",", "\\,")
-  return f"\\DefineVar{{{name}}}{{{value}}}\n"
+  return f"\\def\\{name}{{{value}}}\n"
 
 def run_bench(scheme_path, scheme_name, scheme_type, iterations, nohash):
     cflags=""
@@ -81,12 +81,14 @@ def parseLogSpeed(log, ignoreErrors):
         f"_InnerProdDec":  get(lines, "Inner prod cycles (dec):"),
         f"_NTT":  get(lines, "NTT cycles:"),
         f"_iNTT":  get(lines, "iNTT cycles:"),
+        f"_basemul":  get(lines, "basemul cycles:"),
         f"_kyberNTT":  get(lines, "kyber NTT cycles:"),
         f"_kyberiNTT":  get(lines, "kyber iNTT cycles:"),
         f"_smallNTT":  get(lines, "small NTT cycles:"),
         f"_smalliNTT":  get(lines, "small iNTT cycles:"),
         f"_kyberbasemul":  get(lines, "kyber basemul cycles:"),
         f"_smallbasemul":  get(lines, "small basemul cycles:"),
+        f"_smallpointmul":  get(lines, "small point_mul cycles:"),
         f"_doublebasemulasm":  get(lines, "doublebasemul_asm cycles:"),
         f"_doublebasemulasmacc":  get(lines, "doublebasemul_asm_acc cycles:"),
         f"_doublebasemulasm_s":  get(lines, "doublebasemul_asm_wrapper cycles:"),
@@ -103,6 +105,12 @@ def parseLogSpeed(log, ignoreErrors):
         f"polybasemul":  get(lines, "poly_basemul cycles:"),
         f"polybasemulacc":  get(lines, "poly_basemul_acc cycles:"),
         f"Nothing":  get(lines, "Nothing cycles:"),
+        f"_keccak": get(lines, "KeccakF1600_StatePermute cycles:"),
+        f"_keccak_24": get(lines, "KeccakP1600_Permute_24rounds cycles:"),
+        f"cs1_32ntt":  get(lines, "cs1 with 32-bit NTT cycles:"),
+        f"cs2_32ntt":  get(lines, "cs2 with 32-bit NTT cycles:"),
+        f"cs1_16ntt":  get(lines, "cs1 with 16-bit NTT cycles:"),
+        f"cs2_16ntt":  get(lines, "cs2 with 16-bit NTT cycles:"),
     })
 
 def average(results):
@@ -135,7 +143,7 @@ def bench(scheme_path, scheme_name, scheme_type, iterations, outfile, nohash, ig
 
 
 with open(f"f_benchmarks.txt", "a") as outfile:
-    iterations = 1  # defines the number of measurements to perform
+    iterations = 100  # defines the number of measurements to perform
     nohash = False  # defines if hashing should be disabled
     now = datetime.datetime.now(datetime.timezone.utc)
     print(f"% Benchmarking measurements written on {now}; iterations={iterations}, nohash={nohash}\n", file=outfile)

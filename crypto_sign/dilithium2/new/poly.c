@@ -507,6 +507,7 @@ void poly_challenge(poly *c, const uint8_t seed[SEEDBYTES]) {
   }
 }
 
+
 /*************************************************
 * Name:        polyeta_pack
 *
@@ -595,6 +596,7 @@ void polyt1_unpack(poly *r, const uint8_t *a) {
 
   DBENCH_STOP(*tpack);
 }
+
 
 /*************************************************
 * Name:        polyt0_pack
@@ -706,6 +708,7 @@ void polyt0_unpack(poly *r, const uint8_t *a) {
 
   DBENCH_STOP(*tpack);
 }
+
 
 /*************************************************
 * Name:        polyz_pack

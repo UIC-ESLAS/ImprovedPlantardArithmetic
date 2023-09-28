@@ -11,8 +11,6 @@ typedef struct {
 void poly_small_ntt_precomp(smallpoly *out, smallpoly *out2, poly *in);
 void polyvecl_small_ntt(smallpoly v[L]);
 void polyveck_small_ntt(smallpoly v[K]);
-
-
 void polyvecl_small_basemul_invntt(polyvecl *r, const smallpoly *a, const smallpoly *aprime, const smallpoly b[L]);
 void poly_small_basemul_invntt(poly *r, const smallpoly *a, const smallpoly *aprime, const smallpoly *b);
 

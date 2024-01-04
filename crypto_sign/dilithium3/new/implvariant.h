@@ -1,1 +1,1 @@
-../../dilithium2/new/implvariant.h
+#define opt

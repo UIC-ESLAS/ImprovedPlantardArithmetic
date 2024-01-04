@@ -1,1 +1,0 @@
-../../dilithium2/new/macros_smallntt.i

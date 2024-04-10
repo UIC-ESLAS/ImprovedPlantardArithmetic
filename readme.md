@@ -118,7 +118,7 @@ st-flash --reset write bin/crypto_sign_dilithium2_new_test.bin 0x8000000
 
 ### License
 
-Each subdirectory containing implementations contains a LICENSE or COPYING file stating under what license that specific implementation is released. The files in common contain licensing information at the top of the file (and are currently either public domain or MIT). All other code in this repository is licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+Each subdirectory containing implementations contains a LICENSE or COPYING file stating under what license that specific implementation is released. The files in common contain licensing information at the top of the file (and are currently either public domain or MIT). All other code in this repository is licensed under the conditions of [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
 
 ### Citation
 
